@@ -1,0 +1,81 @@
+.paper {
+    width: 200px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .paper-preview{
+    height: 100%;
+  }
+ 
+  .paper-text {
+    width: 90%;
+    height: 80%;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    padding: 10px;
+    overflow: hidden;
+    font-family: cursive;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: justify;
+  }
+  
+  .eye {
+    width: 50px;
+    height: 40px;
+    background-color: gray;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .paper:hover .eye {
+    opacity: 1;
+  }
+
+      /* Estilos personalizados para las pestañas y el contenido */
+      .custom-tabs {
+        background-color: #f0f0f0; /* Color de fondo de las pestañas */
+    }
+
+    .custom-tab {
+        color: #333; /* Color de texto de las pestañas */
+        font-weight: bold; /* Estilo de fuente para las pestañas */
+    }
+
+    .custom-tab:hover {
+        background-color: #ddd; /* Color de fondo al pasar el mouse por encima de las pestañas */
+    }
+
+    .custom-tab-content {
+        padding: 20px; /* Espaciado interno del contenido de las pestañas */
+    }
+
+    .custom-tab-pane {
+        background-color: #fff; /* Color de fondo del contenido de las pestañas */
+        border: 1px solid #ddd; /* Borde alrededor del contenido de las pestañas */
+        padding: 20px; /* Espaciado interno del contenido de las pestañas */
+    }
+
+
+
+
+
+.swal2-container{
+  z-index: 9999 !important;
+
+}
+    

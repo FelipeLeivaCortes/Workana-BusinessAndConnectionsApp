@@ -1,0 +1,4 @@
+[25-Jul-2024 13:18:14 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught Error: Class "Models\MasterModel" not found in /home/demoportalbusine/public_html/portalClientesPruebas/app/Models/ApiV2/ApiV2model.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/demoportalbusine/public_html/portalClientesPruebas/app/Models/ApiV2/ApiV2model.php on line 7

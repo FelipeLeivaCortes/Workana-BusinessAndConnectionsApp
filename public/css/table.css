@@ -1,0 +1,107 @@
+.truncate {
+    /* max-width: 200px; Ajusta este valor según tus necesidades */
+    /* white-space: nowrap; */
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    font-size: small;
+    justify-content: start;
+    text-align: left; 
+ }
+
+ /* CSS personalizado para DataTables */
+.dataTables_filter {
+    margin-bottom: 10px; /* Añade espacio debajo del campo de búsqueda */
+}
+
+.dataTables_filter label {
+    display: block; /* Hace que la etiqueta sea un bloque para controlar su posición */
+}
+
+.wrap-text {
+    white-space: normal !important; /* Forza el salto de línea */
+    word-wrap: break-word !important; /* Rompe palabras largas */
+}
+
+
+.padding-left-right{
+     padding: 10px 200px !important ;
+}
+
+.text-left-custom {
+    text-align: left !important;
+}
+
+thead, tbody, tfoot, tr, td, th{
+    border-color: #d9dee3 !important;
+    border-style: solid !important;
+    border-width: 1 !important;
+
+}
+.custom-nowrap {
+  white-space: nowrap !important;
+}
+
+thead{
+    border-color: #d9dee3 !important;
+    border-style: solid !important;
+    border-width: 1 !important;  
+}
+th {
+    font-weight: 500 !important;
+    text-align: inherit !important;
+    text-align: -webkit-match-parent !important;
+    border: 1px solid black;
+}
+
+
+
+/* Estilos para la paginación de DataTables similares a Bootstrap */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 20px !important;
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #696cff !important; /* Color del texto en los botones de paginación */
+    background: transparent !important; /* Fondo transparente */
+    border: 1px solid #696cff !important; /* Borde del botón */
+    border-radius: 4px !important; /* Borde redondeado */
+    padding: 6px 12px !important; /* Espaciado interior */
+    margin: 0 3px !important; /* Margen entre botones */
+    cursor: pointer !important;
+  }
+  
+  
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #696cff !important; /* Color de fondo del botón de página actual */
+    color: #fff !important; /* Color del texto en la página actual */
+    border-color: #696cff !important; /* Borde del botón de página actual */
+    font-weight: bold !important;
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #ccc !important; /* Color del texto deshabilitado */
+    background: transparent !important; /* Fondo transparente */
+    border: 1px solid #ccc !important; /* Borde del botón deshabilitado */
+    cursor: not-allowed !important; /* Cursor no permitido */
+  }
+  
+
+  .dataTables_wrapper .dataTables_length select{
+    padding-right: 26px;
+  }
+
+  /* Estilos para agregar un borde al <thead> de DataTable */
+.dataTables_wrapper thead {
+    border: 1px solid #ddd !important; /* Borde de 1 píxel con color gris */
+  }
+  
+  .DataTable{
+    text-align: center !important;
+    border: 1px solid  #d9dee3;
+  }
+
+

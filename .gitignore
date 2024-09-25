@@ -1,0 +1,7 @@
+# Ignorar archivos de configuración
+config/global.php
+config/conf.php
+.htaccess
+node_modules/
+vendor/
+public/uploads/

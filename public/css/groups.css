@@ -1,0 +1,53 @@
+#categoryOptions{
+    position: absolute;
+    top: 39px;
+    z-index: 3;
+    background: white;
+    width: 73%;
+    border: 1px solid #dee2e6 ;
+    border-top: none;
+    border-radius: 3px;
+    padding-left: 3%;
+    
+ }
+
+ 
+#subcategoryOptions{
+    position: absolute;
+    top: 39px;
+    z-index: 3;
+    background: white;
+    width: 73%;
+    border: 1px solid #dee2e6 ;
+    border-top: none;
+    border-radius: 3px;
+    padding-left: 3%;
+
+ }
+#companyOptions{
+    position: absolute;
+    top: 39px;
+    z-index: 3;
+    background: white;
+    width: 73%;
+    border: 1px solid #dee2e6 ;
+    border-top: none;
+    border-radius: 3px;
+    padding-left: 3%;
+ }
+#articleOptions{
+    position: absolute;
+    top: 39px;
+    z-index: 3;
+    background: white;
+    width: 73%;
+    border: 1px solid #dee2e6 ;
+    border-top: none;
+    border-radius: 3px;
+    padding-left: 3%;
+
+ }
+
+ .fa-circle-xmark:hover{
+    cursor: pointer;
+ }

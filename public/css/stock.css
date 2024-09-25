@@ -1,0 +1,10 @@
+.viewArticle {
+    transition: 0.3s transform; /* Reducido el tiempo de transición para que sea más rápido */
+}
+
+.viewArticle:hover {
+    cursor: pointer;
+    transform: scale(1.01); /* Cambiado a un valor más pequeño */
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.15);
+}

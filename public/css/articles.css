@@ -1,0 +1,73 @@
+.card-img, .card-img-bottom, .card-img-top {
+    width: 50%;
+}
+.card-img-top{
+    margin: auto ;
+}
+.card{
+    transition: 0.5s box-shadow;
+}
+.card:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.cardsDiv{
+    transition: 1s transform;
+}
+.cardsDiv:hover{
+    cursor: pointer;
+    border-radius: 5px;
+}
+.btn-grid{
+    background: none;
+    border: none;
+    transition: 1s transform;
+}
+
+.btn-grid:hover{
+    transform: scale(1.1);
+}
+
+/* ANIMATIONS */
+/* ENTRACE ARTICLES */
+.roll-in-blurred-left {
+	-webkit-animation: roll-in-blurred-left 0.65s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+	        animation: roll-in-blurred-left 0.65s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+}
+
+@-webkit-keyframes roll-in-blurred-left {
+    0% {
+      -webkit-transform: translateX(-1000px) rotate(-720deg);
+              transform: translateX(-1000px) rotate(-720deg);
+      -webkit-filter: blur(50px);
+              filter: blur(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateX(0) rotate(0deg);
+              transform: translateX(0) rotate(0deg);
+      -webkit-filter: blur(0);
+              filter: blur(0);
+      opacity: 1;
+    }
+  }
+  @keyframes roll-in-blurred-left {
+    0% {
+      -webkit-transform: translateX(-1000px) rotate(-720deg);
+              transform: translateX(-1000px) rotate(-720deg);
+      -webkit-filter: blur(50px);
+              filter: blur(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateX(0) rotate(0deg);
+              transform: translateX(0) rotate(0deg);
+      -webkit-filter: blur(0);
+              filter: blur(0);
+      opacity: 1;
+    }
+  }
+
+  .small-font {
+    font-size: 15px; /* Ajusta el tamaño de la fuente según lo necesites */
+  }
+  
