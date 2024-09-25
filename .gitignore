@@ -4,4 +4,6 @@ config/conf.php
 .htaccess
 node_modules/
 vendor/
+.env
 public/uploads/
+public/.env
