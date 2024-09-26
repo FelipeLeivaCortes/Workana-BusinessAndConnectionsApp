@@ -16,7 +16,8 @@
         "psr-4": {
             "Models\\":"app/Models/",
             "Controller\\":"app/Controllers/",
-            "Connection\\":"config/"
+            "Connection\\":"config/",
+            "ThirdParty\\":"app/ThirdParty/"
         }
     }
 }

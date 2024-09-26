@@ -18,10 +18,10 @@ use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
 
+use ThirdParty\ReflexController;
+
 class QuoteController
 {
-
-
     public function viewDetaillsQuote()
     {
         $objQuote = new QuoteModel();
@@ -159,10 +159,6 @@ class QuoteController
         return $html;
     }
 
-
-
-
-
     public function ViewCreateQuote()
     {
         $obj = new CompanyModel();
@@ -233,6 +229,7 @@ class QuoteController
     {
         $obj = new QuoteModel();
         $quotes = $obj->consultQuotes($_SESSION['IdCompany']);
+
         include_once "../app/Views/quote/quoteConsult.php";
     }
 
@@ -248,66 +245,100 @@ class QuoteController
         include_once "../app/Views/quote/quoteModal.php";
     }
 
-
+    /**
+     * Crea una nueva oferta de venta (Cotización)
+     */
     public function pdfQuote()
     {
-        $objQuote = new QuoteModel();
-        $name = $_POST['name'];
-        $company = $_POST['company'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $payment_method = $_POST['payment_method'];
-        $address_shipping = $_POST['address_shipping'];
-        $comments = $_POST['comments'];
-        $subtotalQuoteInput = $_POST['subtotalQuoteInput'];
-        $taxesQuoteInput = $_POST['taxesQuoteInput'];
-        $totalQuoteInput = $_POST['totalQuoteInput'];
-        $quantity_article = $_POST['quantity_article'];
-        $PriceNormal = $_POST['PriceNormal'];
-        $art_id = $_POST['art_id'];
-        $PercentajeOrPrice = $_POST['discountPercentajeOrPrice'];
-        $discountPrice = $_POST['discountPrice'];
-        $discountQuoteInput = $_POST['discountQuoteInput'];
-        $additionalCostsInput = $_POST['additionalCostsInput'];
+        $objQuote               = new QuoteModel();
+        
+        $name                   = $_POST['name'];
+        $company                = $_POST['company'];
+        $email                  = $_POST['email'];
+        $phone                  = $_POST['phone'];
+        $payment_method         = $_POST['payment_method'];
+        $address_shipping       = $_POST['address_shipping'];
+        $comments               = $_POST['comments'];
+        $subtotalQuoteInput     = $_POST['subtotalQuoteInput'];
+        $taxesQuoteInput        = $_POST['taxesQuoteInput'];
+        $totalQuoteInput        = $_POST['totalQuoteInput'];
+        $quantity_article       = $_POST['quantity_article'];
+        $PriceNormal            = $_POST['PriceNormal'];
+        $art_id                 = $_POST['art_id'];
+        $PercentajeOrPrice      = $_POST['discountPercentajeOrPrice'];
+        $discountPrice          = $_POST['discountPrice'];
+        $discountQuoteInput     = $_POST['discountQuoteInput'];
+        $additionalCostsInput   = $_POST['additionalCostsInput'];
 
         // Insert the basic data into the "quotations" table
-        $objQuote->insertQuote($name, 'a', $payment_method, $company, $address_shipping, $email, $phone, $comments, $_SESSION['UserNumDocument'], $subtotalQuoteInput, $taxesQuoteInput, $totalQuoteInput, null, $_SESSION['idUser'], '1', $discountQuoteInput,  $additionalCostsInput);
+        $objQuote->insertQuote(
+            $name,
+            'a',
+            $payment_method,
+            $company,
+            $address_shipping,
+            $email,
+            $phone,
+            $comments,
+            $_SESSION['UserNumDocument'],
+            $subtotalQuoteInput,
+            $taxesQuoteInput,
+            $totalQuoteInput,
+            null,
+            $_SESSION['idUser'],
+            '1',
+            $discountQuoteInput,
+            $additionalCostsInput
+        );
 
         //get last id
         $quo_id = $objQuote->getLastId('quotes', 'quo_id');
 
         foreach ($art_id as $key => $article_id) {
-            $quantity = $quantity_article[$key];
-            $discountType = $PercentajeOrPrice[$key];
-            $discountedPrice = $discountPrice[$key];
+            $quantity           = $quantity_article[$key];
+            $discountType       = $PercentajeOrPrice[$key];
+            $discountedPrice    = $discountPrice[$key];
+
             // Insert the basic data into the "quote and articles" table
-            $objQuote->insertQuoteArticle($quo_id, $article_id, $quantity, $PriceNormal[$key], $discountType, $discountedPrice);
+            $objQuote->insertQuoteArticle(
+                $quo_id,
+                $article_id,
+                $quantity,
+                $PriceNormal[$key],
+                $discountType,
+                $discountedPrice
+            );
         }
 
-        $articles = $_POST['art_id']; //ARRAY DE ID ARTICLES
-        $quantity = $_POST['quantity_article']; //ARRAY QUANTITY OF ARTICLES
+        $articles   = $_POST['art_id']; //ARRAY DE ID ARTICLES
+        $quantity   = $_POST['quantity_article']; //ARRAY QUANTITY OF ARTICLES
+        
         if (isset($_POST['fieldName']) && isset($_POST['fieldValue'])) {
-            $fieldName = $_POST['fieldName']; //ARRAY OF FIELDS NAME
+            $fieldName  = $_POST['fieldName']; //ARRAY OF FIELDS NAME
             $fieldValue = $_POST['fieldValue']; //ARRAY OF FIELDS VALUE
         } else {
-            $fieldName = NULL; //ARRAY OF FIELDS NAME
-            $fieldValue = NULL; //ARRAY OF FIELDS VALUE
+            $fieldName  = null; //ARRAY OF FIELDS NAME
+            $fieldValue = null; //ARRAY OF FIELDS VALUE
         }
+
         //DATA OF  ARTICLE
-        $objArticle = new ArticlesModel();
+        $objArticle     = new ArticlesModel();
+
         //PRICE OF ARTICLE
-        $objPrice = new PricesModel();
-        $articleArray = array();
+        $objPrice       = new PricesModel();
+        $articleArray   = array();
+
         //CONSULT DISCOUNT ARTICLE
         //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
-        $priceDiscount = null;
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
+        $priceDiscount      = null;
         $discountPercentage = null;
-        $arrayArticles = array();
-        $arrayCategories = array();
+        $arrayArticles      = array();
+        $arrayCategories    = array();
         $arraySubcategories = array();
         $discountPercentajeOrPrice = 'No aplica';
+
         if (!empty($discountCompany)) {
             //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
             $objGroups = new GroupsModel();
@@ -327,44 +358,46 @@ class QuoteController
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
+
         foreach ($articles as $key => $ar_id) {
-
             $article = $objArticle->consultArticleById($ar_id);
-            $article['price'] = $price['p_value'] = $objPrice->consultPriceById($ar_id);
 
-
-            $discountedPrice = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $article['price'][0]['p_value']);
-            $article['pricePre'] = $article['price'][0]['p_value'];
-            $article['price'] = $discountedPrice;
+            $article['price']       = $price['p_value'] = $objPrice->consultPriceById($ar_id);
+            $discountedPrice        = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $article['price'][0]['p_value']);
+            $article['pricePre']    = $article['price'][0]['p_value'];
+            $article['price']       = $discountedPrice;
             $article['discountPercentajeOrPrice'] = $discountPercentajeOrPrice;
-            $article['quantity'] = $quantity[$key];
-            $articleArray[] = $article;
+            $article['quantity']    = $quantity[$key];
+            $articleArray[]         = $article;
         }
         
         //consultar la ultima cotización insertada
         $objQuote = new QuoteModel();
-        $objconsultQuoteById = $objQuote->consultQuoteById($quo_id);
-        $quoDiscountTotal = $objconsultQuoteById[0]['quo_discount_total'];
-        $quoAdditionCost = $objconsultQuoteById[0]['quo_addition_cost'];
 
-        $template = PdfModel::templateQuotePdf($articleArray, $fieldName, $fieldValue, $quoDiscountTotal, $quoAdditionCost);
-        $pdfModel = new PdfModel();
-        $idQuote = $objQuote->getLastId('quotes', 'quo_id');
-        $filePath = $pdfModel->generatePdf($template, $idQuote, 'quotes');
-        // dd($_FILES['fieldValue']);
+        $objconsultQuoteById    = $objQuote->consultQuoteById($quo_id);
+        $quoDiscountTotal       = $objconsultQuoteById[0]['quo_discount_total'];
+        $quoAdditionCost        = $objconsultQuoteById[0]['quo_addition_cost'];
+
+        $template   = PdfModel::templateQuotePdf($articleArray, $fieldName, $fieldValue, $quoDiscountTotal, $quoAdditionCost);
+        $pdfModel   = new PdfModel();
+        $idQuote    = $objQuote->getLastId('quotes', 'quo_id');
+        $filePath   = $pdfModel->generatePdf($template, $idQuote, 'quotes');
         $objQuote->updateField('quotes', 'quo_id', $idQuote, 'quo_url_document', $filePath);
 
         if (isset($_POST['fieldName'])) {
-            $fieldNames = $_POST['fieldName'];
-            $fieldValues = $_POST['fieldValue'];
+            $fieldNames     = $_POST['fieldName'];
+            $fieldValues    = $_POST['fieldValue'];
+
             for ($i = 0; $i <  count($fieldNames); $i++) {
                 $objQuote->insertExtraAttributeQuote($fieldNames[$i], $fieldValues[$i], $quo_id);
             }
         }
+
         if (isset($_FILES['fieldValue'])) {
             $fileCount = count($_FILES['fieldValue']['name']);
 
@@ -399,6 +432,51 @@ class QuoteController
             }
         }
 
+
+
+        /**
+         * INTEGRACIÓN COMUNICACIÓN API REFLEX
+         */
+
+        $objCompany     = new CompanyModel();
+        $companyData    = $objCompany->consultCompanyByName($company);
+
+        $fechaActual    = new DateTime();
+        $fechaActual->modify('+3 days');
+        $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
+
+        $documentLines  = array();
+
+        for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
+            array_push($documentLines, [
+                "ItemCode"          => $_POST['art_id'][$i],
+                "Quantity"          => $_POST['quantity_article'][$i],
+                "LineTotal"         => $_POST['PriceNormal'][$i],
+                "TaxCode"           => "IVA",
+                "WarehouseCode"     => "10",
+                "DiscountPercent"   => "0",
+                "BaseType"          => "-1",
+                "BaseEntry"         => "",
+                "BaseLine"          => ""
+            ]);
+        }
+        
+        $data = [
+            'CardCode'      => 'C'.$companyData[0]['c_num_nit'],
+            'CardName'      => $companyData[0]['c_name'],
+            'DocDate'       => date('Ymd'),
+            'TaxDate'       => date('Ymd'),
+            'DocDueDate'    => $docDueDate,
+            'NumAtCard'     => $quo_id,
+            'Comments'      => $_POST['comments'],
+            'U_ACS_PCID'    => $quo_id,
+            'DocumentLines' => $documentLines
+        ];
+
+        $encodedData = json_encode($data);
+
+        $reflex = new ReflexController();
+        $reflex->createQuote($encodedData);
 
         redirect(generateUrl("Quote", "Quote", "ViewQuotes"));
     }
@@ -501,7 +579,6 @@ class QuoteController
             return $price;
         }
     }
-
 
     // MODAL DINAMICA QUE TRAE LOS VALORES DEPENDIENDO LOS FILTROS 
     public function consultGridArticles()

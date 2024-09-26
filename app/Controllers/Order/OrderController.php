@@ -24,6 +24,8 @@ use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
 
+use ThirdParty\ReflexController;
+
 class OrderController
 {
     public function modalStatusOrder()
@@ -391,6 +393,9 @@ class OrderController
         include_once "../app/Views/order/orderModal.php";
     }
 
+    /**
+     * Esta función se encarga de generar una nueva órden de venta.
+     */
     public function pdfOrder()
     {
         $objOrder                   = new OrderModel();
@@ -576,6 +581,54 @@ class OrderController
         // UPDATE GRAPHICS COMPANY ORDERS
         $objGraphic = new GraphicsModel();
         $_SESSION['LimitCredit'] = $objGraphic->ConsultLimitCredit($_SESSION['IdCompany']);
+
+
+
+        /**
+         * INTEGRACIÓN COMUNICACIÓN API REFLEX
+         */
+
+         $objCompany     = new CompanyModel();
+         $companyData    = $objCompany->consultCompanyByName($company);
+ 
+         $fechaActual    = new DateTime();
+         $fechaActual->modify('+3 days');
+         $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
+ 
+         $documentLines  = array();
+ 
+         for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
+             array_push($documentLines, [
+                 "ItemCode"          => $_POST['art_id'][$i],
+                 "Quantity"          => $_POST['quantity_article'][$i],
+                 "LineTotal"         => $_POST['PriceNormal'][$i],
+                 "TaxCode"           => "IVA",
+                 "WarehouseCode"     => "10",
+                 "DiscountPercent"   => "0",
+                 "BaseType"          => "-1",
+                 "BaseEntry"         => "",
+                 "BaseLine"          => ""
+             ]);
+         }
+         
+         $data = [
+             'CardCode'      => 'C'.$companyData[0]['c_num_nit'],
+             'CardName'      => $companyData[0]['c_name'],
+             'DocDate'       => date('Ymd'),
+             'TaxDate'       => date('Ymd'),
+             'DocDueDate'    => $docDueDate,
+             'NumAtCard'     => $order_id,
+             'Comments'      => $_POST['comments'],
+             'U_ACS_PCID'    => $order_id,
+             'DocumentLines' => $documentLines
+         ];
+ 
+         $encodedData = json_encode($data);
+ 
+         $reflex = new ReflexController();
+         $reflex->createOrder($encodedData);
+
+
 
         redirect(generateUrl("Order", "Order", "ViewOrders"));
     }
@@ -765,10 +818,5 @@ class OrderController
         }
     }
 }
-
-
-
-
-
 
 ?>

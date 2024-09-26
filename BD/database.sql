@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-01-2024 a las 17:16:42
--- Versión del servidor: 10.6.16-MariaDB-cll-lve-log
--- Versión de PHP: 8.1.26
+-- Tiempo de generación: 26-09-2024 a las 18:43:07
+-- Versión del servidor: 10.6.19-MariaDB-log
+-- Versión de PHP: 8.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `demosby1_bac`
+-- Base de datos: `demoportalbusine_demosby2_bac`
 --
 
 -- --------------------------------------------------------
@@ -26,9 +26,6 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `action_permissions`
 --
-DROP DATABASE IF EXISTS `demosby1_bac`;
-CREATE DATABASE IF NOT EXISTS `demosby1_bac` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `demosby1_bac`;
 
 CREATE TABLE `action_permissions` (
   `id` int(11) NOT NULL,
@@ -129,6 +126,7 @@ CREATE TABLE `company` (
   `c_name` varchar(60) DEFAULT NULL,
   `c_desc` varchar(100) DEFAULT NULL,
   `c_num_nit` varchar(255) DEFAULT NULL,
+  `c_num_ver_nit` tinyint(4) DEFAULT NULL,
   `c_route_rut` varchar(255) DEFAULT NULL,
   `c_route_cc_representant` varchar(255) DEFAULT NULL,
   `c_chamber_commerce` varchar(255) DEFAULT NULL,
@@ -146,6 +144,7 @@ CREATE TABLE `company` (
   `c_shippingCity` varchar(60) DEFAULT NULL,
   `c_shippingState` varchar(60) DEFAULT NULL,
   `c_shippingPostalcode` int(11) DEFAULT NULL,
+  `c_dateQuoteValidity` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `id_subs` int(11) DEFAULT NULL,
   `tpi_id` int(11) DEFAULT NULL,
@@ -157,16 +156,17 @@ CREATE TABLE `company` (
 -- Volcado de datos para la tabla `company`
 --
 
-INSERT INTO `company` (`c_id`, `c_name`, `c_desc`, `c_num_nit`, `c_route_rut`, `c_route_cc_representant`, `c_chamber_commerce`, `c_form_inscription`, `c_certificate_bank`, `c_street`, `c_apartament`, `c_country`, `c_city`, `c_state`, `c_postal_code`, `c_shippingStreet`, `c_shippingApartament`, `c_shippingCountry`, `c_shippingCity`, `c_shippingState`, `c_shippingPostalcode`, `created_at`, `id_subs`, `tpi_id`, `status_id`, `s_id`) VALUES
-(1, 'Business And Connection', 'solutions technology', '3423421-323', NULL, NULL, NULL, NULL, NULL, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, '2023-06-20 19:30:42', NULL, 2, 1, NULL),
-(54, 'Comercializadora Valencia', 'descripcion empresa', '81293819283-9', 'uploads/companies/company_54/rut/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/chamber_of_commerce/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/representative_cedula/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/form_inscription/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/certificate_bank/Capturas de pantalla Portal de Clientes.pdf', NULL, NULL, 'Colombia', 'RIOSUCIO', 'CHOCO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-08-02 17:35:07', 13, 3, 1, NULL),
-(55, 'Comercializadora e importadora el gran virrey SAS', 'a', '901.124.856-3', 'uploads/companies/company_55/rut/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/representative_cedula/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, '2023-10-11 22:35:19', NULL, 2, 1, 2),
-(59, 'RODRICAR SAS', NULL, '90000000', 'uploads/companies/company_59/rut/Diseño sin título.pdf', 'uploads/companies/company_59/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_59/representative_cedula/Profile.pdf', 'uploads/companies/company_59/form_inscription/Cotizacion-23-04-17 (1).pdf', 'uploads/companies/company_59/certificate_bank/Cotizacion-23-04-17 (1).pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-20 21:19:29', NULL, 2, 2, 5),
-(61, 'ESCALAR SAS', NULL, '900013034', 'uploads/companies/company_61/rut/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/chamber_of_commerce/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/representative_cedula/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_61/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-12 20:23:46', NULL, 5, 1, 4),
-(62, 'SAVCO SAS', '', '900550514', 'uploads/companies/company_62/rut/3. Rut Savco sas.pdf', 'uploads/companies/company_62/chamber_of_commerce/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/representative_cedula/4. Cedula Represntante Legal.pdf', 'uploads/companies/company_62/form_inscription/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/certificate_bank/2. Camara de Comercio 21092023.pdf', NULL, NULL, 'Colombia', 'CHOCONTÁ', 'CUNDINAMARCA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-24 21:56:49', NULL, 5, 2, 5),
-(63, 'Biotronitech colombia', NULL, '860506831', 'uploads/companies/company_63/rut/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/chamber_of_commerce/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/representative_cedula/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/form_inscription/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/certificate_bank/Acta de aceptación de desarrollo.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-24 21:56:40', NULL, 9, 2, 5),
-(64, 'IMCOLMEDICA SA', NULL, '860070078', 'uploads/companies/company_64/rut/ok.docx', 'uploads/companies/company_64/chamber_of_commerce/ok.docx', 'uploads/companies/company_64/representative_cedula/ok.docx', 'uploads/companies/company_64/form_inscription/ok.docx', 'uploads/companies/company_64/certificate_bank/ok.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-20 21:51:05', NULL, 14, 2, 4),
-(65, 'LINA VILLEGAS', '', '52969581', 'uploads/companies/company_65/rut/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/chamber_of_commerce/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/representative_cedula/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/form_inscription/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/certificate_bank/Copia cedula Lina Villegas.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-18 17:59:15', NULL, 5, 1, 6);
+INSERT INTO `company` (`c_id`, `c_name`, `c_desc`, `c_num_nit`, `c_num_ver_nit`, `c_route_rut`, `c_route_cc_representant`, `c_chamber_commerce`, `c_form_inscription`, `c_certificate_bank`, `c_street`, `c_apartament`, `c_country`, `c_city`, `c_state`, `c_postal_code`, `c_shippingStreet`, `c_shippingApartament`, `c_shippingCountry`, `c_shippingCity`, `c_shippingState`, `c_shippingPostalcode`, `c_dateQuoteValidity`, `created_at`, `id_subs`, `tpi_id`, `status_id`, `s_id`) VALUES
+(1, 'Business And Connection', 'solutions technology', '3423421-323', NULL, NULL, NULL, NULL, NULL, NULL, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, NULL, '2023-06-20 19:30:42', NULL, 2, 1, NULL),
+(54, 'Comercializadora Valencia', 'descripcion empresa', '81293819283-9', NULL, 'uploads/companies/company_54/rut/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/chamber_of_commerce/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/representative_cedula/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/form_inscription/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/certificate_bank/Capturas de pantalla Portal de Clientes.pdf', NULL, NULL, 'Colombia', 'RIOSUCIO', 'CHOCO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-08-02 17:35:07', 13, 3, 1, NULL),
+(55, 'Comercializadora e importadora el gran virrey SAS', 'a', '901.124.856-3', NULL, 'uploads/companies/company_55/rut/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/representative_cedula/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, '2024-04-30 12:33:00', '2024-02-21 17:33:37', NULL, 2, 1, 2),
+(59, 'RODRICAR SAS', NULL, '90000000', NULL, 'uploads/companies/company_59/rut/Diseño sin título.pdf', 'uploads/companies/company_59/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_59/representative_cedula/Profile.pdf', 'uploads/companies/company_59/form_inscription/Cotizacion-23-04-17 (1).pdf', 'uploads/companies/company_59/certificate_bank/Cotizacion-23-04-17 (1).pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-20 21:19:29', NULL, 2, 2, 5),
+(61, 'ESCALAR SAS', NULL, '900013034', NULL, 'uploads/companies/company_61/rut/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/chamber_of_commerce/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/representative_cedula/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_61/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-12 20:23:46', NULL, 5, 1, 4),
+(62, 'SAVCO SAS', '', '900550514', 6, 'uploads/companies/company_62/rut/3. Rut Savco sas.pdf', 'uploads/companies/company_62/chamber_of_commerce/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/representative_cedula/4. Cedula Represntante Legal.pdf', 'uploads/companies/company_62/form_inscription/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/certificate_bank/2. Camara de Comercio 21092023.pdf', NULL, NULL, 'Colombia', 'CHOCONTÁ', 'CUNDINAMARCA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-22 16:54:03', NULL, 5, 1, 5),
+(63, 'Biotronitech colombia', NULL, '860506831', NULL, 'uploads/companies/company_63/rut/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/chamber_of_commerce/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/representative_cedula/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/form_inscription/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/certificate_bank/Acta de aceptación de desarrollo.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-24 21:56:40', NULL, 9, 2, 5),
+(64, 'IMCOLMEDICA SA', NULL, '860070078', NULL, 'uploads/companies/company_64/rut/ok.docx', 'uploads/companies/company_64/chamber_of_commerce/ok.docx', 'uploads/companies/company_64/representative_cedula/ok.docx', 'uploads/companies/company_64/form_inscription/ok.docx', 'uploads/companies/company_64/certificate_bank/ok.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-20 21:51:05', NULL, 14, 2, 4),
+(65, 'LINA VILLEGAS', '', '52969581', NULL, 'uploads/companies/company_65/rut/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/chamber_of_commerce/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/representative_cedula/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/form_inscription/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/certificate_bank/Copia cedula Lina Villegas.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-31 12:32:00', '2024-02-21 17:33:03', NULL, 5, 1, 6),
+(66, 'Inversionaes Sandor', NULL, '79988969', 9, 'uploads/companies/company_66/rut/Cuenta de cobro Bussiness & connection.doc', 'uploads/companies/company_66/chamber_of_commerce/Cuenta de cobro Bussiness & connection.doc', 'uploads/companies/company_66/representative_cedula/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', 'uploads/companies/company_66/form_inscription/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', 'uploads/companies/company_66/certificate_bank/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-02-08 23:05:45', NULL, 4, 2, 6);
 
 -- --------------------------------------------------------
 
@@ -278,7 +278,24 @@ INSERT INTO `customer_payment_method` (`customer_payment_id`, `c_id`, `payment_m
 (67, 65, 1),
 (68, 65, 2),
 (69, 65, 28),
-(70, 65, 29);
+(70, 65, 29),
+(83, 66, 29);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detail_seller_order`
+--
+
+CREATE TABLE `detail_seller_order` (
+  `id` int(11) NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `id_seller` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `total_order` int(11) NOT NULL,
+  `state_order_id` tinyint(4) NOT NULL DEFAULT 1,
+  `date_order` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -473,7 +490,8 @@ INSERT INTO `messages` (`id`, `recipients`, `send_date`, `subject`, `message`) V
 (23, 'rafareyrey@hotmail.com', '2023-10-24 16:19:08', 'Registro Portal de Clientes ', 'Favor registrarse y adjuntar documentos'),
 (24, 'rafareyrey1@gmail.com', '2023-10-24 16:20:02', 'Registro Portal de Clientes ', 'Favor registrarse y adjuntar documentos'),
 (25, 'sistemas@imcolmedica.com.co', '2023-11-20 16:25:50', 'Registro Portal de Clientes ', 'Señor Julian, para poder dar acceso al portal, favor diligenciar el registro y enviar los documentos '),
-(26, 'lina.villegas@solmaq.com', '2023-12-18 12:47:15', 'Registro Portal de Clientes ', 'Señora Lina Favor ingresar para registrarse en nuestro portal b2b');
+(26, 'lina.villegas@solmaq.com', '2023-12-18 12:47:15', 'Registro Portal de Clientes ', 'Señora Lina Favor ingresar para registrarse en nuestro portal b2b'),
+(27, 'sluque@misena.edu.co', '2024-02-02 09:05:05', 'Acceso al Portal', 'Por favor validar las credencia y enviar la documentación requerida');
 
 -- --------------------------------------------------------
 
@@ -712,6 +730,8 @@ CREATE TABLE `quotes` (
   `quo_subtotal` decimal(10,2) NOT NULL,
   `quo_iva` decimal(10,2) NOT NULL,
   `quo_total` decimal(10,2) NOT NULL,
+  `quo_discount_total` decimal(10,2) NOT NULL,
+  `quo_addition_cost` decimal(10,2) NOT NULL,
   `quo_url_document` varchar(255) DEFAULT NULL,
   `u_id` int(11) NOT NULL,
   `quote_state_id` int(11) DEFAULT NULL
@@ -721,18 +741,18 @@ CREATE TABLE `quotes` (
 -- Volcado de datos para la tabla `quotes`
 --
 
-INSERT INTO `quotes` (`quo_id`, `quo_name`, `quo_desc`, `quo_date`, `quo_payment_method`, `quo_company`, `quo_shipping_address`, `quo_email`, `quo_phone`, `quo_comments`, `quo_cedula_nit`, `quo_subtotal`, `quo_iva`, `quo_total`, `quo_url_document`, `u_id`, `quote_state_id`) VALUES
-(77, 'Andres Muete Muete', 'a', '2023-08-14 20:57:52', '1', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', 1144108604, 'Dejar en porteria', '1144108606', 40600.00, 7714.00, 48314.00, 'uploads/quotes/77/Document_quotes_77_20230717221632.pdf', 87, 1),
-(78, 'Andres Muete Muete', 'a', '2023-08-14 21:56:13', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', 1144108604, '', '1144108606', 3600.00, 684.00, 4284.00, 'uploads/quotes/78/Document_quotes_78_20230808191858.pdf', 87, 1),
-(79, 'Andres Muete Muete', 'a', '2023-09-13 19:05:33', '3', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'iurbina@businessandconnection.', 1144108604, 'asdasda', '1144108606', 3600.00, 684.00, 4284.00, 'uploads/quotes/79/Document_quotes_79_20230913210533.pdf', 87, 1),
-(80, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 20:50:53', '28', 'ESCALAR SAS', 'calle 1 c #67 23', 'alexis-crokis@hotmail.com', 2147483647, 'Favor validar la cotización, queremos comprar pronto', '1144108604', 7410.00, 1407.90, 8817.90, 'uploads/quotes/80/Document_quotes_80_20231012155053.pdf', 93, 1),
-(81, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:52:26', '1', 'SAVCO SAS', 'CL 4 28 141 T 11 206', 'contabilidad@savco.com.co', 2147483647, 'ENVIO BODEGA 21 COTIZACIÓN', '1098631730', 4300.00, 817.00, 5117.00, 'uploads/quotes/81/Document_quotes_81_20231019085226.pdf', 94, 1),
-(82, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:29:51', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, 'favor enviar en caja', '1144108606', 6600.00, 1254.00, 7854.00, 'uploads/quotes/82/Document_quotes_82_20231020102951.pdf', 87, 1),
-(83, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:14:54', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, '', '1144108606', 9800.00, 1862.00, 11662.00, 'uploads/quotes/83/Document_quotes_83_20231020161454.pdf', 87, 1),
-(84, 'Andres Felipe  Muete Martinez', 'a', '2023-10-23 17:28:58', '1', 'Comercializadora e importadora el gran virrey SAS', 'Calle 132 Carrera 23', 'evaniche2021@gmail.com', 1144108604, 'Enviar al parque industrial', '1144108606', 98967.00, 18803.73, 117770.73, 'uploads/quotes/84/Document_quotes_84_20231023122858.pdf', 87, 1),
-(85, 'hernando harker harker', 'a', '2023-10-24 21:38:28', '2', 'Biotronitech colombia', 'calle 123 7 50 ', 'rafareyrey1@gmail.com', 2147483647, 'por faor cotizarme urgente ', '805236987', 5800.00, 1102.00, 6902.00, 'uploads/quotes/85/Document_quotes_85_20231024163828.pdf', 95, 1),
-(86, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:40:20', '1', 'IMCOLMEDICA SA', 'Calle 123', 'tecnologia@imcolmedica.com.co', 2147483647, 'dejar en casa con coti via wsp', '1257442', 93543.65, 17773.29, 111316.94, 'uploads/quotes/86/Document_quotes_86_20231120164020.pdf', 96, 1),
-(87, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:01:28', '28', 'LINA VILLEGAS', 'CALLE 15#29-80', 'lina.villegas@solmaq.com', 2147483647, '', '52969581', 5320.00, 1010.80, 6330.80, 'uploads/quotes/87/Document_quotes_87_20231218130128.pdf', 97, 1);
+INSERT INTO `quotes` (`quo_id`, `quo_name`, `quo_desc`, `quo_date`, `quo_payment_method`, `quo_company`, `quo_shipping_address`, `quo_email`, `quo_phone`, `quo_comments`, `quo_cedula_nit`, `quo_subtotal`, `quo_iva`, `quo_total`, `quo_discount_total`, `quo_addition_cost`, `quo_url_document`, `u_id`, `quote_state_id`) VALUES
+(77, 'Andres Muete Muete', 'a', '2023-08-14 20:57:52', '1', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', 1144108604, 'Dejar en porteria', '1144108606', 40600.00, 7714.00, 48314.00, 0.00, 0.00, 'uploads/quotes/77/Document_quotes_77_20230717221632.pdf', 87, 1),
+(78, 'Andres Muete Muete', 'a', '2023-08-14 21:56:13', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', 1144108604, '', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/quotes/78/Document_quotes_78_20230808191858.pdf', 87, 1),
+(79, 'Andres Muete Muete', 'a', '2023-09-13 19:05:33', '3', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'iurbina@businessandconnection.', 1144108604, 'asdasda', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/quotes/79/Document_quotes_79_20230913210533.pdf', 87, 1),
+(80, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 20:50:53', '28', 'ESCALAR SAS', 'calle 1 c #67 23', 'alexis-crokis@hotmail.com', 2147483647, 'Favor validar la cotización, queremos comprar pronto', '1144108604', 7410.00, 1407.90, 8817.90, 0.00, 0.00, 'uploads/quotes/80/Document_quotes_80_20231012155053.pdf', 93, 1),
+(81, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:52:26', '1', 'SAVCO SAS', 'CL 4 28 141 T 11 206', 'contabilidad@savco.com.co', 2147483647, 'ENVIO BODEGA 21 COTIZACIÓN', '1098631730', 4300.00, 817.00, 5117.00, 0.00, 0.00, 'uploads/quotes/81/Document_quotes_81_20231019085226.pdf', 94, 1),
+(82, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:29:51', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, 'favor enviar en caja', '1144108606', 6600.00, 1254.00, 7854.00, 0.00, 0.00, 'uploads/quotes/82/Document_quotes_82_20231020102951.pdf', 87, 1),
+(83, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:14:54', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, '', '1144108606', 9800.00, 1862.00, 11662.00, 0.00, 0.00, 'uploads/quotes/83/Document_quotes_83_20231020161454.pdf', 87, 1),
+(84, 'Andres Felipe  Muete Martinez', 'a', '2023-10-23 17:28:58', '1', 'Comercializadora e importadora el gran virrey SAS', 'Calle 132 Carrera 23', 'evaniche2021@gmail.com', 1144108604, 'Enviar al parque industrial', '1144108606', 98967.00, 18803.73, 117770.73, 0.00, 0.00, 'uploads/quotes/84/Document_quotes_84_20231023122858.pdf', 87, 1),
+(85, 'hernando harker harker', 'a', '2023-10-24 21:38:28', '2', 'Biotronitech colombia', 'calle 123 7 50 ', 'rafareyrey1@gmail.com', 2147483647, 'por faor cotizarme urgente ', '805236987', 5800.00, 1102.00, 6902.00, 0.00, 0.00, 'uploads/quotes/85/Document_quotes_85_20231024163828.pdf', 95, 1),
+(86, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:40:20', '1', 'IMCOLMEDICA SA', 'Calle 123', 'tecnologia@imcolmedica.com.co', 2147483647, 'dejar en casa con coti via wsp', '1257442', 93543.65, 17773.29, 111316.94, 0.00, 0.00, 'uploads/quotes/86/Document_quotes_86_20231120164020.pdf', 96, 1),
+(87, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:01:28', '28', 'LINA VILLEGAS', 'CALLE 15#29-80', 'lina.villegas@solmaq.com', 2147483647, '', '52969581', 5320.00, 1010.80, 6330.80, 0.00, 0.00, 'uploads/quotes/87/Document_quotes_87_20231218130128.pdf', 97, 1);
 
 -- --------------------------------------------------------
 
@@ -818,6 +838,22 @@ INSERT INTO `roles` (`rol_id`, `rol_name`, `rol_desc`) VALUES
 (2, 'Company', 'Administer modules and common users '),
 (3, 'Admin', 'Admin of application client'),
 (4, 'User', 'User common\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sales_budget`
+--
+
+CREATE TABLE `sales_budget` (
+  `b_id` int(11) NOT NULL,
+  `s_id` int(11) NOT NULL,
+  `b_budget` decimal(10,2) NOT NULL,
+  `b_date_start` datetime NOT NULL,
+  `b_date_end` datetime NOT NULL,
+  `b_state` varchar(50) DEFAULT 'no cumplio',
+  `b_date_create` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2147,7 +2183,7 @@ CREATE TABLE `users` (
   `u_id` int(11) NOT NULL,
   `u_name` varchar(30) DEFAULT NULL,
   `u_lastname` varchar(30) DEFAULT NULL,
-  `u_phone` int(100) DEFAULT NULL,
+  `u_phone` varchar(50) DEFAULT NULL,
   `u_email` varchar(60) DEFAULT NULL,
   `u_document` int(30) DEFAULT NULL,
   `u_type_document` varchar(30) DEFAULT NULL,
@@ -2165,17 +2201,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `u_name`, `u_lastname`, `u_phone`, `u_email`, `u_document`, `u_type_document`, `u_country`, `u_city`, `u_pass`, `u_code`, `rol_id`, `c_id`, `status_id`) VALUES
-(9, 'Edwin Valencia', 'valencia', 2147483647, 'evalencia@businessandconnection.com', 12341234, 'Cedula de ciudadanía', 'Colombia', 'Cali', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '84ba7015640ee5f2', 1, 1, 1),
-(17, 'Diego', 'Alarcon', 2147483647, 'desarrollo@businessandconnection.com', 1020779501, 'cc', 'colombia', 'bogota', '12345678', '', 1, 1, 1),
-(86, 'Edwin Valencia', 'valencia', 2147483647, 'evaniche@hotmail.com', 1144108604, 'Cedula de ciudadanía', 'Colombia', 'RIOSUCIO', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '4486b55d47f1db62', 2, 54, 1),
-(87, 'Andres Felipe ', 'Muete Martinez', 1144108604, 'evaniche2021@gmail.com', 1144108606, 'Cedula de ciudadanía', 'Colombia', 'PUERTO RONDÓN', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '8e0047f0ceeae4a3', 3, 55, 1),
-(91, 'RODRIGO', 'CASTRO', 2147483647, 'alexis-crokis@hotmail.coma', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$5THxfYcLpxnr1L8DWVFY0ujt4D3.FUarYy4v/KWDlybrsourMj882', NULL, 3, 59, 2),
-(93, 'JULIO CESAR', 'MAYORGA GOMEZ', 2147483647, 'alexis-crokis@hotmail.com', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$eJyKUQfU1tOx1W4fSbxNB.sYuzkaevfU6h6WlnjuyXiIsuWXE5Bbe', '2f42facfdfd443aa', 3, 61, 1),
-(94, 'ANYERSON', 'MOTTA MARTINEZ', 2147483647, 'contabilidad@savco.com.co', 1098631730, 'Cedula de ciudadanía', 'Colombia', 'CHOCONTÁ', '$2y$10$/XXeNeZ1m5zMf6bAgWcmWe/PjyneoyiI5a1uUO/PHADjF3p76QUPO', 'ed882a8df4900c53', 3, 62, 1),
-(95, 'hernando harker', 'harker', 2147483647, 'rafareyrey1@gmail.com', 805236987, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$odW4ZDtkfk9YHOJd9EfASeE5q7US6AajQP4jheUHJaoEQGkmVIjKO', 'b89cef0a01857777', 3, 63, 1),
-(96, 'ALBERTO', 'AGUILAR', 2147483647, 'tecnologia@imcolmedica.com.co', 1257442, 'Tarjeta de identidad', 'Colombia', 'BOGOTA D.C.', '$2y$10$pUa/qZRhBbiTWyf/I5hIb.fjYZA5rN/9Nb.VO8D.Vu311.dP.p6.2', '59d87ef0469ad2ce', 3, 64, 1),
-(97, 'LINA MARIA', 'VILLEGAS ACEVEDO', 2147483647, 'lina.villegas@solmaq.com', 52969581, 'Cedula de ciudadanía', 'Colombia', 'BOGOTA D.C.', '$2y$10$HPLuEqTcItPCuCnHpep5V.grX3Y0X.at1gyelZ8TWqlC6rXvSv9Xq', '9881673a8d044409', 3, 65, 1),
-(118, 'diego', 'alarcon', NULL, 'desarrollo@businessandconnection.com', NULL, NULL, NULL, NULL, 'A1B2C3D4E5', NULL, 3, 1, 1);
+(9, 'Edwin Valencia', 'valencia', '2147483647', 'evalencia@businessandconnection.com', 12341234, 'Cedula de ciudadanía', 'Colombia', 'Cali', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '84ba7015640ee5f2', 1, 1, 1),
+(17, 'Diego', 'Alarcon', '2147483647', 'desarrollo@businessandconnection.com', 1020779501, 'cc', 'colombia', 'bogota', '12345678', '', 1, 1, 1),
+(86, 'Edwin Valencia', 'valencia', '2147483647', 'evaniche@hotmail.com', 1144108604, 'Cedula de ciudadanía', 'Colombia', 'RIOSUCIO', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', 'c3bdb99386f5ded6', 2, 54, 1),
+(87, 'Andres Felipe ', 'Muete Martinez', '1144108604', 'evaniche2021@gmail.com', 1144108606, 'Cedula de ciudadanía', 'Colombia', 'PUERTO RONDÓN', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '82d912efa17df2d2', 3, 55, 1),
+(91, 'RODRIGO', 'CASTRO', '2147483647', 'alexis-crokis@hotmail.coma', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$5THxfYcLpxnr1L8DWVFY0ujt4D3.FUarYy4v/KWDlybrsourMj882', NULL, 3, 59, 2),
+(93, 'JULIO CESAR', 'MAYORGA GOMEZ', '2147483647', 'alexis-crokis@hotmail.com', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$eJyKUQfU1tOx1W4fSbxNB.sYuzkaevfU6h6WlnjuyXiIsuWXE5Bbe', '2f42facfdfd443aa', 3, 61, 1),
+(94, 'ANYERSON', 'MOTTA MARTINEZ', '2147483647', 'contabilidad@savco.com.co', 1098631730, 'Cedula de ciudadanía', 'Colombia', 'CHOCONTÁ', '$2y$10$/XXeNeZ1m5zMf6bAgWcmWe/PjyneoyiI5a1uUO/PHADjF3p76QUPO', 'ed882a8df4900c53', 3, 62, 1),
+(95, 'hernando harker', 'harker', '2147483647', 'rafareyrey1@gmail.com', 805236987, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$odW4ZDtkfk9YHOJd9EfASeE5q7US6AajQP4jheUHJaoEQGkmVIjKO', 'b89cef0a01857777', 3, 63, 1),
+(96, 'ALBERTO', 'AGUILAR', '2147483647', 'tecnologia@imcolmedica.com.co', 1257442, 'Tarjeta de identidad', 'Colombia', 'BOGOTA D.C.', '$2y$10$pUa/qZRhBbiTWyf/I5hIb.fjYZA5rN/9Nb.VO8D.Vu311.dP.p6.2', '59d87ef0469ad2ce', 3, 64, 1),
+(97, 'LINA MARIA', 'VILLEGAS ACEVEDO', '2147483647', 'lina.villegas@solmaq.com', 52969581, 'Cedula de ciudadanía', 'Colombia', 'BOGOTA D.C.', '$2y$10$HPLuEqTcItPCuCnHpep5V.grX3Y0X.at1gyelZ8TWqlC6rXvSv9Xq', '9881673a8d044409', 3, 65, 1),
+(118, 'diego', 'alarcon', NULL, 'desarrollo@businessandconnection.com', NULL, NULL, NULL, NULL, 'A1B2C3D4E5', NULL, 3, 1, 1),
+(119, 'Sandor', 'Luque Farfán', '312534567', 'sluque@misena.edu.co', 79988969, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$RNWkVePHpJRICO/YlYoj5eW3PMJq2hQJ3PxaKpZS2UoLhsNKjoTxm', 'ccc80baca525dfa5', 3, 66, 1),
+(120, 'joseph', 'rivera', '3238113163', 'riverajoseph019@gmail.com', 1013097426, 'Cedula de ciudadania', NULL, NULL, '$2y$10$gIzDAYw95ErHF0MdoWF3cO1uELbryVx1IIkS3ns0ewvtyVEfam.sO', '17bf2d6e38b12467', 4, 55, 1),
+(121, 'joseph', 'rivera', '3238113163', 'riverajoseph019@gmail.com', 1013097426, 'Cedula de ciudadania', NULL, NULL, '$2y$10$vOla6h3.o86SXJHTdcgW/O7NF4PP7s3/IRig38HL4Qus.QEXf4SiK', NULL, 4, 55, 1);
 
 -- --------------------------------------------------------
 
@@ -2282,6 +2321,12 @@ ALTER TABLE `customer_payment_method`
   ADD PRIMARY KEY (`customer_payment_id`),
   ADD KEY `c_id` (`c_id`,`payment_method_id`),
   ADD KEY `payment_method_id` (`payment_method_id`);
+
+--
+-- Indices de la tabla `detail_seller_order`
+--
+ALTER TABLE `detail_seller_order`
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indices de la tabla `extra_attributes_articles`
@@ -2429,6 +2474,13 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`rol_id`);
 
 --
+-- Indices de la tabla `sales_budget`
+--
+ALTER TABLE `sales_budget`
+  ADD PRIMARY KEY (`b_id`) USING BTREE,
+  ADD KEY `FK_sales_budget_sellers` (`s_id`) USING BTREE;
+
+--
 -- Indices de la tabla `sellers`
 --
 ALTER TABLE `sellers`
@@ -2505,13 +2557,13 @@ ALTER TABLE `action_permissions`
 -- AUTO_INCREMENT de la tabla `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `ar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
 --
 ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `colors`
@@ -2523,13 +2575,13 @@ ALTER TABLE `colors`
 -- AUTO_INCREMENT de la tabla `company`
 --
 ALTER TABLE `company`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `creditlimits`
 --
 ALTER TABLE `creditlimits`
-  MODIFY `limit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `limit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `customer_discounts`
@@ -2541,7 +2593,13 @@ ALTER TABLE `customer_discounts`
 -- AUTO_INCREMENT de la tabla `customer_payment_method`
 --
 ALTER TABLE `customer_payment_method`
-  MODIFY `customer_payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `customer_payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT de la tabla `detail_seller_order`
+--
+ALTER TABLE `detail_seller_order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `extra_attributes_articles`
@@ -2559,13 +2617,13 @@ ALTER TABLE `extra_attributes_company`
 -- AUTO_INCREMENT de la tabla `extra_attributes_order`
 --
 ALTER TABLE `extra_attributes_order`
-  MODIFY `order_attrs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `order_attrs_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `extra_attributes_quotes`
 --
 ALTER TABLE `extra_attributes_quotes`
-  MODIFY `quote_attrs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `quote_attrs_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `group_discounts`
@@ -2595,7 +2653,7 @@ ALTER TABLE `meeting_attendees`
 -- AUTO_INCREMENT de la tabla `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `modules`
@@ -2619,7 +2677,7 @@ ALTER TABLE `order_articles`
 -- AUTO_INCREMENT de la tabla `order_states`
 --
 ALTER TABLE `order_states`
-  MODIFY `order_state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `order_state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `partners`
@@ -2637,13 +2695,13 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `quotes`
@@ -2670,6 +2728,12 @@ ALTER TABLE `roles`
   MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `sales_budget`
+--
+ALTER TABLE `sales_budget`
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `sellers`
 --
 ALTER TABLE `sellers`
@@ -2691,7 +2755,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT de la tabla `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategory`
@@ -2715,7 +2779,7 @@ ALTER TABLE `types_industry`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT de la tabla `warehouse`
@@ -2841,6 +2905,12 @@ ALTER TABLE `quotes`
 --
 ALTER TABLE `quote_articles`
   ADD CONSTRAINT `quote_articles_ibfk_1` FOREIGN KEY (`quo_id`) REFERENCES `quotes` (`quo_id`);
+
+--
+-- Filtros para la tabla `sales_budget`
+--
+ALTER TABLE `sales_budget`
+  ADD CONSTRAINT `FK_sales_budget_sellers` FOREIGN KEY (`s_id`) REFERENCES `sellers` (`s_id`);
 
 --
 -- Filtros para la tabla `settings`

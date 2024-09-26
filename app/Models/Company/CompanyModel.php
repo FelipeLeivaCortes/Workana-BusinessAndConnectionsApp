@@ -210,12 +210,19 @@ Class CompanyModel extends MasterModel
         return $result;
     }
 
+    public function consultCompanyByName($c_name){
+        $sql    = "SELECT * FROM company WHERE c_name = :c_name";
+        
+        return $this->select($sql, [':c_name' => $c_name]);
+    }
+
     public function ConsultCompaniesSelected(int $s_id){
         $sql="SELECT * FROM company WHERE s_id=:s_id";
         $params = [':s_id'=>$s_id];
         $result=$this->select($sql, $params);
         return $result;
     }
+
     public function ConsultCompaniesUnselected(){
         $sql="SELECT company.*,users.*
               FROM company

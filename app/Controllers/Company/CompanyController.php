@@ -1,5 +1,6 @@
 <?php
 require '../vendor/autoload.php';
+
 use Models\Company\CompanyModel;
 use Models\Customer_payment_method\Customer_payment_methodModel;
 use Models\Template\TemplateModel;
@@ -12,14 +13,14 @@ use Models\Town\TownModel;
 use Models\Types_industry\Types_industryModel;
 use Models\CreditLimit\CreditLimitModel;
 
-
 use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
 
+use ThirdParty\ReflexController;
+
 class CompanyController
 {
-
     public function RegisterUpdateView(){
         $obj= new Types_industryModel();
         $objTown= new TownModel();
@@ -27,10 +28,6 @@ class CompanyController
         $industries=$obj->consultTypes_industry(); 
         include '../app/Views/infoCompany/registerUpdateview.php';
     }
-
-
-
-
 
     public function updateStatusClientPortal(){
         // dd($_POST);
@@ -243,7 +240,6 @@ class CompanyController
         include_once "../app/Views/infoCompany/viewStatusUser.php";
     }
 
-
     public function CompanyRequestRegister(){
         $objSubscription    = new SubscriptionModel();
         $date_init          = $_POST['date_init'];
@@ -269,6 +265,24 @@ class CompanyController
         $templateUserCompany    = TemplateModel::TemplateRegister('Señor/a Cliente', $email, $passwordGenerate);
         $mail   = new MailModel();
         $mail->DataEmail($templateUserCompany, $email, '¡Tu suscripción esta a punto de terminar, porfavor llena tus datos como empresa!');
+
+
+        /**
+         * INTEGRACIÓN COMUNICACIÓN API REFLEX
+         */
+        $data = [
+            'CardCode'      => null,
+            'CardName'      => null,
+            'CardType'      => 'C',
+            'EmailAddress'  => $email,
+            'FederalTaxID'  => null,
+            'U_ACS_PCID'    => $c_id
+        ];
+
+        $encodedData = json_encode($data);
+
+        $reflex = new ReflexController();
+        $reflex->createClient($encodedData);
 
         redirect(generateUrl("Clients", "Clients", "ViewClientPortal"));
     }
@@ -313,7 +327,7 @@ class CompanyController
     }
 
 
-    public function UpdateDataCompany(){
+    public function UpdateDataCompany() {
         $c_id                   = $_POST['c_id'];
         $c_name                 = $_POST['c_name'];
         $c_desc                 = $_POST['c_desc'];
@@ -332,7 +346,7 @@ class CompanyController
         $c_shippingCity         = $_POST['c_shippingCity'];
         $c_shippingPostalcode   = $_POST['c_shippingPostalcode'];
         $industry               = $_POST['industry'];
-        $cardCode               = 'C'.explode('-', $c_num_nit)[0];
+        $cardCode               = 'C'.$c_num_nit;
 
         /**
          * Datos del representante de la empresa
@@ -377,7 +391,27 @@ class CompanyController
             $representative_document_type
         );
         
-        redirect(generateUrl("Company", "Company", "consultCompanies"));
+
+        /**
+         * ENVIANDO DATOS A LA API REFLEX
+         */
+        $data = [
+            'CardCode'      => $cardCode,
+            'CardName'      => $c_name,
+            'CardType'      => 'C',
+            'EmailAddress'  => $representative_email,
+            'FederalTaxID'  => $c_num_nit.'-'.$numVerNIT,
+            'U_ACS_PCID'    => $c_id
+        ];
+
+        $encodedData = json_encode($data);
+
+        $reflex = new ReflexController();
+        $reflex->updateClient(base64_encode($encodedData));
+        
+
+
+        // redirect(generateUrl("Company", "Company", "consultCompanies"));
     }
 
 
@@ -469,6 +503,7 @@ class CompanyController
         $obj->updateAddressShipping($street,$apartament,$country,$city,$state,$postalcode,$_SESSION['IdCompany']);
 
     }
+
     public function updateInfoUser(){
         $obj= new CompanyModel();
         $user_id=$_POST['id'];
@@ -480,16 +515,6 @@ class CompanyController
         $num_document=$_POST['num_document'];
         $obj->updateUserInfoById($user_id,$name,$lastname,$phone,$email,$type_document,$num_document,$_SESSION['IdCompany']);
     }
-
-
-
-
-
 }
-
-
-
-
-
 
 ?>
