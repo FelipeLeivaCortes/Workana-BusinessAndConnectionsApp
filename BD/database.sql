@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 26-09-2024 a las 18:43:07
+-- Tiempo de generación: 27-09-2024 a las 13:04:41
 -- Versión del servidor: 10.6.19-MariaDB-log
 -- Versión de PHP: 8.3.11
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `demoportalbusine_demosby2_bac`
+-- Base de datos: `busines2_portalbusiness_test`
 --
 
 -- --------------------------------------------------------
@@ -539,6 +539,8 @@ CREATE TABLE `order` (
   `order_subtotal` decimal(10,2) NOT NULL,
   `order_iva` decimal(10,2) NOT NULL,
   `order_total` decimal(10,2) NOT NULL,
+  `order_discount_total` decimal(10,2) NOT NULL,
+  `order_addition_cost` decimal(10,2) NOT NULL,
   `order_url_document` varchar(255) DEFAULT NULL,
   `u_id` int(11) NOT NULL,
   `order_state_id` int(11) DEFAULT NULL
@@ -548,19 +550,19 @@ CREATE TABLE `order` (
 -- Volcado de datos para la tabla `order`
 --
 
-INSERT INTO `order` (`order_id`, `order_name`, `order_desc`, `order_date`, `order_payment_method`, `order_company`, `order_shipping_address`, `order_email`, `order_phone`, `order_comments`, `order_cedula_nit`, `order_subtotal`, `order_iva`, `order_total`, `order_url_document`, `u_id`, `order_state_id`) VALUES
-(15, 'Andres Muete Muete', 'a', '2023-08-02 19:04:11', 'efectivo', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', '1144108604', 'asdfas', '1144108606', 2800.00, 532.00, 3332.00, 'uploads/orders/15/Document_orders_15_20230717222523.pdf', 87, 6),
-(16, 'Andres Muete Muete', 'a', '2023-09-14 21:22:53', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', 'Hola', '1144108606', 3600.00, 684.00, 4284.00, 'uploads/orders/16/Document_orders_16_20230802220813.pdf', 87, 6),
-(17, 'Andres Muete Muete', 'a', '2023-08-14 16:56:04', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', '                        Dejar en porteria                   ', '1144108606', 42400.00, 8056.00, 50456.00, 'uploads/orders/17/Document_orders_17_20230814185604.pdf', 87, 1),
-(18, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 21:01:59', '28', 'ESCALAR SAS', 'calle 1 c 64 92', 'alexis-crokis@hotmail.com', '2147483647', '                        Favor validar la cotización, queremo', '1144108604', 9120.00, 1732.80, 10852.80, 'uploads/orders/18/Document_orders_18_20231012155859.pdf', 93, 3),
-(19, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:55:49', '1', 'SAVCO SAS', ', , , , , ', 'contabilidad@savco.com.co', '2147483647', '                        ENVIO BODEGA 21 COTIZACIÓN          ', '1098631730', 4300.00, 817.00, 5117.00, 'uploads/orders/19/Document_orders_19_20231019085432.pdf', 94, 3),
-(20, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:34:38', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                        favor enviar en caja                ', '1144108606', 6600.00, 1254.00, 7854.00, 'uploads/orders/20/Document_orders_20_20231020103346.pdf', 87, 3),
-(21, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:18:21', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                                            ', '1144108606', 9800.00, 1862.00, 11662.00, 'uploads/orders/21/Document_orders_21_20231020161653.pdf', 87, 3),
-(22, 'hernando harker harker', 'a', '2023-10-24 21:41:02', '2', 'Biotronitech colombia', ', , , , , ', 'rafareyrey1@gmail.com', '2147483647', '                        por faor cotizarme urgente          ', '805236987', 5800.00, 1102.00, 6902.00, 'uploads/orders/22/Document_orders_22_20231024164009.pdf', 95, 3),
-(23, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:43:11', '1', 'IMCOLMEDICA SA', ', , , , , ', 'tecnologia@imcolmedica.com.co', '2147483647', '                        dejar en casa con coti via wsp      ', '1257442', 102093.65, 19397.79, 121491.44, 'uploads/orders/23/Document_orders_23_20231120164150.pdf', 96, 3),
-(24, 'Andres Felipe  Muete Martinez', 'a', '2023-12-05 15:54:16', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', 'entregar lo mas pronto ', '1144108606', 2800.00, 532.00, 3332.00, 'uploads/orders/24/Document_orders_24_20231205105324.pdf', 87, 3),
-(25, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:02:24', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 1900.00, 361.00, 2261.00, 'uploads/orders/25/Document_orders_25_20231218130224.pdf', 97, 1),
-(26, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:04:56', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 5320.00, 1010.80, 6330.80, 'uploads/orders/26/Document_orders_26_20231218130251.pdf', 97, 3);
+INSERT INTO `order` (`order_id`, `order_name`, `order_desc`, `order_date`, `order_payment_method`, `order_company`, `order_shipping_address`, `order_email`, `order_phone`, `order_comments`, `order_cedula_nit`, `order_subtotal`, `order_iva`, `order_total`, `order_discount_total`, `order_addition_cost`, `order_url_document`, `u_id`, `order_state_id`) VALUES
+(15, 'Andres Muete Muete', 'a', '2023-08-02 19:04:11', 'efectivo', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', '1144108604', 'asdfas', '1144108606', 2800.00, 532.00, 3332.00, 0.00, 0.00, 'uploads/orders/15/Document_orders_15_20230717222523.pdf', 87, 6),
+(16, 'Andres Muete Muete', 'a', '2023-09-14 21:22:53', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', 'Hola', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/orders/16/Document_orders_16_20230802220813.pdf', 87, 6),
+(17, 'Andres Muete Muete', 'a', '2023-08-14 16:56:04', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', '                        Dejar en porteria                   ', '1144108606', 42400.00, 8056.00, 50456.00, 0.00, 0.00, 'uploads/orders/17/Document_orders_17_20230814185604.pdf', 87, 1),
+(18, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 21:01:59', '28', 'ESCALAR SAS', 'calle 1 c 64 92', 'alexis-crokis@hotmail.com', '2147483647', '                        Favor validar la cotización, queremo', '1144108604', 9120.00, 1732.80, 10852.80, 0.00, 0.00, 'uploads/orders/18/Document_orders_18_20231012155859.pdf', 93, 3),
+(19, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:55:49', '1', 'SAVCO SAS', ', , , , , ', 'contabilidad@savco.com.co', '2147483647', '                        ENVIO BODEGA 21 COTIZACIÓN          ', '1098631730', 4300.00, 817.00, 5117.00, 0.00, 0.00, 'uploads/orders/19/Document_orders_19_20231019085432.pdf', 94, 3),
+(20, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:34:38', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                        favor enviar en caja                ', '1144108606', 6600.00, 1254.00, 7854.00, 0.00, 0.00, 'uploads/orders/20/Document_orders_20_20231020103346.pdf', 87, 3),
+(21, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:18:21', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                                            ', '1144108606', 9800.00, 1862.00, 11662.00, 0.00, 0.00, 'uploads/orders/21/Document_orders_21_20231020161653.pdf', 87, 3),
+(22, 'hernando harker harker', 'a', '2023-10-24 21:41:02', '2', 'Biotronitech colombia', ', , , , , ', 'rafareyrey1@gmail.com', '2147483647', '                        por faor cotizarme urgente          ', '805236987', 5800.00, 1102.00, 6902.00, 0.00, 0.00, 'uploads/orders/22/Document_orders_22_20231024164009.pdf', 95, 3),
+(23, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:43:11', '1', 'IMCOLMEDICA SA', ', , , , , ', 'tecnologia@imcolmedica.com.co', '2147483647', '                        dejar en casa con coti via wsp      ', '1257442', 102093.65, 19397.79, 121491.44, 0.00, 0.00, 'uploads/orders/23/Document_orders_23_20231120164150.pdf', 96, 3),
+(24, 'Andres Felipe  Muete Martinez', 'a', '2023-12-05 15:54:16', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', 'entregar lo mas pronto ', '1144108606', 2800.00, 532.00, 3332.00, 0.00, 0.00, 'uploads/orders/24/Document_orders_24_20231205105324.pdf', 87, 3),
+(25, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:02:24', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 1900.00, 361.00, 2261.00, 0.00, 0.00, 'uploads/orders/25/Document_orders_25_20231218130224.pdf', 97, 1),
+(26, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:04:56', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 5320.00, 1010.80, 6330.80, 0.00, 0.00, 'uploads/orders/26/Document_orders_26_20231218130251.pdf', 97, 3);
 
 -- --------------------------------------------------------
 
@@ -2203,8 +2205,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`u_id`, `u_name`, `u_lastname`, `u_phone`, `u_email`, `u_document`, `u_type_document`, `u_country`, `u_city`, `u_pass`, `u_code`, `rol_id`, `c_id`, `status_id`) VALUES
 (9, 'Edwin Valencia', 'valencia', '2147483647', 'evalencia@businessandconnection.com', 12341234, 'Cedula de ciudadanía', 'Colombia', 'Cali', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '84ba7015640ee5f2', 1, 1, 1),
 (17, 'Diego', 'Alarcon', '2147483647', 'desarrollo@businessandconnection.com', 1020779501, 'cc', 'colombia', 'bogota', '12345678', '', 1, 1, 1),
-(86, 'Edwin Valencia', 'valencia', '2147483647', 'evaniche@hotmail.com', 1144108604, 'Cedula de ciudadanía', 'Colombia', 'RIOSUCIO', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', 'c3bdb99386f5ded6', 2, 54, 1),
-(87, 'Andres Felipe ', 'Muete Martinez', '1144108604', 'evaniche2021@gmail.com', 1144108606, 'Cedula de ciudadanía', 'Colombia', 'PUERTO RONDÓN', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '82d912efa17df2d2', 3, 55, 1),
+(86, 'Edwin Valencia', 'valencia', '2147483647', 'evaniche@hotmail.com', 1144108604, 'Cedula de ciudadanía', 'Colombia', 'RIOSUCIO', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '874e685096073311', 2, 54, 1),
+(87, 'Andres Felipe ', 'Muete Martinez', '1144108604', 'felipe-leiva@hotmail.cl', 1144108606, 'Cedula de ciudadanía', 'Colombia', 'PUERTO RONDÓN', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '510ced522f3bb18f', 3, 55, 1),
 (91, 'RODRIGO', 'CASTRO', '2147483647', 'alexis-crokis@hotmail.coma', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$5THxfYcLpxnr1L8DWVFY0ujt4D3.FUarYy4v/KWDlybrsourMj882', NULL, 3, 59, 2),
 (93, 'JULIO CESAR', 'MAYORGA GOMEZ', '2147483647', 'alexis-crokis@hotmail.com', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$eJyKUQfU1tOx1W4fSbxNB.sYuzkaevfU6h6WlnjuyXiIsuWXE5Bbe', '2f42facfdfd443aa', 3, 61, 1),
 (94, 'ANYERSON', 'MOTTA MARTINEZ', '2147483647', 'contabilidad@savco.com.co', 1098631730, 'Cedula de ciudadanía', 'Colombia', 'CHOCONTÁ', '$2y$10$/XXeNeZ1m5zMf6bAgWcmWe/PjyneoyiI5a1uUO/PHADjF3p76QUPO', 'ed882a8df4900c53', 3, 62, 1),

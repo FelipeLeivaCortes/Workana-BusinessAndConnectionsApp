@@ -1,4 +1,4 @@
-<form action="<?= Helpers\generateUrl("Order", "Order", "pdfOrder", [], "ajax"); ?>" method="POST" enctype="multipart/form-data">
+<form id="formNewOrder" action="<?= Helpers\generateUrl("Order", "Order", "pdfOrder", [], "ajax"); ?>" method="POST" enctype="multipart/form-data">
     <div class="container">
         <h1 class="tracking-in-expand">Pedido <i class="fa-solid fa-pen-to-square"></i></h1>
 

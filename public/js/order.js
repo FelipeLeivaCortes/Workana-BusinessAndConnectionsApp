@@ -401,6 +401,58 @@ $(document).ready(function () {
   });
 
   // Resto del código...
+
+  // Adjunta un manejador de eventos de envío al formulario con el ID 'formNewQuote'
+  $('#formNewOrder').on('submit', function(event) {
+    event.preventDefault();
+    
+    const objectRequired = [
+      {'id': 'payment_method', 'message': 'El campo Método de pago es obligatorio', 'type': 'select'},
+      {'id': 'contArticlesOrder', 'message': 'Se debe registrar al menos un artículo', 'type': 'table'},
+    ];
+    
+    for (const object of objectRequired) {
+      let trigger = false;
+
+      switch (object.type) {
+        case 'select':
+          if ($(`#${object.id}`).val() == null || $(`#${object.id}`).val().trim() === '') {
+            trigger = true;
+          }
+
+          break;
+
+        case 'table':
+          const rows = $(`#${object.id} tr`);  
+        
+          if (rows.length < 2) {
+            const cells = rows.first().find('td');
+
+            if (cells.length < 2) {
+              trigger = true;
+              break;
+            }
+          }
+
+          break;
+      }
+
+      if (trigger) {
+        Swal.fire({
+          title: 'Información',
+          text: object.message,
+          icon: 'info',
+          showCancelButton: false,
+          confirmButtonText: 'Aceptar'
+        });
+        
+        return false;
+      }
+    }
+    
+    this.submit();
+  });
+
 });
 
 //Lógica para que cambie dinamicamente el campo Total de acuerdo al campo Gastos Adicionales
