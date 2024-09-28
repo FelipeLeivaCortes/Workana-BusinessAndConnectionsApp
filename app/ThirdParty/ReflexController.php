@@ -13,8 +13,9 @@
         protected $escenario;
         protected $donkey;
         protected $data;
-
+        
         protected $urlApi;
+        protected $enableConnection;
 
         public function __construct() {
             /**
@@ -32,6 +33,7 @@
             $this->data             = null;
 
             $this->urlApi           = $url_api_reflex;
+            $this->enableConnection = $enableConnection;
         }
 
         /**
@@ -82,45 +84,40 @@
 
         /**
          * ESTABLECIENDO COMUNICACIÓN CON LA API
+         * SÓLO SI ESTÁ HABILITADA LA CONEXIÓN.
          */
         private function sendData() {
-            $url    = $this->urlApi."/api/ProcesarData/Procesar";
-            $data   = [
-                "nit"       => $this->nit,
-                "interface" => $this->interface,
-                "escenario" => $this->escenario,
-                "dockey"    => $this->donkey,
-                "data"      => $this->data
-            ];
-            
-            $jsonData   = json_encode($data);
-            $ch         = curl_init($url);
+            if ($this->enableConnection) {
+                $url    = $this->urlApi."/api/ProcesarData/Procesar";
+                $data   = [
+                    "nit"       => $this->nit,
+                    "interface" => $this->interface,
+                    "escenario" => $this->escenario,
+                    "dockey"    => $this->donkey,
+                    "data"      => $this->data
+                ];
+                
+                $jsonData   = json_encode($data);
+                $ch         = curl_init($url);
 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($jsonData),
-                'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
-            ]);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-            
-            $response = curl_exec($ch);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($jsonData),
+                    'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
+                ]);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                
+                $response = curl_exec($ch);
 
+                if (curl_errno($ch)) {
+                    dd(curl_error($ch));
+                } else {
+                    dd($response);
+                }
 
-            
-
-            if (curl_errno($ch)) {
-                dd(curl_error($ch));
-
-                // echo 'Error:' . curl_error($ch);
-            } else {
-                dd($response);
-
-                // Mostrar la respuesta
-                // echo 'Response: ' . $response;
+                curl_close($ch);
             }
-
-            curl_close($ch);
         }
     }
