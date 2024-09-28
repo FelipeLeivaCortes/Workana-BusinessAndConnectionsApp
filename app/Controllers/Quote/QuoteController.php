@@ -385,8 +385,8 @@ class QuoteController
         $quoDiscountTotal       = $objconsultQuoteById[0]['quo_discount_total'];
         $quoAdditionCost        = $objconsultQuoteById[0]['quo_addition_cost'];
 
-        $template   = PdfModel::templateQuotePdf($articleArray, $fieldName, $fieldValue, $quoDiscountTotal, $quoAdditionCost);
         $pdfModel   = new PdfModel();
+        $template   = $pdfModel->templateQuotePdf($articleArray, $fieldName, $fieldValue, $quoDiscountTotal, $quoAdditionCost);
         $idQuote    = $objQuote->getLastId('quotes', 'quo_id');
         $filePath   = $pdfModel->generatePdf($template, $idQuote, 'quotes');
         $objQuote->updateField('quotes', 'quo_id', $idQuote, 'quo_url_document', $filePath);

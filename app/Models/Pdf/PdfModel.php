@@ -108,9 +108,6 @@ Class PdfModel extends MasterModel
         
             <div class="header">
                 <img src="'.LOGOBLACK.'">
-                <img src="http://localhost/businessandconnection/public/img/logo-black.pg" alt="Logo">
-                <img src="http://localhost/businessandconnection/public/img/logo-black.png" alt="Logo">
-                <p>'.LOGOBLACK.'</p>
                 <p>'.TITLE_PAGE.'</p>
                 <p>'.SMTP_USERNAME.'</p>
                 <p>Teléfono de ejemplo</p>
