@@ -84,7 +84,7 @@
         </div>
         <div class="table-responsive">
 
-            <table class="table DataTable table-sm slide-in-top table-hover  table-striped">
+            <table id="tableViewCreateOrder" class="table DataTable table-sm slide-in-top table-hover  table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>

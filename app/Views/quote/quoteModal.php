@@ -1,7 +1,3 @@
-<?php
-
-use function Helpers\generateUrl;
-?>
 
 <style>
     .table-cell {

@@ -85,14 +85,11 @@ foreach ($quote as $quot) {
             </div>
             <hr>
 
-
-
-
             <h3 class="tracking-in-expand">Articulos <i class="fa-solid fa-cart-shopping"></i></h3>
 
             <div class="table-responsive">
 
-                <table class="table DataTable table-sm slide-in-top table-hover  table-striped">
+                <table class="table DataTable table-sm slide-in-top table-hover table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>

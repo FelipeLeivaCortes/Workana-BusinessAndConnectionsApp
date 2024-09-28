@@ -264,9 +264,32 @@ $(document).ready(function () {
     $("#totalQuoteInput").val(total.toFixed(2));
     $("#totalQuoteInputCurrent").val(total.toFixed(2));
 
-    $(".DataTable").DataTable().destroy();
+    $("#tableViewCreateQuote").DataTable().destroy();
+
     $(this).closest("tr").remove();
-    $(".DataTable").DataTable();
+
+    $("#tableViewCreateQuote").DataTable({
+      language: {
+        "decimal": "",
+        "emptyTable": "No hay datos",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+        "infoFiltered": "(Filtro de _MAX_ registros Totales)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Numero de filas _MENU_",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron resultados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Proximo",
+            "previous": "Anterior"
+        }
+      }
+    });
   });
 
   $(document).on("click", "#addFieldsForm", function () {

@@ -14,18 +14,26 @@ $(document).ready(function () {
     });
   });
 
-  let cont = 0;
-  var discountsOrder = []; // Array para almacenar los descuentos individuales 
-
-  // Función para añadir artículos a la orden  
-  $(document).on("click", "#addArticles", function (event) {
+  let cont            = 0;
+  let discountsOrder  = []; 
+ 
+  $(document).on("click", "#addArticleOrder", function (event) {
 
     cont++;
-    let shopcar = $(".cart-counter").text(cont);
-    let id_article = $(this).val();
-    let url = $(this).attr("data-url");
-    let quantity_articles = $(this).siblings("input").val();
-    let existingDiscountProductIdIndex = discountsOrder.findIndex(item => item.productId === id_article);
+
+    let id_article                      = $(this).val();
+    let url                             = $(this).attr("data-url");
+    let quantity_articles               = $(this).siblings("input").val();
+    let existingDiscountProductIdIndex  = discountsOrder.findIndex(item => item.productId === id_article);
+
+    if (parseInt(quantity_articles) < 1 || isNaN(parseInt(quantity_articles))) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      
+      return false;
+    }
+
 
     if (existingDiscountProductIdIndex !== -1) {
       Swal.fire({
@@ -66,9 +74,32 @@ $(document).ready(function () {
           let totalSubtotal = 0;
           let iva = 0;
 
-          $(".DataTable").DataTable().destroy();
+          $("#tableViewCreateOrder").DataTable().destroy();
+
           $("#contArticlesOrder").append(response);
-          $(".DataTable").DataTable();
+          
+          $("#tableViewCreateOrder").DataTable({
+            language: {
+              "decimal": "",
+              "emptyTable": "No hay datos",
+              "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+              "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+              "infoFiltered": "(Filtro de _MAX_ registros Totales)",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Numero de filas _MENU_",
+              "loadingRecords": "Cargando...",
+              "processing": "Procesando...",
+              "search": "Buscar:",
+              "zeroRecords": "No se encontraron resultados",
+              "paginate": {
+                  "first": "Primero",
+                  "last": "Ultimo",
+                  "next": "Proximo",
+                  "previous": "Anterior"
+              }
+            }
+          });
 
           $("#contArticlesOrder tr").each(function () {
             // Obtener el ID del producto para este artículo
@@ -106,7 +137,6 @@ $(document).ready(function () {
             }
           });
 
-          // Calcular el total del descuento general sumando todos los descuentos totales por artículo
           let totalDiscountGeneral = discountsOrder.reduce((acc, cur) => acc + cur.discount, 0);
 
           $("#contArticlesOrder .subtotal").each(function () {
@@ -327,11 +357,33 @@ $(document).ready(function () {
     $("#totalOrderInput").val(total.toFixed(2));
     $("#totalOrderInputCurrent").val(total.toFixed(2));
 
-    $(".DataTable").DataTable().destroy();
-    $(this)
-      .closest("tr")
-      .remove();
-    $(".DataTable").DataTable();
+    $("#tableViewCreateOrder").DataTable().destroy();
+
+    $(this).closest("tr").remove();
+
+    $("#tableViewCreateOrder").DataTable({
+      language: {
+        "decimal": "",
+        "emptyTable": "No hay datos",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+        "infoFiltered": "(Filtro de _MAX_ registros Totales)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Numero de filas _MENU_",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron resultados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Proximo",
+            "previous": "Anterior"
+        }
+      }
+    });
+
   });
 
   // Función para agregar un nuevo campo de entrada

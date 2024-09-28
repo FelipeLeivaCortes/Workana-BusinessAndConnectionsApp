@@ -698,15 +698,15 @@ class OrderController
 
             echo '<tr>
                     <td class="ar_id_' . $ar['ar_id'] . '">' . $ar['ar_id'] . '</td>
-                    <td><i class="fa-solid fa-file"></i>' . $ar['ar_name'] . '</td>
+                    <td> <img src=' . $ar['ar_img_url'] . ' class="card-img-top viewArticle" alt="Sin Imágen" data-url="' . Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") . '" data-value="' . $ar['ar_id'] . '">' . $ar['ar_name'] . '</td>
                     <td>' . $nameCategory . '</td>
                     <td>
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                         <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                     </td>
-                    <td class="price">' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                    <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
                     <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
-                    <td class="discount">' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
+                    <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                     <td class="subtotal">$' . $subtotal . '</td>
                     <td><button class="btn btn-danger delete-row"><i class="fa-solid fa-square-xmark"></i></button></td>
                  </tr>';

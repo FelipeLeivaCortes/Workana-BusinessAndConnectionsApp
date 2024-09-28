@@ -199,8 +199,8 @@ class QuoteController
 
     public function viewModalQuoteValidity()
     {
-        $objCompany = new CompanyModel();
-        $companies = $objCompany->consultCompanies();
+        $objCompany     = new CompanyModel();
+        $companies      = $objCompany->consultCompanies();
         include_once '../app/Views/quote/ModalQuoteValidity.php';
     }
 
@@ -549,9 +549,9 @@ class QuoteController
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                         <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                     </td>
-                    <td class="price">' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                    <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
                     <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
-                    <td class="discount">' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
+                    <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                     <td class="subtotal">$' . $subtotal . '</td>
                     <td><button class="btn btn-danger delete-row"><i class="fa-solid fa-square-xmark"></i></button></td>
                  </tr>';
