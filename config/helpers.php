@@ -19,8 +19,6 @@ function redirect(string $url): void
     exit;
 }
 
-
-
  
 /**
  * Imprime la variable especificada de forma legible y detiene la ejecución del script.
