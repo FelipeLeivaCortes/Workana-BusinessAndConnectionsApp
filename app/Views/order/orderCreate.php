@@ -119,57 +119,49 @@
 
 
         <h3 class="tracking-in-expand">Resumen<i class="fa-solid fa-pen-to-square"></i></h3>
-        <div class="container ">
-            <div class="col-md-12 p-2 d-flex">
-                <div class="col-md-6">
 
-                    <div class="form-group">
-                        <label for="metodo_pago">Codigo de vendedor:</label>
-                        <?php if (!empty($seller)) { ?>
-                            <input type="hidden" name="s_id" value="<?= $seller[0]['s_id']; ?>">
-                            <label class="form form-control" for=""><?= $seller[0]['s_code']; ?></label>
-                        <?php } else { ?>
-                            <label class="form form-control">No se ha asignado un vendedor</label>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="metodo_pago">Nombre vendedor:</label>
-                        <?php if (!empty($seller)) { ?>
-                            <label for="" class="form form-control"><?= $seller[0]['s_name']; ?></label>
-                        <?php } else { ?>
-                            <label class="form form-control">No se ha asignado un vendedor</label>
-                        <?php } ?>
-                    </div>
+        <div class="container d-flex">
+            <div class="col-md-6 p-2">
+                <div class="form-group">
+                    <label for="metodo_pago">Codigo de vendedor:</label>
+                    <?php if (!empty($seller)) { ?>
+                        <input type="hidden" name="s_id" value="<?= $seller[0]['s_id']; ?>">
+                        <label class="form form-control" for=""><?= $seller[0]['s_code']; ?></label>
+                    <?php } else { ?>
+                        <p class="form form-control">No se ha asignado un vendedor</p>
+                    <?php } ?>
                 </div>
 
-                <div class="col-md-6 p-2">
-                    <label for="">Subtotal:</label>
-                    <label for="" class="form form-control" id="subtotalOrder">NAN</label>
-                    <input type="hidden" name="subtotalOrderInput" id="subtotalOrderInput">
-                    <label for="">Descuento Total:</label>
-                    <label for="" class="form-control" id="discountOrder">0</label>
-                    <input class="form-control" type="hidden" name="discountOrderInput" id="discountOrderInput">
-                    <label for="">Impuestos:</label>
-                    <label for="" class="form form-control" id="taxesOrder">NAN</label>
-                    <input type="hidden" name="taxesOrderInput" id="taxesOrderInput">
-                    <label for="">Gastos Adicionales:</label>
-                    <input class="form-control" type="number" name="additionalCostsOrderInput" id="additionalCostsOrderInput" value="0" readonly>
-                    <label for="">Total:</label>
-                    <label for="" class="form form-control" id="totalOrder">NAN</label>
-                    <input type="hidden" name="totalOrderInput" id="totalOrderInput">
-                    <input type="hidden" id="totalOrderInputCurrent">
-
+                <div class="form-group">
+                    <label for="metodo_pago">Nombre vendedor:</label>
+                    <?php if (!empty($seller)) { ?>
+                        <label for="" class="form form-control"><?= $seller[0]['s_name']; ?></label>
+                    <?php } else { ?>
+                        <p class="form form-control">No se ha asignado un vendedor</p>
+                    <?php } ?>
                 </div>
-
             </div>
 
-
-
+            <div class="col-md-6 p-2">
+                <label for="">Subtotal:</label>
+                <label for="" class="form form-control" id="subtotalOrder">NAN</label>
+                <input type="hidden" name="subtotalOrderInput" id="subtotalOrderInput">
+                <label for="">Descuento Total:</label>
+                <label for="" class="form-control" id="discountOrder">0</label>
+                <input class="form-control" type="hidden" name="discountOrderInput" id="discountOrderInput">
+                <label for="">Impuestos:</label>
+                <label for="" class="form form-control" id="taxesOrder">NAN</label>
+                <input type="hidden" name="taxesOrderInput" id="taxesOrderInput">
+                <label for="">Gastos Adicionales:</label>
+                <input class="form-control" type="number" name="additionalCostsOrderInput" id="additionalCostsOrderInput" value="0" readonly>
+                <label for="">Total:</label>
+                <label for="" class="form form-control" id="totalOrder">NAN</label>
+                <input type="hidden" name="totalOrderInput" id="totalOrderInput">
+                <input type="hidden" id="totalOrderInputCurrent">
+            </div>
         </div>
+
         <div class="text-right">
-
-
             <button type="submit" class="btn btn-outline-success">Generar pedido</button>
-
         </div>
 </form>

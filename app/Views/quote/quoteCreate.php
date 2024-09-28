@@ -96,7 +96,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table DataTable table-sm slide-in-top table-hover table-striped text-center mx-auto">
+            <table id="tableViewCreateQuote" class="table DataTable table-sm slide-in-top table-hover table-striped text-center mx-auto">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -122,7 +122,6 @@
                     </tr>
                 </thead>
                 <tbody id="contArticlesQuote" class="table-light">
-                    <!-- ADD ARTICLES FOR AJAX  -->
                 </tbody>
             </table>
         </div>
@@ -130,6 +129,7 @@
         <hr>
 
         <h3 class="tracking-in-expand">Resumen <i class="fa-solid fa-pen-to-square"></i></h3>
+        
         <div class="container d-flex">
             <div class="col-md-6 p-2 ">
                 <div class="form-group">

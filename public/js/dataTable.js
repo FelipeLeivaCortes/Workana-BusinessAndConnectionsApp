@@ -34,8 +34,7 @@ $(document).ready(function () {
   });
 
   $(".DataTable thead tr:eq(1) th").each(function (i) {
-    var title = $(this).text(); // Nombre de la columna
-    console.log("title: ", title);
+    var title = $(this).text();
 
     var containsImageOrButton = false;
 

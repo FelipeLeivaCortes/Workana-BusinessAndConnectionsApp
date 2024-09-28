@@ -235,13 +235,15 @@ class QuoteController
 
     public function CreateQuote()
     {
-        $objArticles = new ArticlesModel();
-        $objColor = new ColorsModel();
-        $articles = $objArticles->consultArticles();
+        $objArticles    = new ArticlesModel();
+        $objColor       = new ColorsModel();
+        $articles       = $objArticles->consultArticles();
+
         foreach ($articles as &$arti) {
-            $color = $objColor->consultColorByID($arti['color_id']);
-            $arti['color'] = $color;
+            $color          = $objColor->consultColorByID($arti['color_id']);
+            $arti['color']  = $color;
         }
+
         include_once "../app/Views/quote/quoteModal.php";
     }
 
@@ -483,8 +485,8 @@ class QuoteController
 
     public function AddArticlesAjax()
     {
-        $idArticle = $_POST['id_article'];
-        $quantity = $_POST['quantity_articles'];
+        $idArticle  = $_POST['id_article'];
+        $quantity   = $_POST['quantity_articles'];
 
         // GET INFO ARTICLE
         $objArticle = new ArticlesModel();
@@ -535,14 +537,13 @@ class QuoteController
             }
         }
 
-        $PriceWithDiscount = 0;
         foreach ($article as $ar) {
             $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
             $subtotal = $discountedPrice * $quantity;
 
             echo '<tr>
                     <td class="ar_id_'.$ar['ar_id'].'">' . $ar['ar_id'] . '</td>
-                    <td> <img src=' . $ar['ar_img_url'] . ' class="card-img-top viewArticle" alt="..." data-url="' . Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") . '" data-value="' . $ar['ar_id'] . '">' . $ar['ar_name'] . '</td>
+                    <td> <img src=' . $ar['ar_img_url'] . ' class="card-img-top viewArticle" alt="Sin Imágen" data-url="' . Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") . '" data-value="' . $ar['ar_id'] . '">' . $ar['ar_name'] . '</td>
                     <td>' . $nameCategory . '</td>
                     <td>
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">

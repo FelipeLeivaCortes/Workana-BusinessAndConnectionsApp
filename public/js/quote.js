@@ -12,18 +12,16 @@ $(document).ready(function () {
     });
   });
 
-  // add articles table quote
-  cont = 0;
-  var discounts = []; // Array para almacenar los descuentos individuales 
+  let cont      = 0;
+  let discounts = [];
 
-  $(document).on("click", "#addArticles", function (event) {
+  $(document).on("click", "#addArticleQuote", function (event) {
     cont++;
 
-    let shopcar = $(".cart-counter").text(cont);
-    let id_article = $(this).val();
-    let url = $(this).attr("data-url");
-    let quantity_articles = $(this).siblings("input").val();
-    let existingDiscountProductIdIndex = discounts.findIndex(item => item.productId === id_article);
+    let id_article                      = $(this).val();
+    let url                             = $(this).attr("data-url");
+    let quantity_articles               = $(this).siblings("input").val();
+    let existingDiscountProductIdIndex  = discounts.findIndex(item => item.productId === id_article);
 
     if (parseInt(quantity_articles) < 1 || isNaN(parseInt(quantity_articles))) {
       event.preventDefault();
@@ -33,7 +31,6 @@ $(document).ready(function () {
       return false;
     }
 
-    //validar si en el array viene un producto que ya agrego con anterioridad
     if (existingDiscountProductIdIndex !== -1) {
       Swal.fire({
         icon: 'error',
@@ -76,43 +73,55 @@ $(document).ready(function () {
           let totalSubtotal = 0;
           let iva = 0;
 
-          $(".DataTable").DataTable().destroy();
+
+          $("#tableViewCreateQuote").DataTable().destroy();
+
           $("#contArticlesQuote").append(response);
-          $(".DataTable").DataTable();
 
-          // Iterar sobre cada fila de la tabla
+          $("#tableViewCreateQuote").DataTable({
+            language: {
+              "decimal": "",
+              "emptyTable": "No hay datos",
+              "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+              "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+              "infoFiltered": "(Filtro de _MAX_ registros Totales)",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Numero de filas _MENU_",
+              "loadingRecords": "Cargando...",
+              "processing": "Procesando...",
+              "search": "Buscar:",
+              "zeroRecords": "No se encontraron resultados",
+              "paginate": {
+                  "first": "Primero",
+                  "last": "Ultimo",
+                  "next": "Proximo",
+                  "previous": "Anterior"
+              }
+            }
+          });
+
           $("#contArticlesQuote tr").each(function () {
-            // Obtener el ID del producto para este artículo
             let productId = $(this).find(".ar_id_" + id_article).text().trim();
-            //console.log("productId: ", productId);
-            // Obtener el precio del artículo de esta fila
-            let price = parseFloat($(this).find(".price").text().trim().replace(',', ''));
-            //console.log("price: ", price);
-            // Obtener la cantidad de productos para este artículo
-            let quantity = parseFloat($(this).find(".quantityArt").val());
+            let price     = parseFloat($(this).find(".price").text().trim().replace(',', ''));
+            let quantity  = parseFloat($(this).find(".quantityArt").val());
 
-            // Obtener el valor del descuento aplicado
             let discountPriceValue = parseFloat($(this).find(".discount>input").val());
             let priceAfterDiscount = price - discountPriceValue;
-            //console.log("Descuento aplicado:", priceAfterDiscount);
-            // Verificar si los valores son números válidos y si el descuento aplicado es diferente de cero
+
             if (!isNaN(price) && !isNaN(priceAfterDiscount) && priceAfterDiscount !== 0) {
-              // Verificar si el producto ya está en el array de descuentos
               let existingDiscountIndex = discounts.findIndex(item => item.productId === productId);
-              //console.log("existingDiscountIndex:", existingDiscountIndex);
+              
               if (existingDiscountIndex !== -1) {
-                // Si el producto ya tiene un descuento registrado, sumar el nuevo descuento al descuento existente
                 discounts[existingDiscountIndex].discount += priceAfterDiscount * quantity;
-                //console.log("arrayModificado:", discounts);
+
               } else {
-                // Agregar el descuento total por artículo al array discounts
                 if (productId.trim() !== '') {
                   discounts.push({
                     productId: productId,
                     discount: priceAfterDiscount * quantity
                   });
                 }
-                //console.log("arraySinModificado:", discounts);
               }
             }
           });
@@ -128,6 +137,7 @@ $(document).ready(function () {
 
           iva = totalSubtotal * 0.19;
           total = iva + totalSubtotal;
+
           $("#subtotalQuote").text("$" + totalSubtotal.toFixed(2));
           $("#subtotalQuoteInput").val(totalSubtotal.toFixed(2));
           $("#taxesQuote").text("$" + iva.toFixed(2));
@@ -137,7 +147,6 @@ $(document).ready(function () {
           $("#totalQuote").text("$" + total.toFixed(2));
           $("#totalQuoteInput").val(total.toFixed(2));
           $("#totalQuoteInputCurrent").val(total.toFixed(2));
-          //console.log("discounts2: ", discounts);
         },
       });
     }
@@ -260,7 +269,6 @@ $(document).ready(function () {
     $(".DataTable").DataTable();
   });
 
-  // Modal for add more fields
   $(document).on("click", "#addFieldsForm", function () {
     let url = $(this).attr("data-url");
     $.ajax({
@@ -274,7 +282,7 @@ $(document).ready(function () {
   });
 });
 
-//Abrir modal Agregar vigencia de cotización
+
 $(document).on("click", "#addQuouteValidity", function () {
   let url = $(this).attr("data-url");
   let data_title = $(this).attr("data-title");
@@ -292,7 +300,7 @@ $(document).on("click", "#addQuouteValidity", function () {
   });
 });
 
-//Lógica para que cambie dinamicamente el campo Total de acuerdo al campo Gastos Adicionales
+
 if (document.querySelector('#additionalCostsInput')) {
   let inputAdditionCost = document.querySelector('#additionalCostsInput');
   let totalQuote = document.querySelector('#totalQuote');
@@ -380,4 +388,3 @@ if (document.querySelector('#additionalCostsInput')) {
     this.submit();
   });
 }
-
