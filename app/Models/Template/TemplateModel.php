@@ -4,11 +4,13 @@ namespace Models\Template;
 
 use Models\MasterModel;
 
+define('SUBDOMAIN', '/businessandconnection');
+
 
 Class TemplateModel extends MasterModel
 {
   static function TemplateNotificationActivationUser(string $userName) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
     $html = "<!DOCTYPE html>
     <html lang='en'>
       <head>
@@ -73,7 +75,8 @@ Class TemplateModel extends MasterModel
     return $html;
   }
   static function TemplateNotificationDocumentRequest(string $userName, string $userEmail, string $password) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
+
     $html = "<!DOCTYPE html>
     <html lang='en'>
       <head>
@@ -139,7 +142,7 @@ Class TemplateModel extends MasterModel
           <p>Correo electrónico: " . $userEmail . "</p>
           <p>Contraseña: " . $password . "</p>
           <div class='footer'>
-            <p><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+            <p><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
             <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
           </div>
         </div>
@@ -153,7 +156,8 @@ Class TemplateModel extends MasterModel
 
 
   static function TemplateRegistrationLink(string $userMail, string $messages) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
+
     $html = "<!DOCTYPE html>
     <html lang='en'>
       <head>
@@ -207,7 +211,7 @@ Class TemplateModel extends MasterModel
           <p>Hola " . $userMail . ",</p>
           <p>Estás a solo un paso de unirte a nuestra plataforma.</p>
           <p>Para completar tu registro, haz clic en el siguiente enlace:</p>
-          <p> <a href='http://" . $host . "/PortalUsuarios/public/ajax.php?module=Access&controller=Access&action=RegisterView'>Click aquí</a></p>
+          <p> <a href='http://" . $host . "/public/ajax.php?module=Access&controller=Access&action=RegisterView'>Click aquí</a></p>
           <p>Adicionalmente:</p>
           <textarea>".$messages."</textarea>
           <p>¡Gracias por elegirnos!</p>
@@ -222,7 +226,8 @@ Class TemplateModel extends MasterModel
 
 
   static function TemplateNotificationInactivationUser(string $userName) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
+
     $html = "<!DOCTYPE html>
     <html lang='en'>
       <head>
@@ -278,7 +283,7 @@ Class TemplateModel extends MasterModel
           <p>Si crees que ha habido un error o tienes alguna pregunta, por favor, ponte en contacto con nuestro equipo de soporte.</p>
           <p>Gracias por tu comprensión.</p>
           <div class='footer'>
-            <p>Ponte en contacto con nosotros <a href='http://" . $host . "/PortalUsuarios/public/index.php'>aquí</a></p>
+            <p>Ponte en contacto con nosotros <a href='http://" . $host . "/public/index.php'>aquí</a></p>
             <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
           </div>
         </div>
@@ -290,7 +295,8 @@ Class TemplateModel extends MasterModel
 
 
   static function TemplateNotificationActivation(string $userName) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
+
     $html = "<!DOCTYPE html>
     <html lang='en'>
       <head>
@@ -346,7 +352,7 @@ Class TemplateModel extends MasterModel
           <p>A partir de ahora, puedes acceder a todos los servicios y funcionalidades disponibles en nuestra aplicación.</p>
           <p>¡Gracias por unirte a nosotros!</p>
           <div class='footer'>
-          <p><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+          <p><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
             <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
           </div>
         </div>
@@ -424,7 +430,7 @@ static function TemplateNotificationPendingValidation(string $userName) {
 
  
 static function TemplateNotificationOrderStatus(string $companyName, int $orderId, bool $accepted) {
-  $host = $_SERVER['HTTP_HOST'];
+  $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
   $status = $accepted ? "Aceptado" : "Rechazado";
   
   $html = "<!DOCTYPE html>
@@ -481,7 +487,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
         <p>Tu pedido con ID <b>" . $orderId . "</b> ha sido <b>" . $status . "</b>.</p>
         <p>Para más detalles, por favor inicia sesión en nuestra plataforma.</p>
         <div class='footer'>
-        <p><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para más detalles</p>
+        <p><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para más detalles</p>
           <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
         </div>
       </div>
@@ -676,7 +682,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
   }
   
     static function TemplateRegisterCompany(string $name) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
       $html = "<!DOCTYPE html>
           <html lang='en'>
@@ -756,7 +762,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
                 <p>Hola " . $name . ",</p>
                 <p>Gracias por registrar su empresa. Pronto recibirá un correo con su usuario y contraseña una vez que sus datos hayan sido validados.</p>
                 <div class='footer'>
-                <p ><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+                <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                   <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
                 </div>
 
@@ -766,7 +772,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
       return $html;
   }
     static function TemplateRejectRegistration(string $name, string $reason) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
       $html = "<!DOCTYPE html>
           <html lang='en'>
@@ -847,7 +853,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
                   <p>Lamentamos informarle que su solicitud de registro ha sido rechazada por el siguiente motivo:</p>
                   <p>" . $reason . "</p>
                   <div class='footer'>
-                  <p ><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+                  <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                       <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
                   </div>
 
@@ -859,7 +865,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
   }
 
     static function TemplateNotification(string $userName, string $companyName) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
       $html = "<!DOCTYPE html>
           <html lang='en'>
@@ -929,7 +935,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
                 <p>El nombre de la empresa es: <strong>" . $companyName . "</strong></p>
                 <p>Por favor, revise la solicitud y tome las acciones necesarias.</p>
                 <div class='footer'>
-                <p ><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+                <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                   <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
                 </div>
 
@@ -940,7 +946,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
   }
 
   static function TemplateNotificationComplete(string $userName, string $companyName) {
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
     $html = "<!DOCTYPE html>
         <html lang='en'>
@@ -1008,7 +1014,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
               <p>El usuario <strong>" . $userName . "</strong> ha finalizado el registro de la empresa <strong>" . $companyName . "</strong>.</p>
               <p>Por favor, revise la solicitud y tome las acciones necesarias.</p>
               <div class='footer'>
-              <p ><a href='http://" . $host . "/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+              <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                 <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
               </div>
 
@@ -1020,7 +1026,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
 
     
     public static function TemplateChangePassword($name, $new_password){
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
       $html = '
       <!DOCTYPE html>
@@ -1076,7 +1082,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
           <p>Por favor, inicia sesión con esta nueva contraseña y cambiala lo antes posible para mejorar la seguridad de tu cuenta.</p>
           <p>Gracias por utilizar nuestros servicios.</p>
           <div class="footer">
-          <p ><a href="http://' . $host . '/PortalUsuarios/public/index.php">Ingresa aquí</a> para iniciar sesión</p>         
+          <p ><a href="http://' . $host . '/public/index.php">Ingresa aquí</a> para iniciar sesión</p>         
               <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
           </div>
       </div>
@@ -1088,7 +1094,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
     }
 
     public static function TemplateRegister($name,$email,$password){
-    $host = $_SERVER['HTTP_HOST'];
+    $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
       $html = '
                 <!DOCTYPE html>
@@ -1145,7 +1151,7 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
                     <p>Por favor, cambia tu contraseña lo antes posible para mejorar la seguridad de tu cuenta.</p>
                     <p>Gracias por confiar en nosotros.</p>
                     <div class="footer">
-                    <p><a href="http://' . $host . '/PortalUsuarios/public/index.php">Ingresa aquí</a> para iniciar sesión</p>
+                    <p><a href="http://' . $host . '/public/index.php">Ingresa aquí</a> para iniciar sesión</p>
                         <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
                     </div>
 
@@ -1157,9 +1163,4 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
       return $html;
 
     }
-   
-    
-} 
-
-
-?>
+}

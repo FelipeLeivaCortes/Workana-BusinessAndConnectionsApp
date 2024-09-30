@@ -265,26 +265,6 @@ class CompanyController
         $templateUserCompany    = TemplateModel::TemplateRegister('Señor/a Cliente', $email, $passwordGenerate);
         $mail   = new MailModel();
         $mail->DataEmail($templateUserCompany, $email, '¡Tu suscripción esta a punto de terminar, porfavor llena tus datos como empresa!');
-
-
-        /**
-         * INTEGRACIÓN COMUNICACIÓN API REFLEX
-         */
-        $data = [
-            'CardCode'      => null,
-            'CardName'      => null,
-            'CardType'      => 'C',
-            'EmailAddress'  => $email,
-            'FederalTaxID'  => null,
-            'U_ACS_PCID'    => $c_id
-        ];
-
-        $encodedData = json_encode($data);
-
-        $reflex = new ReflexController();
-        $reflex->createClient($encodedData);
-
-        redirect(generateUrl("Clients", "Clients", "ViewClientPortal"));
     }
 
     // USERS OF COMPANIES
@@ -331,7 +311,12 @@ class CompanyController
         $c_id                   = $_POST['c_id'];
         $c_name                 = $_POST['c_name'];
         $c_desc                 = $_POST['c_desc'];
-        $c_num_nit              = $_POST['NIT'];
+
+        /**
+         * SE ELIMINAN TODOS LOS PUNTOS QUE PUEDA INCLUIR EL NIT
+         */
+        $c_num_nit              = str_replace('.', '', $_POST['NIT']);
+
         $numVerNIT              = $_POST['numVerNIT'];
         $c_street               = $_POST['c_street'];
         $c_apartament           = $_POST['c_apartament'];
@@ -407,11 +392,9 @@ class CompanyController
         $encodedData = json_encode($data);
 
         $reflex = new ReflexController();
-        $reflex->updateClient(base64_encode($encodedData));
+        $reflex->updateClient($encodedData);
         
-
-
-        // redirect(generateUrl("Company", "Company", "consultCompanies"));
+        redirect(generateUrl("Company", "Company", "consultCompanies"));
     }
 
 

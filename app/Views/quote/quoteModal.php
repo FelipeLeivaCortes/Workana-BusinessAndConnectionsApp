@@ -14,7 +14,7 @@
 
 <div class="container table-responsive">
     <div class="container">
-        <table id="tableModalCreateQuote" class="DataTable truncate table-sm text-center table align-middle slide-in-top table-hover">
+        <table id="tableModalCreateQuote" class="DataTabl truncate table-sm text-center table align-middle slide-in-top table-hover">
             <thead>
                 <tr>
                     <th class="text-nowrap">Imagen</th>

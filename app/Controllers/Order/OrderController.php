@@ -588,47 +588,48 @@ class OrderController
          * INTEGRACIÓN COMUNICACIÓN API REFLEX
          */
 
-         $objCompany     = new CompanyModel();
-         $companyData    = $objCompany->consultCompanyByName($company);
- 
-         $fechaActual    = new DateTime();
-         $fechaActual->modify('+3 days');
-         $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
- 
-         $documentLines  = array();
- 
-         for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
-             array_push($documentLines, [
-                 "ItemCode"          => $_POST['art_id'][$i],
-                 "Quantity"          => $_POST['quantity_article'][$i],
-                 "LineTotal"         => $_POST['PriceNormal'][$i],
-                 "TaxCode"           => "IVA",
-                 "WarehouseCode"     => "10",
-                 "DiscountPercent"   => "0",
-                 "BaseType"          => "-1",
-                 "BaseEntry"         => "",
-                 "BaseLine"          => ""
-             ]);
-         }
-         
-         $data = [
-             'CardCode'      => 'C'.$companyData[0]['c_num_nit'],
-             'CardName'      => $companyData[0]['c_name'],
-             'DocDate'       => date('Ymd'),
-             'TaxDate'       => date('Ymd'),
-             'DocDueDate'    => $docDueDate,
-             'NumAtCard'     => $order_id,
-             'Comments'      => $_POST['comments'],
-             'U_ACS_PCID'    => $order_id,
-             'DocumentLines' => $documentLines
-         ];
- 
-         $encodedData = json_encode($data);
- 
-         $reflex = new ReflexController();
-         $reflex->createOrder($encodedData);
+        $objCompany     = new CompanyModel();
+        $companyData    = $objCompany->consultCompanyByName($company);
 
+        $fechaActual    = new DateTime();
+        $fechaActual->modify('+3 days');
+        $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
 
+        $documentLines  = array();
+
+        for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
+            array_push($documentLines, [
+                "ItemCode"          => $_POST['art_id'][$i],
+                "Quantity"          => $_POST['quantity_article'][$i],
+                "LineTotal"         => $_POST['PriceNormal'][$i],
+                "TaxCode"           => "IVA",
+                "WarehouseCode"     => "10",
+                "DiscountPercent"   => "0",
+                "BaseType"          => "-1",
+                "BaseEntry"         => "",
+                "BaseLine"          => ""
+            ]);
+        }
+        
+        $nitCompany = str_replace('.', '', $companyData[0]['c_num_nit']);
+        $cardCode   = str_replace('-', '', $nitCompany);
+
+        $data = [
+            'CardCode'      => 'C'.$cardCode,
+            'CardName'      => $companyData[0]['c_name'],
+            'DocDate'       => date('Ymd'),
+            'TaxDate'       => date('Ymd'),
+            'DocDueDate'    => $docDueDate,
+            'NumAtCard'     => $order_id,
+            'Comments'      => $_POST['comments'],
+            'U_ACS_PCID'    => $order_id,
+            'DocumentLines' => $documentLines
+        ];
+
+        $encodedData = json_encode($data);
+
+        $reflex = new ReflexController();
+        $reflex->createOrder($encodedData);
 
         redirect(generateUrl("Order", "Order", "ViewOrders"));
     }
@@ -698,7 +699,7 @@ class OrderController
 
             echo '<tr>
                     <td class="ar_id_' . $ar['ar_id'] . '">' . $ar['ar_id'] . '</td>
-                    <td> <img src=' . $ar['ar_img_url'] . ' class="card-img-top viewArticle" alt="Sin Imágen" data-url="' . Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") . '" data-value="' . $ar['ar_id'] . '">' . $ar['ar_name'] . '</td>
+                    <td>' . $ar['ar_name'] . '</td>
                     <td>' . $nameCategory . '</td>
                     <td>
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">

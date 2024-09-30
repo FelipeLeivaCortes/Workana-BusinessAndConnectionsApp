@@ -16,6 +16,8 @@ use function Helpers\generateUrl;
 use function Helpers\redirect;
 use function Helpers\showAlert;
 
+use ThirdParty\ReflexController;
+
 class InboxController
 {
 
@@ -64,7 +66,7 @@ class InboxController
         $c_id = $_POST['c_id'];
         $u_id = $_POST['u_id'];
         $rejectOrAccept = $_POST['rejectOrAccept'];
-        // dd($_POST);
+
         if ($rejectOrAccept == 'accept') {
             /*  lógica para bloquear con mensaje si un cliente todavía no tiene cupo de crédito, 
             vendedor quien lo atienda y forma de pago */
@@ -81,14 +83,6 @@ class InboxController
             $objCustomerPaymentMethod = new Customer_payment_methodModel;
             $companyAddPaymentMethod = $objCustomerPaymentMethod->getPaymentMethodsByCustomerId($c_id);
 
-           /*  error_log("companyCreditLimit:");
-            error_log(print_r($companyCreditLimit, true));
-
-            error_log("companySellerAsign:");
-            error_log(print_r($companySellerAsign, true));
-
-            error_log("companyAddPaymentMethod:");
-            error_log(print_r($companyAddPaymentMethod, true)); */
 
             if (empty($companyCreditLimit) || empty($companySellerAsign) || empty($companyAddPaymentMethod)) {
                 echo '<script>alert("La compañia no tiene ningún cupo asignado o vendedor o método de pago, Llenarlos por favor!!");</script>';
@@ -97,13 +91,36 @@ class InboxController
             }else {
                 $objCompany = new CompanyModel();
                 $objCompany->updateStatusCompany('1', $c_id);
-                $objUser = new UserModel();
+
+                $objUser    = new UserModel();
                 $objUser->updateStatusUser('1', $u_id);
-                $mail = new MailModel();
-                $user = $objUser->getUserInfoById($u_id);
-                $template = TemplateModel::TemplateRegister($user['u_name'] . ' ' . $user['u_lastname'], $user['u_email'], 'Utilizada en el registro');
+                
+                $mail       = new MailModel();
+                $user       = $objUser->getUserInfoById($u_id);
+                
+                $template   = TemplateModel::TemplateRegister($user['u_name'] . ' ' . $user['u_lastname'], $user['u_email'], 'Utilizada en el registro');
                 $mail->DataEmail($template, $user['u_email'], 'Notificacion de registro');
-            }             
+
+
+                $companyData = $objCompany->ConsultCompany($c_id);
+
+                /**
+                 * INTEGRACIÓN COMUNICACIÓN API REFLEX
+                 */
+                $data = [
+                    'CardCode'      => 'C'.$companyData[0]['c_num_nit'],
+                    'CardName'      => $companyData[0]['c_name'],
+                    'CardType'      => 'C',
+                    'EmailAddress'  => $user['u_email'],
+                    'FederalTaxID'  => $companyData[0]['c_num_nit'] . '-' . $companyData[0]['c_num_ver_nit'],
+                    'U_ACS_PCID'    => $c_id
+                ];
+
+                $encodedData = json_encode($data);
+
+                $reflex = new ReflexController();
+                $reflex->createClient($encodedData);
+            }
 
         } elseif ($rejectOrAccept == 'reject') {
             $objUser = new UserModel();

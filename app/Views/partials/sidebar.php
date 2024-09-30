@@ -209,7 +209,7 @@
         <li class="menu-item" style="">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-dollar-circle'></i>
-                <div data-i18n="Layouts">Cotizaciónes</div>
+                <div data-i18n="Layouts">Cotizaciones</div>
             </a>
 
             <ul class="menu-sub">
@@ -252,7 +252,7 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-paste"></i>
-                <div data-i18n="Authentications">Documentacion</div>
+                <div data-i18n="Authentications">Documentación</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">

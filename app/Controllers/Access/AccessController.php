@@ -96,22 +96,22 @@ class AccessController
         }
     }
     
-
     public function CompanyRequestRegister(){
       //  dd($_POST);
       // validation
       $objUser= new UserModel();
       $email=$_POST['email'];
       if (!$objUser->checkEmailExists($email)) {
-            $company_name=$_POST['company_name'];
-            $company_desc=$_POST['c_desc'];
-            $nit=$_POST['NIT'];
-            $numVerNIT=$_POST['numVerNIT'];
-            $industry=$_POST['industry'];
-            $department=$_POST['department'];
-            $country=$_POST['country'];
-            $city=$_POST['city'];
-            $objCompany=new CompanyModel();
+            $company_name   = $_POST['company_name'];
+            $company_desc   = $_POST['c_desc'] ?? 0;
+            $nit            = str_replace('.', '', $_POST['NIT']);
+            $numVerNIT      = $_POST['numVerNIT'];
+            $industry       = $_POST['industry'];
+            $department     = $_POST['department'];
+            $country        = $_POST['country'];
+            $city           = $_POST['city'];
+            $objCompany     = new CompanyModel();
+
             $objCompany->RegisterCompaniesClients($company_name,$company_desc,$nit,$numVerNIT,$industry,'2',$country,$department,$city);
 
             $c_id=$objCompany->getLastId('company','c_id'); //id company updloads
@@ -166,18 +166,19 @@ class AccessController
             error_log(gettype($phone));
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $objUser->insertUser($email,$password,null,$c_id,3,2,$name,$lastname,$phone,$document,$type_document,$country,$city);
-                //   SEND EMAILS OF NOTIFICATION
-                //TEMPLATES EMAILS
-                $templateUserCompany=TemplateModel::TemplateRegisterCompany($name.' '.$lastname);
-                $templateNotificacionPortal=TemplateModel::TemplateNotification($name.' '.$lastname, $company_name );
-                //SEND EMAILS
-                //SEND EMAIL USER
-                $mail= new MailModel();
-                $mail->DataEmail($templateUserCompany,$email,'Notificación petición registro');
-                //SEND EMAIL COMPANY PORTAL
-                //FIND ROL COMPANY = PORTAL ADMIN USER EMAIL
-                $email=$objUser->emailRolCompany();
-                $mail->DataEmail($templateNotificacionPortal,$email[0]['u_email'],'Notificación petición registro');
+            //   SEND EMAILS OF NOTIFICATION
+            //TEMPLATES EMAILS
+            $templateUserCompany=TemplateModel::TemplateRegisterCompany($name.' '.$lastname);
+            $templateNotificacionPortal=TemplateModel::TemplateNotification($name.' '.$lastname, $company_name );
+            //SEND EMAILS
+            //SEND EMAIL USER
+            $mail= new MailModel();
+            $mail->DataEmail($templateUserCompany,$email,'Notificación petición registro');
+            //SEND EMAIL COMPANY PORTAL
+            //FIND ROL COMPANY = PORTAL ADMIN USER EMAIL
+            $email  = $objUser->emailRolCompany();
+            $mail->DataEmail($templateNotificacionPortal,$email[0]['u_email'],'Notificación petición registro');
+
             echo "<script>alert('Ya se envió el registro para ser validado.')</script>";
         }else {
             echo "<script>alert('Este correo ya esta registrado en la base de datos, porfavor utiliza otro.')</script>";

@@ -463,8 +463,11 @@ class QuoteController
             ]);
         }
         
+        $nitCompany = str_replace('.', '', $companyData[0]['c_num_nit']);
+        $cardCode   = str_replace('-', '', $nitCompany);
+
         $data = [
-            'CardCode'      => 'C'.$companyData[0]['c_num_nit'],
+            'CardCode'      => 'C'.$cardCode,
             'CardName'      => $companyData[0]['c_name'],
             'DocDate'       => date('Ymd'),
             'TaxDate'       => date('Ymd'),
@@ -543,7 +546,7 @@ class QuoteController
 
             echo '<tr>
                     <td class="ar_id_'.$ar['ar_id'].'">' . $ar['ar_id'] . '</td>
-                    <td> <img src=' . $ar['ar_img_url'] . ' class="card-img-top viewArticle" alt="Sin Imágen" data-url="' . Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") . '" data-value="' . $ar['ar_id'] . '">' . $ar['ar_name'] . '</td>
+                    <td> '. $ar['ar_name'] . '</td>
                     <td>' . $nameCategory . '</td>
                     <td>
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">

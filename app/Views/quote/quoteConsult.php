@@ -43,13 +43,12 @@
                         <div class="btn-group">
                             <button data-url="' . $q['quo_url_document'] . '" title="Visualizar pedido" class="pdfModalLink btn btn-outline-warning"><i class="fa-solid fa-eye"></i></button>';
             
-                if ($q['quote_state_id'] != 2) {
-                    echo '<a href="' . Helpers\generateUrl('Order', 'Order', 'GenerateOrderSinceQuote', ['quo_id' => $q['quo_id']]) . '" title="Generar Pedido" class="GenerateOrderSinceQuote btn btn-outline-success">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>';
-                }
-            
-                echo '</div></td>
+                            if ($q['quote_state_id'] != 2) {
+                                echo '<a href="' . Helpers\generateUrl('Order', 'Order', 'GenerateOrderSinceQuote', ['quo_id' => $q['quo_id']]) . '" title="Generar Pedido" class="GenerateOrderSinceQuote btn btn-outline-success">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>';
+                            }
+                        echo '</div></td>
                 </tr>';
             }
             

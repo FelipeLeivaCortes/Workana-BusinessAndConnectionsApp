@@ -20,25 +20,25 @@
             <h1>Actualizar información de la compañia</h1>
 
             <?php foreach ($company as $comp) { ?>
-            <form action="<?php echo Helpers\generateUrl("Company","Company","UpdateDataCompany",[],"ajax")?>" method="POST">
+            <form id="formUpdateClient" action="<?php echo Helpers\generateUrl("Company","Company","UpdateDataCompany",[],"ajax")?>" method="POST">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="c_name">Nombre de la compañía</label>
-                            <input type="text" id="c_name" name="c_name" class="form-control" value="<?php echo $comp['c_name']; ?>">
+                            <input type="text" id="c_name" name="c_name" class="form-control mt-4" value="<?php echo $comp['c_name']; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="NIT">Número de identificación tributaria (NIT)</label>
                             <input type="text" id="NIT" name="NIT" class="form-control"
-                                value="<?php echo $comp['c_num_nit']; ?>">
+                                value="<?php echo $comp['c_num_nit']; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="numVerNIT">N° Verificación</label>
-                            <input  name="numVerNIT" id="numVerNIT" type="number" class="form-control" min="0" value="<?php echo $comp['c_num_ver_nit']; ?>">
+                            <input  name="numVerNIT" id="numVerNIT" type="number" class="form-control" min="0" value="<?php echo $comp['c_num_ver_nit']; ?>" required>
                         </div>
                     </div>
                 </div>

@@ -73,6 +73,7 @@ $(document).ready(function () {
           let totalSubtotal = 0;
           let iva = 0;
 
+          $('#exampleModalFullscreenLabel span').text(cont);
 
           $("#tableViewCreateQuote").DataTable().destroy();
 
@@ -220,13 +221,14 @@ $(document).ready(function () {
 
   $(document).on("click", ".delete-row", function () {
     cont--;
-    let shopcar = $(".cart-counter").text(cont + " productos");
+
+    let shopcar = $(".cart-counter").text(cont);
+
     let additionalCostsQouteInput = parseFloat($("#additionalCostsInput").val());
     let deletedSubtotal = parseFloat(
       $(this).closest("tr").find(".subtotal").text().replace("$", "")
     );
 
-    //Logica para manejar los descuentos
     let productIdToRemove = $(this).closest("tr").find("td").first().text().trim();
     // Encontrar el índice del producto en el array discounts
     let indexToRemove = discounts.findIndex(item => item.productId === productIdToRemove);
@@ -290,6 +292,7 @@ $(document).ready(function () {
         }
       }
     });
+
   });
 
   $(document).on("click", "#addFieldsForm", function () {

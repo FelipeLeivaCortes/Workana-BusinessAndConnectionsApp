@@ -432,7 +432,7 @@ Class CompanyModel extends MasterModel
         $this->select($sql, $params);
     }
 
-    public function updateStatusCompany(int $status,int $c_id){
+    public function updateStatusCompany(int $status, int $c_id){
         // 1: active status
         // 2: inactive status
         $sql = "UPDATE company SET status_id=:new_status WHERE c_id=:id";

@@ -34,10 +34,8 @@
 					<td>'.$o['state_name_es'].'</td>
 					<td class="text-center">
                     <div class="btn-group">
-					<button data-url="'.$o['order_url_document'].'" title="Visualizar pedido" class="pdfModalLink btn btn-outline-warning"><i class="fa-solid fa-eye"></i></button>
-					<button data-url="'.$o['order_url_document'].'" title="Pagar pedido" class="pdfModalLink btn btn-outline-success"><i class="fa-solid fa-money-bill"></i></button>
-					</div>
-                    </td>
+					<button data-url="'.$o['order_url_document'].'" title="Visualizar pedido" class="pdfModalLink btn btn-outline-warning"><i class="fa-solid fa-eye"></i></button>';
+                    echo '</div></td>
 					</tr>';
 				}
 

@@ -263,22 +263,21 @@ class ClientsController
         include_once '../app/Views/clients/ContMessage.php';
     }
 
-
-
-    public function sendEmails()
-    {
-
-        $subject = $_POST['subject'];
-        $messages = $_POST['message'];
-        $addressee = $_POST['addressee'];
+    public function sendEmails() {
+        $subject        = $_POST['subject'];
+        $messages       = $_POST['message'];
+        $addressee      = $_POST['addressee'];
         $addresseeArray = explode(", ", $addressee);
-        $mail = new MailModel();
+        $mail           = new MailModel();
+        
         foreach ($addresseeArray as $a) {
             $template = TemplateModel::TemplateRegistrationLink($a, $messages);
             $mail->DataEmail($template, $a, $subject);
         }
+
         $Objmessages = new MessagesModel();
         $Objmessages->insertMessage($addressee, date('Y-m-d H:i:s'), $subject, $messages);
+        
         redirect(generateUrl("Clients", "Clients", "sendEmailClientsOfClients"));
     }
 

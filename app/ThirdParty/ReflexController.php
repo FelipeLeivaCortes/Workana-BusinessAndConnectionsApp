@@ -36,18 +36,19 @@
             $this->enableConnection = $enableConnection;
         }
 
+        
         /**
          * ADMINISTRACIÓN DE CLIENTES
          */
         public function createClient($data) {
             $this->escenario    = 'SN_Crear';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
         public function updateClient($data) {
             $this->escenario    = 'SN_Actualizar';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
@@ -57,13 +58,13 @@
          */
         public function createQuote($data) {
             $this->escenario    = 'OFVE_Crear';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
         public function updateQuote($data) {
             $this->escenario    = 'OFVE_Actualizar';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
@@ -71,13 +72,13 @@
 
         public function createOrder($data) {
             $this->escenario    = 'ORVE_Crear';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
         public function updateOrder($data) {
             $this->escenario    = 'ORVE_Actualizar';
-            $this->data         = $data;
+            $this->data         = base64_encode($data);
             $this->sendData();
         }
 
@@ -109,12 +110,17 @@
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
                 
-                $response = curl_exec($ch);
+                $jsonResponse = curl_exec($ch);
 
                 if (curl_errno($ch)) {
                     dd(curl_error($ch));
+
                 } else {
-                    dd($response);
+                    $response = json_decode($jsonResponse, true);
+
+                    if($response['recibido'] != 'OK') {
+                        dd($jsonResponse);
+                    }
                 }
 
                 curl_close($ch);
