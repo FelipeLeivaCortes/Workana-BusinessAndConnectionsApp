@@ -13,49 +13,47 @@
 </style>
 
 <div class="container table-responsive">
-    <div class="container">
-        <table id="tableModalCreateOrder" class="DataTable truncate table-sm text-center table align-middle slide-in-top table-hover">
-            <thead>
-                <tr>
-                    <th class="text-nowrap">Imagen</th>
-                    <th class="text-nowrap">Nombre</th>
-                    <th class=" padding-left-right">Descripción</th>
-                    <th class=" text-nowrap">Unidad de medida</th>
-                    <th class="">Color</th>
-                    <th class=" text-nowrap">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    foreach ($articles as $art) { ?>
-                        <tr>
+    <table id="tableModalCreateOrder" class="table DataTableModal table-sm slide-in-top table-hover table-striped text-center mx-auto">
+        <thead>
+            <tr>
+                <th class="text-nowrap">Imagen</th>
+                <th class="text-nowrap">Nombre</th>
+                <th class=" padding-left-right">Descripción</th>
+                <th class=" text-nowrap">Unidad de medida</th>
+                <th class="">Color</th>
+                <th class=" text-nowrap">Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach ($articles as $art) { ?>
+                    <tr>
+                        <td>
+                            <img class='viewArticle' value="<?= $art['ar_id']?>" src="<?= $art['ar_img_url']?>" alt="..."
+                                height="100"
+                                data-url="<?= Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") ?>"
+                                data-value="<?= $art['ar_id'] ?>">
+                        </td>
+                        <td><?= $art['ar_name']?></td>
+                        <td class="truncate"><?= $art['ar_desc']?></td>
+                        <td><?= $art['ar_measurement_value']?> KG</td>
+                        <?php foreach ($art['color'] as $color): ?>
                             <td>
-                                <img class='viewArticle' value="<?= $art['ar_id']?>" src="<?= $art['ar_img_url']?>" alt="..."
-                                    height="100"
-                                    data-url="<?= Helpers\generateUrl("Stock", "Stock", "viewArticleDesc", [], "ajax") ?>"
-                                    data-value="<?= $art['ar_id'] ?>">
+                                <?= $color['color_name']?>
                             </td>
-                            <td><?= $art['ar_name']?></td>
-                            <td class="truncate"><?= $art['ar_desc']?></td>
-                            <td><?= $art['ar_measurement_value']?> KG</td>
-                            <?php foreach ($art['color'] as $color): ?>
-                                <td>
-                                    <?= $color['color_name']?>
-                                </td>
-                            <?php endforeach; ?>
-                            <td class="table-cell" style="height: 100px;">
-                                <input min="1" type="number" class="mt-2 mb-2 quantityinput form form-control" name="quantity" id="">
-                                <button data-url="<?= Helpers\generateUrl("Order","Order","AddArticlesAjax",[],"ajax");?>"
-                                    value="<?= $art['ar_id']?>" id="addArticleOrder" class="btn btn-outline-primary">
-                                    +
-                                </button>
-                            </td>
-                        </tr>
-                <?php } ?>
+                        <?php endforeach; ?>
+                        <td class="table-cell" style="height: 100px;">
+                            <input min="1" type="number" class="mt-2 mb-2 quantityinput form form-control" name="quantity" id="">
+                            <button data-url="<?= Helpers\generateUrl("Order","Order","AddArticlesAjax",[],"ajax");?>"
+                                value="<?= $art['ar_id']?>" id="addArticleOrder" class="btn btn-outline-primary">
+                                +
+                            </button>
+                        </td>
+                    </tr>
+            <?php } ?>
 
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
 </div>
 
 <script>

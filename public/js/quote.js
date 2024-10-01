@@ -1,16 +1,52 @@
 $(document).ready(function () {
-  $(document).on("click", "#agregar_producto", function () {
-    let url = $(this).attr("data-url");
-    //$('#additionalCostsInput').removeAttr('readonly');
-    $.ajax({
-      url: url,
-      type: "POST",
-      success: function (datos) {
-        $(".modal-body").html(datos);
-        $("#exampleModalFullscreen").modal("show");
-      },
-    });
+
+  $(document).on("click", "#agregar_productoQuote", function () {
+      let url   = $(this).attr("data-url");
+
+      $.ajax({
+          url: url,
+          type: "POST",
+          success: function (datos) {
+              $(".modal-body").html(datos);
+              $("#exampleModalFullscreen").modal("show");
+    
+              if ($.fn.DataTable.isDataTable('.DataTableModal')) {
+                  $('.DataTableModal').DataTable().destroy();
+              }
+    
+              $('.DataTableModal').DataTable({
+                  paging: true,
+                  searching: true,
+                  ordering: true,
+                  language: {
+                      "decimal": "",
+                      "emptyTable": "No hay datos",
+                      "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                      "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                      "infoFiltered": "(Filtro de _MAX_ registros Totales)",
+                      "infoPostFix": "",
+                      "thousands": ",",
+                      "lengthMenu": "Numero de filas _MENU_",
+                      "loadingRecords": "Cargando...",
+                      "processing": "Procesando...",
+                      "search": "Buscar:",
+                      "zeroRecords": "No se encontraron resultados",
+                      "paginate": {
+                          "first": "Primero",
+                          "last": "Ultimo",
+                          "next": "Proximo",
+                          "previous": "Anterior"
+                      }
+                  }
+              });
+          },
+      });
   });
+
+
+
+
+
 
   let cont      = 0;
   let discounts = [];

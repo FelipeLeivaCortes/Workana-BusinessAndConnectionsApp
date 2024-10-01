@@ -92,7 +92,7 @@
 
         <div class="text-right p-4">
             <button type="button" data-url="<?=Helpers\generateUrl("Quote","Quote","CreateQuote",[],"ajax");?>"
-                class="btn btn-outline-primary" id="agregar_producto">Agregar productos</button>
+                class="btn btn-outline-primary" id="agregar_productoQuote">Agregar productos</button>
         </div>
 
         <div class="table-responsive">

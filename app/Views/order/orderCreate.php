@@ -80,11 +80,11 @@
 
         <h3 class="tracking-in-expand">Articulos <i class="fa-solid fa-cart-shopping"></i></h3>
         <div class="text-right p-4">
-            <button type="button" data-url="<?= Helpers\generateUrl("Order", "Order", "CreateOrder", [], "ajax"); ?>" class="btn btn-outline-primary" id="agregar_producto">Agregar productos</button>
+            <button type="button" data-url="<?= Helpers\generateUrl("Order", "Order", "CreateOrder", [], "ajax"); ?>"
+                class="btn btn-outline-primary" id="agregar_productoOrder">Agregar productos</button>
         </div>
         <div class="table-responsive">
-
-            <table id="tableViewCreateOrder" class="table DataTable table-sm slide-in-top table-hover  table-striped">
+            <table id="tableViewCreateOrder" class="table DataTable table-sm slide-in-top table-hover table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
