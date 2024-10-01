@@ -2,25 +2,25 @@
 date_default_timezone_set('America/Bogota');
 
 use function Helpers\generateUrl;
-    // Evitar caché en el navegador
-    header("Cache-Control: private, no-cache, no-store, must-revalidate");
-    header("Pragma: no-cache");
-    header("Expires: 0");
+// Evitar caché en el navegador
+header("Cache-Control: private, no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
 
-    // Evitar caché en proxies compartidos
-    header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
+// Evitar caché en proxies compartidos
+header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
 
-    // Evitar caché en versiones antiguas de Internet Explorer
-    header("Cache-Control: post-check=0, pre-check=0", false);
+// Evitar caché en versiones antiguas de Internet Explorer
+header("Cache-Control: post-check=0, pre-check=0", false);
 
-    // Cabecera de Vary
-    header("Vary: *");
+// Cabecera de Vary
+header("Vary: *");
 
-    // Cabecera de Last-Modified
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+// Cabecera de Last-Modified
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-    // Cabecera de ETag
-    header("ETag: " . md5(rand()));
+// Cabecera de ETag
+header("ETag: " . md5(rand()));
 include_once '../config/helpers.php';
 session_unset();
 session_destroy();
@@ -71,7 +71,8 @@ session_destroy();
                         <p class="error"><small>El nombre solo puede contener letras.</small></p>
 
                     </div>
-                </div>                
+                </div>
+
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="numVerNIT">Dígito de Verificación</label>
@@ -79,7 +80,6 @@ session_destroy();
                         <p class="error"><small>El # verificacion solo puede contener números.</small></p>
 
                     </div>
-
                 </div>
 
                 <div class="col-md-6">
@@ -91,21 +91,18 @@ session_destroy();
                               echo "<option value=".$key['tpi_id'].">".$key['industry_name']."</option>";
                             }?>
                         </select>
-
-
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="country">País</label>
                         <input name="country" id="country" type="text" class="form-control" value="Colombia" readonly>
                         <p class="error"><small>El nombre solo puede contener letras.</small></p>
-
                     </div>
-
                 </div>
-
             </div>
+            
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

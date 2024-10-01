@@ -73,7 +73,7 @@ $(document).ready(function () {
           let totalSubtotal = 0;
           let iva = 0;
 
-          $('#exampleModalFullscreenLabel span').text(cont);
+          $('.cart-counter').text(cont);
 
           $("#tableViewCreateQuote").DataTable().destroy();
 
