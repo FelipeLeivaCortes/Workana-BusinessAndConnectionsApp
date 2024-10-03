@@ -277,10 +277,7 @@ class OrderController
             $articlesHmtl = '';
 
             foreach ($quote as $quo) {
-                // dd($quo);
-
                 foreach ($quo['quote_articles'] as $art) {
-                    // dd($art['ar_id'],$art['quoart_quantity']);
                     $article = $this->articlesOrderSinceQuote($art['ar_id'], $art['quoart_quantity']);
                     $articlesHmtl .= $article;
                 }
@@ -350,15 +347,15 @@ class OrderController
             $subtotal = $discountedPrice * $quantity;
 
             $html .= '<tr>
-                        <td> <i class="fa-solid fa-file"></i>' . $ar['ar_name'] . '</td>
+                        <td>' . $ar['ar_name'] . '</td>
                         <td>' . $nameCategory . '</td>
                         <td>
                             <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                             <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                         </td>
-                        <td class="price">' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                        <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
                         <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
-                        <td class="discount">' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
+                        <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                         <td class="subtotal">$' . $subtotal . '</td>
                         <td><button class="btn btn-danger delete-row"><i class="fa-solid fa-square-xmark"></i></button></td>
                     </tr>';
