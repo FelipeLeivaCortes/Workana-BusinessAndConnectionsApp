@@ -11,8 +11,8 @@ class OrderModel extends MasterModel
     public function consultOrders()
     {
         $sql = "SELECT `orders`.*,order_states.*
-        FROM `order`
-        INNER JOIN order_states 
+        FROM `orders`
+        INNER JOIN order_states
         ON `orders`.order_state_id=order_states.order_state_id";
         $params = [];
         $Orders = $this->select($sql, $params);
@@ -27,7 +27,7 @@ class OrderModel extends MasterModel
 
     public function consultArticlesOfTheOrder($order_id)
     {
-        $sql = "SELECT * FROM order_articles 
+        $sql = "SELECT * FROM order_articles
                 WHERE order_id = :id";
         $params = [':id' => $order_id];
         $articles = $this->select($sql, $params);
