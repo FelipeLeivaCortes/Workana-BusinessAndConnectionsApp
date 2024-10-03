@@ -35,7 +35,8 @@ class ArticlesController{
 
             $articles = $obj->consultArticles();
             foreach ($articles as &$arti) {
-                $color = $objColor->consultColorByID($arti['color_id']);
+              //  $color = $objColor->consultColorByID($arti['color_id']) ?? 'No Aplica';
+                $color = null;
                 $stock=$objStock->consultStockArticleById($arti['ar_id']);
                 $price=$objPrice->consultPriceById($arti['ar_id']);
                 $meauserement=$objMeauserement->consultMeasurementById($arti['mt_id']);

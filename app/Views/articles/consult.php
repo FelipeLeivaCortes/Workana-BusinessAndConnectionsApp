@@ -24,9 +24,7 @@ foreach ($articles as $art) {
                     echo $m['mt_meas'];
                 ?></p>
                 <?php  } ?>
-                <?php foreach ($art['color'] as $color): ?>
-                <p class="card-text"><b>Color: </b><?= $color['color_name']?></p>
-                <?php endforeach; ?>
+
                 <?php foreach ($art['price'] as $price): ?>
                 <p class="card-text"><b>Precio: </b><?= $price['p_value'] ?></p>
                 <?php endforeach; ?>

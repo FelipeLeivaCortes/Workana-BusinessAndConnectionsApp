@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 27-09-2024 a las 13:04:41
--- Versión del servidor: 10.6.19-MariaDB-log
--- Versión de PHP: 8.3.11
+-- Servidor: 127.0.0.1:3310
+-- Tiempo de generación: 04-10-2024 a las 01:39:22
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,10 +49,10 @@ CREATE TABLE `articles` (
   `ar_characteristics` text NOT NULL,
   `color_id` int(11) DEFAULT NULL,
   `ar_measurement_value` double DEFAULT NULL,
-  `ar_img_url` varchar(300) NOT NULL,
+  `ar_img_url` varchar(300) DEFAULT NULL,
   `ar_data_url` varchar(300) DEFAULT NULL,
   `mt_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL,
+  `cat_id` int(11) DEFAULT NULL,
   `sbcat_id` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -62,11 +62,9 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`ar_id`, `ar_name`, `ar_desc`, `ar_code`, `ar_characteristics`, `color_id`, `ar_measurement_value`, `ar_img_url`, `ar_data_url`, `mt_id`, `cat_id`, `sbcat_id`, `status_id`) VALUES
-(1, 'Pala', 'Esta es una pala importada', 'PALA_031234', 'Mango de madera', 2, 2, 'uploads/articles/img/1/pala.jpeg', 'uploads/articles/dataSheet/1/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 2, 1, 1, 1),
-(2, 'Martillo', 'Este es un martillo importado', 'Martillo_20', 'Pala grande e importada', 2, 2, 'uploads/articles/img/2/R.jpeg', 'uploads/articles/dataSheet/2/Capturas de pantalla Portal de Clientes.pdf', 2, 2, NULL, 1),
-(3, 'Clavos', 'Los primeros martillos datan de la Edad de Piedra del año 8000 a. C.3​4​ Estos martillos constaban de una piedra atada a un mango con tiras de cuero. Más tarde, en el año 4000 a. C., con el descubrimiento del cobre, los romanos comenzaron a fabricar la cabeza de los martillos en este material. Despu', 'Clavo0239', 'Clavo importado y gris', 2, 22, 'uploads/articles/img/3/clavo.jpeg', 'uploads/articles/dataSheet/3/Capturas de pantalla Portal de Clientes.pdf', 3, 1, NULL, 1),
-(4, 'PINZA DE CAMPO HU-FRIEDY', 'A la hora de crear un campo en una tabla, hay que especificar de qué tipo son los datos que se van a almacenar en ese campo.\n\nLos diferentes tipos de datos de Access 2013 son:\n\nLos primeros martillos datan de la Edad de Piedra del año 8000 a. C.3​4​ Estos martillos constaban de una piedra atada a un', 'PINZA_18', 'INSTRUMENTAL ODONTOLOGICO', 2, 0, 'uploads/articles/img/4/pinza de campo.jpg', 'uploads/articles/dataSheet/4/ACTA.pdf', 8, 2, 6, 1),
-(5, 'PINZA', 'Los primeros martillos datan de la Edad de Piedra del año 8000 a. C.3​4​ Estos martillos constaban de una piedra atada a un mango con tiras de cuero. Más tarde, en el año 4000 a. C., con el descubrimiento del cobre, los romanos comenzaron a fabricar la cabeza de los martillos en este material. Después, en el año 3500 a. C., durante la Edad del Bronce se fabricaron con este material. Tiempo después aparecieron los martillos con orificios para el mango.\n\nEn la mitología nórdica es el arma poderosa del dios Thor, con el que tiene como poder principal un rayo devastador.\n\nEl martillo fue una herramienta que la humanidad necesitó para desarrollar sus grandes habilidades y para crear numerosas construcciones a lo largo de miles de años. Ha sido, junto con los cinceles, una herramienta fundamental para tallar, desde esculturas de piedras hechas con el mármol, hasta para poner en las maderas trabas y tarugos para construir embarcaciones.\n\nSe conoce que su uso es ancestral y tiene un origen de más de 8000 años, aunque esto es discutido ya que otros investigadores creen que se remonta al neolítico superior.\n\nEl registro arqueológico del martillo muestra que puede ser la herramienta más antigua de la que existen pruebas definitivasa', 'code', 'Descripcion corta', 3, 0, 'uploads/articles/img/5/Pinza.jpg', 'uploads/articles/dataSheet/5/ACTA.pdf', 8, 1, NULL, 1);
+(1, 'Martillo', 'Martillo con mango de goma', '321654897', 'Martillo para clavar', NULL, 0, NULL, NULL, 8, NULL, NULL, 1),
+(2, 'Clavo', 'Clavo de acero', '789456123', 'Clavos para clavar', NULL, 0, NULL, NULL, 2, NULL, NULL, 1),
+(3, 'Taladro', 'Taladro de prueba', '123wer', 'Taladro percutor;220v', NULL, 0, 'uploads/articles/img/3/', 'uploads/articles/dataSheet/3/', 8, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -80,15 +78,6 @@ CREATE TABLE `category` (
   `cat_desc` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `category`
---
-
-INSERT INTO `category` (`cat_id`, `cat_name`, `cat_desc`) VALUES
-(1, 'Ferreteria', 'desc ferreteria\r\n'),
-(2, 'Electrodomesticos', 'desc electro'),
-(3, 'CARPINTERIA', 'desc carpinteria\r\n');
-
 -- --------------------------------------------------------
 
 --
@@ -100,20 +89,6 @@ CREATE TABLE `colors` (
   `color_name` varchar(50) NOT NULL,
   `color_code` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `colors`
---
-
-INSERT INTO `colors` (`color_id`, `color_name`, `color_code`) VALUES
-(1, 'Blanco', '#f8f8f8'),
-(2, 'Negro', '#444444'),
-(3, 'Rojo', '#ff9999'),
-(4, 'Azul', '#99ccff'),
-(5, 'Verde', '#99ff99'),
-(6, 'Amarillo', '#ffff99'),
-(7, 'Rosado', '#ffb3d9'),
-(8, 'Naranja', '#ffcc99');
 
 -- --------------------------------------------------------
 
@@ -157,16 +132,8 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`c_id`, `c_name`, `c_desc`, `c_num_nit`, `c_num_ver_nit`, `c_route_rut`, `c_route_cc_representant`, `c_chamber_commerce`, `c_form_inscription`, `c_certificate_bank`, `c_street`, `c_apartament`, `c_country`, `c_city`, `c_state`, `c_postal_code`, `c_shippingStreet`, `c_shippingApartament`, `c_shippingCountry`, `c_shippingCity`, `c_shippingState`, `c_shippingPostalcode`, `c_dateQuoteValidity`, `created_at`, `id_subs`, `tpi_id`, `status_id`, `s_id`) VALUES
-(1, 'Business And Connection', 'solutions technology', '3423421-323', NULL, NULL, NULL, NULL, NULL, NULL, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, NULL, '2023-06-20 19:30:42', NULL, 2, 1, NULL),
-(54, 'Comercializadora Valencia', 'descripcion empresa', '81293819283-9', NULL, 'uploads/companies/company_54/rut/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/chamber_of_commerce/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/representative_cedula/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/form_inscription/Capturas de pantalla Portal de Clientes.pdf', 'uploads/companies/company_54/certificate_bank/Capturas de pantalla Portal de Clientes.pdf', NULL, NULL, 'Colombia', 'RIOSUCIO', 'CHOCO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-08-02 17:35:07', 13, 3, 1, NULL),
-(55, 'Comercializadora e importadora el gran virrey SAS', 'a', '901.124.856-3', NULL, 'uploads/companies/company_55/rut/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/representative_cedula/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_55/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, 'CALL2', '232|', 'Colombia', 'PUERTO RONDÓN', 'ARAUCA', 2032, '2024-04-30 12:33:00', '2024-02-21 17:33:37', NULL, 2, 1, 2),
-(59, 'RODRICAR SAS', NULL, '90000000', NULL, 'uploads/companies/company_59/rut/Diseño sin título.pdf', 'uploads/companies/company_59/chamber_of_commerce/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_59/representative_cedula/Profile.pdf', 'uploads/companies/company_59/form_inscription/Cotizacion-23-04-17 (1).pdf', 'uploads/companies/company_59/certificate_bank/Cotizacion-23-04-17 (1).pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-20 21:19:29', NULL, 2, 2, 5),
-(61, 'ESCALAR SAS', NULL, '900013034', NULL, 'uploads/companies/company_61/rut/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/chamber_of_commerce/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/representative_cedula/SISTEMA DIGESTIVO 1.pdf', 'uploads/companies/company_61/form_inscription/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', 'uploads/companies/company_61/certificate_bank/uploads_quotes_2_COD_2-Cotizacion-23-05-18.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-12 20:23:46', NULL, 5, 1, 4),
-(62, 'SAVCO SAS', '', '900550514', 6, 'uploads/companies/company_62/rut/3. Rut Savco sas.pdf', 'uploads/companies/company_62/chamber_of_commerce/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/representative_cedula/4. Cedula Represntante Legal.pdf', 'uploads/companies/company_62/form_inscription/2. Camara de Comercio 21092023.pdf', 'uploads/companies/company_62/certificate_bank/2. Camara de Comercio 21092023.pdf', NULL, NULL, 'Colombia', 'CHOCONTÁ', 'CUNDINAMARCA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-22 16:54:03', NULL, 5, 1, 5),
-(63, 'Biotronitech colombia', NULL, '860506831', NULL, 'uploads/companies/company_63/rut/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/chamber_of_commerce/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/representative_cedula/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/form_inscription/Acta de aceptación de desarrollo.docx', 'uploads/companies/company_63/certificate_bank/Acta de aceptación de desarrollo.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-24 21:56:40', NULL, 9, 2, 5),
-(64, 'IMCOLMEDICA SA', NULL, '860070078', NULL, 'uploads/companies/company_64/rut/ok.docx', 'uploads/companies/company_64/chamber_of_commerce/ok.docx', 'uploads/companies/company_64/representative_cedula/ok.docx', 'uploads/companies/company_64/form_inscription/ok.docx', 'uploads/companies/company_64/certificate_bank/ok.docx', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-20 21:51:05', NULL, 14, 2, 4),
-(65, 'LINA VILLEGAS', '', '52969581', NULL, 'uploads/companies/company_65/rut/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/chamber_of_commerce/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/representative_cedula/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/form_inscription/Copia cedula Lina Villegas.pdf', 'uploads/companies/company_65/certificate_bank/Copia cedula Lina Villegas.pdf', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-31 12:32:00', '2024-02-21 17:33:03', NULL, 5, 1, 6),
-(66, 'Inversionaes Sandor', NULL, '79988969', 9, 'uploads/companies/company_66/rut/Cuenta de cobro Bussiness & connection.doc', 'uploads/companies/company_66/chamber_of_commerce/Cuenta de cobro Bussiness & connection.doc', 'uploads/companies/company_66/representative_cedula/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', 'uploads/companies/company_66/form_inscription/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', 'uploads/companies/company_66/certificate_bank/Cotización requerimientos portal Web Edwin Valencia(Business & Connection).doc', NULL, NULL, 'Colombia', 'BOGOTA D.C.', 'BOGOTÁ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-02-08 23:05:45', NULL, 4, 2, 6);
+(1, 'Business And Connection', 'solutions technology', '3423421', 127, NULL, NULL, NULL, NULL, NULL, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, 'CALLE 1 C #76 A 25', 'APARTAMENTO E 202', 'Colombia', 'CALI', 'Valle del Cauca', 760035, '2024-08-02 13:13:00', '2024-09-28 16:14:04', NULL, 2, 1, NULL),
+(2, 'Empresa Prueba 1', 'Testing', '321654987', 9, NULL, NULL, NULL, NULL, NULL, 'Calle', 'Apartamento', 'Chile', 'Santiago', 'Ñuñoa', 987654, NULL, NULL, NULL, NULL, NULL, NULL, '2024-10-03 13:13:00', '2024-09-28 16:14:04', NULL, 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,18 +146,6 @@ CREATE TABLE `creditlimits` (
   `c_id` int(11) DEFAULT NULL,
   `credit_limit` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `creditlimits`
---
-
-INSERT INTO `creditlimits` (`limit_id`, `c_id`, `credit_limit`) VALUES
-(11, 55, 35000000.00),
-(12, 61, 20000000.00),
-(13, 62, 20000000.00),
-(14, 63, 20000000.00),
-(15, 64, 30000000.00),
-(16, 65, 20000000.00);
 
 -- --------------------------------------------------------
 
@@ -221,24 +176,6 @@ CREATE TABLE `customer_discounts` (
   `price_discount` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `customer_discounts`
---
-
-INSERT INTO `customer_discounts` (`cd_id`, `c_id`, `cat_id`, `sbcat_id`, `ar_id`, `gp_id`, `price_discount`) VALUES
-(15, 1, 2, 4, 1, 44, 1200),
-(28, 1, 2, 4, 1, 53, 1200),
-(29, 54, 1, 2, 2, 54, NULL),
-(30, 61, 1, 2, 2, 55, NULL),
-(31, 62, 1, 4, 1, 56, NULL),
-(32, NULL, NULL, NULL, 2, 56, NULL),
-(33, NULL, NULL, NULL, 3, 56, NULL),
-(34, 63, 2, 2, 4, 57, NULL),
-(35, 64, 2, 2, 2, 58, NULL),
-(36, NULL, NULL, NULL, 3, 58, NULL),
-(37, 65, 1, 1, 2, 59, NULL),
-(38, NULL, NULL, NULL, 3, 59, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -256,30 +193,18 @@ CREATE TABLE `customer_payment_method` (
 --
 
 INSERT INTO `customer_payment_method` (`customer_payment_id`, `c_id`, `payment_method_id`) VALUES
-(62, 55, 1),
-(63, 55, 3),
-(64, 55, 4),
-(65, 55, 28),
-(66, 55, 29),
-(45, 61, 1),
-(46, 61, 2),
-(47, 61, 28),
-(51, 62, 1),
-(52, 62, 2),
-(53, 62, 28),
-(54, 62, 29),
-(55, 63, 1),
-(56, 63, 2),
-(57, 63, 28),
-(58, 63, 29),
-(59, 64, 1),
-(60, 64, 28),
-(61, 64, 29),
-(67, 65, 1),
-(68, 65, 2),
-(69, 65, 28),
-(70, 65, 29),
-(83, 66, 29);
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 28),
+(7, 1, 29),
+(8, 2, 1),
+(9, 2, 2),
+(10, 2, 3),
+(11, 2, 4),
+(12, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -295,7 +220,7 @@ CREATE TABLE `detail_seller_order` (
   `total_order` int(11) NOT NULL,
   `state_order_id` tinyint(4) NOT NULL DEFAULT 1,
   `date_order` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -323,20 +248,6 @@ CREATE TABLE `extra_attributes_company` (
   `attribute_name` varchar(255) DEFAULT NULL,
   `attribute_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `extra_attributes_company`
---
-
-INSERT INTO `extra_attributes_company` (`c_attrs_id`, `c_id`, `attribute_name`, `attribute_value`) VALUES
-(12, 55, 'CAMPO 1', 'VALOR 1'),
-(13, 55, '20230907051727_64f940c75f925.pdf', 'uploads/companies/company_55/extra_docs/20230907051727_64f940c75f925.pdf'),
-(14, 55, 'Campo 2', 'VALOR 2'),
-(15, 55, 'CAMPO 3', 'VALOR 3'),
-(16, 55, 'Fecha de cumpleaños', '1970-07-23'),
-(17, 55, 'Número de empleados', '50'),
-(18, 55, 'Ventas anuales ', '2000000000'),
-(19, 55, '20231013110718_65296b369913c.pdf', 'uploads/companies/company_55/extra_docs/20231013110718_65296b369913c.pdf');
 
 -- --------------------------------------------------------
 
@@ -380,20 +291,6 @@ CREATE TABLE `group_discounts` (
   `gp_date_end_discount` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `group_discounts`
---
-
-INSERT INTO `group_discounts` (`gp_id`, `gp_name`, `gp_discount_percentage`, `gp_coupon`, `gp_date_end_discount`) VALUES
-(44, 'GRUPO PRUEBA', NULL, 'cupon', '2023-07-06 11:24:00'),
-(53, 'GRUPO PRUEBA2222222', NULL, 'cupon', '2023-07-06 11:24:00'),
-(54, 'GRUPO PRUEBA2', 12, 'cupon', '2023-08-23 23:07:00'),
-(55, 'Precio Distribuidor', 5, '123455', '2023-12-31 15:27:00'),
-(56, 'Precio Distribuidor', 5, '1097654', '2023-10-31 09:03:00'),
-(57, 'Distribuidor', 10, '1234', '2023-11-30 17:30:00'),
-(58, 'Precio Distribuidor', 5, '1097656', '2023-12-31 16:33:00'),
-(59, 'Precio Distribuidor', 5, '3', '2023-12-31 12:53:00');
-
 -- --------------------------------------------------------
 
 --
@@ -435,13 +332,6 @@ CREATE TABLE `meeting` (
   `comments` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `meeting`
---
-
-INSERT INTO `meeting` (`meeting_id`, `meeting_date`, `meeting_time`, `meeting_type`, `meeting_link`, `comments`) VALUES
-(1, '2023-08-25', '19:34:30', 'asdfasdf', 'asdfasdf', 'asdfasdfasd');
-
 -- --------------------------------------------------------
 
 --
@@ -454,13 +344,6 @@ CREATE TABLE `meeting_attendees` (
   `u_id` int(11) DEFAULT NULL,
   `c_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `meeting_attendees`
---
-
-INSERT INTO `meeting_attendees` (`meet_att_id`, `meeting_id`, `u_id`, `c_id`) VALUES
-(1, 1, 9, 54);
 
 -- --------------------------------------------------------
 
@@ -475,23 +358,6 @@ CREATE TABLE `messages` (
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `messages`
---
-
-INSERT INTO `messages` (`id`, `recipients`, `send_date`, `subject`, `message`) VALUES
-(17, 'alexisreyking@gmail.com', '2023-07-17 21:57:29', 'Registro portal', 'Hola'),
-(18, 'iaurbina04@misena.edu.co', '2023-09-15 20:05:51', 'ASDFASD', 'asdasd'),
-(19, 'alexis-crokis@hotmail.com', '2023-10-12 14:24:20', 'Registro Portal de Clientes ', 'Favor ingresar y registrar una cuenta para habilitar el acceso'),
-(20, 'alexis-crokis@hotmail.com', '2023-10-12 15:12:55', 'Registro Portal de Clientes ', 'Por favor diligenciar el acceso y registrarse en nuestro portal adjuntando la documentación requerida.'),
-(21, 'contabilidad@savco.com.co', '2023-10-19 08:41:28', 'Registro Portal de Clientes ', 'Favor registrarse para aprobar acceso'),
-(22, 'rafael.reyes@biotronitech.com.co', '2023-10-24 16:17:11', 'Registro Portal de Clientes ', 'Por favor ingresar y registrarse adjuntando los documentos '),
-(23, 'rafareyrey@hotmail.com', '2023-10-24 16:19:08', 'Registro Portal de Clientes ', 'Favor registrarse y adjuntar documentos'),
-(24, 'rafareyrey1@gmail.com', '2023-10-24 16:20:02', 'Registro Portal de Clientes ', 'Favor registrarse y adjuntar documentos'),
-(25, 'sistemas@imcolmedica.com.co', '2023-11-20 16:25:50', 'Registro Portal de Clientes ', 'Señor Julian, para poder dar acceso al portal, favor diligenciar el registro y enviar los documentos '),
-(26, 'lina.villegas@solmaq.com', '2023-12-18 12:47:15', 'Registro Portal de Clientes ', 'Señora Lina Favor ingresar para registrarse en nuestro portal b2b'),
-(27, 'sluque@misena.edu.co', '2024-02-02 09:05:05', 'Acceso al Portal', 'Por favor validar las credencia y enviar la documentación requerida');
 
 -- --------------------------------------------------------
 
@@ -521,10 +387,10 @@ INSERT INTO `modules` (`m_id`, `m_name`, `m_desc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `order`
+-- Estructura de tabla para la tabla `orders`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `order_name` varchar(60) NOT NULL,
   `order_desc` varchar(60) NOT NULL,
@@ -546,24 +412,6 @@ CREATE TABLE `order` (
   `order_state_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `order`
---
-
-INSERT INTO `order` (`order_id`, `order_name`, `order_desc`, `order_date`, `order_payment_method`, `order_company`, `order_shipping_address`, `order_email`, `order_phone`, `order_comments`, `order_cedula_nit`, `order_subtotal`, `order_iva`, `order_total`, `order_discount_total`, `order_addition_cost`, `order_url_document`, `u_id`, `order_state_id`) VALUES
-(15, 'Andres Muete Muete', 'a', '2023-08-02 19:04:11', 'efectivo', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', '1144108604', 'asdfas', '1144108606', 2800.00, 532.00, 3332.00, 0.00, 0.00, 'uploads/orders/15/Document_orders_15_20230717222523.pdf', 87, 6),
-(16, 'Andres Muete Muete', 'a', '2023-09-14 21:22:53', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', 'Hola', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/orders/16/Document_orders_16_20230802220813.pdf', 87, 6),
-(17, 'Andres Muete Muete', 'a', '2023-08-14 16:56:04', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', '1144108604', '                        Dejar en porteria                   ', '1144108606', 42400.00, 8056.00, 50456.00, 0.00, 0.00, 'uploads/orders/17/Document_orders_17_20230814185604.pdf', 87, 1),
-(18, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 21:01:59', '28', 'ESCALAR SAS', 'calle 1 c 64 92', 'alexis-crokis@hotmail.com', '2147483647', '                        Favor validar la cotización, queremo', '1144108604', 9120.00, 1732.80, 10852.80, 0.00, 0.00, 'uploads/orders/18/Document_orders_18_20231012155859.pdf', 93, 3),
-(19, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:55:49', '1', 'SAVCO SAS', ', , , , , ', 'contabilidad@savco.com.co', '2147483647', '                        ENVIO BODEGA 21 COTIZACIÓN          ', '1098631730', 4300.00, 817.00, 5117.00, 0.00, 0.00, 'uploads/orders/19/Document_orders_19_20231019085432.pdf', 94, 3),
-(20, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:34:38', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                        favor enviar en caja                ', '1144108606', 6600.00, 1254.00, 7854.00, 0.00, 0.00, 'uploads/orders/20/Document_orders_20_20231020103346.pdf', 87, 3),
-(21, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:18:21', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', '                                            ', '1144108606', 9800.00, 1862.00, 11662.00, 0.00, 0.00, 'uploads/orders/21/Document_orders_21_20231020161653.pdf', 87, 3),
-(22, 'hernando harker harker', 'a', '2023-10-24 21:41:02', '2', 'Biotronitech colombia', ', , , , , ', 'rafareyrey1@gmail.com', '2147483647', '                        por faor cotizarme urgente          ', '805236987', 5800.00, 1102.00, 6902.00, 0.00, 0.00, 'uploads/orders/22/Document_orders_22_20231024164009.pdf', 95, 3),
-(23, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:43:11', '1', 'IMCOLMEDICA SA', ', , , , , ', 'tecnologia@imcolmedica.com.co', '2147483647', '                        dejar en casa con coti via wsp      ', '1257442', 102093.65, 19397.79, 121491.44, 0.00, 0.00, 'uploads/orders/23/Document_orders_23_20231120164150.pdf', 96, 3),
-(24, 'Andres Felipe  Muete Martinez', 'a', '2023-12-05 15:54:16', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', '1144108604', 'entregar lo mas pronto ', '1144108606', 2800.00, 532.00, 3332.00, 0.00, 0.00, 'uploads/orders/24/Document_orders_24_20231205105324.pdf', 87, 3),
-(25, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:02:24', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 1900.00, 361.00, 2261.00, 0.00, 0.00, 'uploads/orders/25/Document_orders_25_20231218130224.pdf', 97, 1),
-(26, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:04:56', '28', 'LINA VILLEGAS', ', , , , , ', 'lina.villegas@solmaq.com', '2147483647', '                                            ', '52969581', 5320.00, 1010.80, 6330.80, 0.00, 0.00, 'uploads/orders/26/Document_orders_26_20231218130251.pdf', 97, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -579,36 +427,6 @@ CREATE TABLE `order_articles` (
   `orderart_discountPercentajeOrPrice` varchar(255) NOT NULL,
   `orderart_discountPrice` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `order_articles`
---
-
-INSERT INTO `order_articles` (`orderart_id`, `order_id`, `ar_id`, `orderart_quantity`, `orderart_pricenormal`, `orderart_discountPercentajeOrPrice`, `orderart_discountPrice`) VALUES
-(12, 15, 2, 1, 1000, 'No', 1000),
-(13, 15, 1, 1, 1800, 'No', 1800),
-(14, 16, 1, 2, 1800, 'No', 1800),
-(15, 17, 2, 1, 1000, 'No', 1000),
-(16, 17, 1, 23, 1800, 'No', 1800),
-(17, 18, 3, 3, 2000, '5%', 1900),
-(18, 18, 1, 2, 1800, '5%', 1710),
-(19, 19, 2, 1, 1000, 'No', 1000),
-(20, 19, 1, 1, 1800, 'No', 1800),
-(21, 19, 5, 1, 1500, 'No', 1500),
-(22, 20, 2, 3, 1000, 'No', 1000),
-(23, 20, 1, 2, 1800, 'No', 1800),
-(24, 21, 3, 3, 2000, 'No', 2000),
-(25, 21, 2, 2, 1000, 'No', 1000),
-(26, 21, 1, 1, 1800, 'No', 1800),
-(27, 22, 3, 2, 2000, '10%', 2000),
-(28, 22, 1, 1, 1800, '10%', 1800),
-(29, 23, 2, 10, 1000, '5%', 950),
-(30, 23, 4, 1, 97467, '5%', 92593.6),
-(31, 24, 2, 1, 1000, 'No', 1000),
-(32, 24, 1, 1, 1800, 'No', 1800),
-(33, 25, 2, 2, 1000, '5%', 950),
-(34, 26, 2, 2, 1000, '5%', 950),
-(35, 26, 1, 2, 1800, '5%', 1710);
 
 -- --------------------------------------------------------
 
@@ -700,17 +518,6 @@ CREATE TABLE `prices` (
   `p_value` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `prices`
---
-
-INSERT INTO `prices` (`p_id`, `ar_id`, `wh_id`, `p_value`) VALUES
-(30, 1, 21, 1800),
-(31, 2, 21, 1000),
-(32, 3, 21, 2000),
-(33, 4, 21, 97467),
-(34, 5, 22, 1500);
-
 -- --------------------------------------------------------
 
 --
@@ -738,23 +545,6 @@ CREATE TABLE `quotes` (
   `u_id` int(11) NOT NULL,
   `quote_state_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `quotes`
---
-
-INSERT INTO `quotes` (`quo_id`, `quo_name`, `quo_desc`, `quo_date`, `quo_payment_method`, `quo_company`, `quo_shipping_address`, `quo_email`, `quo_phone`, `quo_comments`, `quo_cedula_nit`, `quo_subtotal`, `quo_iva`, `quo_total`, `quo_discount_total`, `quo_addition_cost`, `quo_url_document`, `u_id`, `quote_state_id`) VALUES
-(77, 'Andres Muete Muete', 'a', '2023-08-14 20:57:52', '1', 'Ferreteria Muete', 'CL 1C#76A-25', 'alexisreyking@gmail.com', 1144108604, 'Dejar en porteria', '1144108606', 40600.00, 7714.00, 48314.00, 0.00, 0.00, 'uploads/quotes/77/Document_quotes_77_20230717221632.pdf', 87, 1),
-(78, 'Andres Muete Muete', 'a', '2023-08-14 21:56:13', '1', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'amuete@businessandconnection.c', 1144108604, '', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/quotes/78/Document_quotes_78_20230808191858.pdf', 87, 1),
-(79, 'Andres Muete Muete', 'a', '2023-09-13 19:05:33', '3', 'Ferreteria Muete', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'iurbina@businessandconnection.', 1144108604, 'asdasda', '1144108606', 3600.00, 684.00, 4284.00, 0.00, 0.00, 'uploads/quotes/79/Document_quotes_79_20230913210533.pdf', 87, 1),
-(80, 'JULIO CESAR MAYORGA GOMEZ', 'a', '2023-10-12 20:50:53', '28', 'ESCALAR SAS', 'calle 1 c #67 23', 'alexis-crokis@hotmail.com', 2147483647, 'Favor validar la cotización, queremos comprar pronto', '1144108604', 7410.00, 1407.90, 8817.90, 0.00, 0.00, 'uploads/quotes/80/Document_quotes_80_20231012155053.pdf', 93, 1),
-(81, 'ANYERSON MOTTA MARTINEZ', 'a', '2023-10-19 13:52:26', '1', 'SAVCO SAS', 'CL 4 28 141 T 11 206', 'contabilidad@savco.com.co', 2147483647, 'ENVIO BODEGA 21 COTIZACIÓN', '1098631730', 4300.00, 817.00, 5117.00, 0.00, 0.00, 'uploads/quotes/81/Document_quotes_81_20231019085226.pdf', 94, 1),
-(82, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 15:29:51', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, 'favor enviar en caja', '1144108606', 6600.00, 1254.00, 7854.00, 0.00, 0.00, 'uploads/quotes/82/Document_quotes_82_20231020102951.pdf', 87, 1),
-(83, 'Andres Felipe  Muete Martinez', 'a', '2023-10-20 21:14:54', '1', 'Comercializadora e importadora el gran virrey SAS', 'CALL2, 232|, Colombia, PUERTO RONDÓN, ARAUCA, 2032', 'evaniche2021@gmail.com', 1144108604, '', '1144108606', 9800.00, 1862.00, 11662.00, 0.00, 0.00, 'uploads/quotes/83/Document_quotes_83_20231020161454.pdf', 87, 1),
-(84, 'Andres Felipe  Muete Martinez', 'a', '2023-10-23 17:28:58', '1', 'Comercializadora e importadora el gran virrey SAS', 'Calle 132 Carrera 23', 'evaniche2021@gmail.com', 1144108604, 'Enviar al parque industrial', '1144108606', 98967.00, 18803.73, 117770.73, 0.00, 0.00, 'uploads/quotes/84/Document_quotes_84_20231023122858.pdf', 87, 1),
-(85, 'hernando harker harker', 'a', '2023-10-24 21:38:28', '2', 'Biotronitech colombia', 'calle 123 7 50 ', 'rafareyrey1@gmail.com', 2147483647, 'por faor cotizarme urgente ', '805236987', 5800.00, 1102.00, 6902.00, 0.00, 0.00, 'uploads/quotes/85/Document_quotes_85_20231024163828.pdf', 95, 1),
-(86, 'ALBERTO AGUILAR', 'a', '2023-11-20 21:40:20', '1', 'IMCOLMEDICA SA', 'Calle 123', 'tecnologia@imcolmedica.com.co', 2147483647, 'dejar en casa con coti via wsp', '1257442', 93543.65, 17773.29, 111316.94, 0.00, 0.00, 'uploads/quotes/86/Document_quotes_86_20231120164020.pdf', 96, 1),
-(87, 'LINA MARIA VILLEGAS ACEVEDO', 'a', '2023-12-18 18:01:28', '28', 'LINA VILLEGAS', 'CALLE 15#29-80', 'lina.villegas@solmaq.com', 2147483647, '', '52969581', 5320.00, 1010.80, 6330.80, 0.00, 0.00, 'uploads/quotes/87/Document_quotes_87_20231218130128.pdf', 97, 1);
 
 -- --------------------------------------------------------
 
@@ -790,34 +580,6 @@ CREATE TABLE `quote_articles` (
   `quoart_discountPercentajeOrPrice` varchar(255) NOT NULL,
   `quoart_discountPrice` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `quote_articles`
---
-
-INSERT INTO `quote_articles` (`quoart_id`, `quo_id`, `ar_id`, `quoart_quantity`, `quoart_pricenormal`, `quoart_discountPercentajeOrPrice`, `quoart_discountPrice`) VALUES
-(82, 77, 1, 22, 1800, 'No', 1800),
-(83, 77, 2, 1, 1000, 'No', 1000),
-(84, 78, 1, 2, 1800, 'No', 1800),
-(85, 79, 1, 2, 1800, 'No', 1800),
-(86, 80, 1, 1, 1800, '5%', 1710),
-(87, 80, 3, 3, 2000, '5%', 1900),
-(88, 81, 1, 1, 1800, 'No', 1800),
-(89, 81, 2, 1, 1000, 'No', 1000),
-(90, 81, 5, 1, 1500, 'No', 1500),
-(91, 82, 1, 2, 1800, 'No', 1800),
-(92, 82, 2, 3, 1000, 'No', 1000),
-(93, 83, 1, 1, 1800, 'No', 1800),
-(94, 83, 2, 2, 1000, 'No', 1000),
-(95, 83, 3, 3, 2000, 'No', 2000),
-(96, 84, 4, 1, 97467, 'No', 97467),
-(97, 84, 5, 1, 1500, 'No', 1500),
-(98, 85, 1, 1, 1800, '10%', 1800),
-(99, 85, 3, 2, 2000, '10%', 2000),
-(100, 86, 2, 1, 1000, '5%', 950),
-(101, 86, 4, 1, 97467, '5%', 92593.6),
-(102, 87, 1, 2, 1800, '5%', 1710),
-(103, 87, 2, 2, 1000, '5%', 950);
 
 -- --------------------------------------------------------
 
@@ -855,7 +617,7 @@ CREATE TABLE `sales_budget` (
   `b_date_end` datetime NOT NULL,
   `b_state` varchar(50) DEFAULT 'no cumplio',
   `b_date_create` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -870,18 +632,6 @@ CREATE TABLE `sellers` (
   `s_phone` varchar(30) DEFAULT NULL,
   `s_code` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `sellers`
---
-
-INSERT INTO `sellers` (`s_id`, `s_name`, `s_email`, `s_phone`, `s_code`) VALUES
-(1, 'alex', 'iaurbina04@misena.edu.co', '3007264043', 'CODI_20'),
-(2, 'ale', 'iaurbina04@misena.edu.co', '3007264043', 'COD_123'),
-(3, 'ale', 'alexis-crokis@hotmail.com', '3007264043', 'COD_123DA'),
-(4, 'Jose Luis Murillo ', 'joseluis@disproarte.com', '3214904321', '016'),
-(5, 'Maria sanchez', 'maria@prueba.com', '3123457865', '015'),
-(6, 'Ana Maria Rodriguez', 'anamaria@solmaq.com.co', '3119876543', '234');
 
 -- --------------------------------------------------------
 
@@ -935,17 +685,6 @@ CREATE TABLE `stock` (
   `wh_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `stock`
---
-
-INSERT INTO `stock` (`stock_id`, `stock_name`, `stock_date`, `stock_Quantity`, `stock_lote`, `stock_date_entry`, `stock_expiration_date`, `ar_id`, `wh_id`) VALUES
-(36, 'Stock 2023-07-17', '0000-00-00 00:00:00', 22, 'L0324239', '2023-07-19', NULL, 1, 21),
-(37, 'Stock 2023-07-17', '0000-00-00 00:00:00', 55, 'L324', '2023-07-19', NULL, 2, 21),
-(38, 'Stock 2023-07-17', '0000-00-00 00:00:00', 44, 'L0324239', '2023-07-20', '2023-08-03', 3, 21),
-(39, 'Stock 2023-09-12', '0000-00-00 00:00:00', 12, 'E20412312312', '2023-09-09', NULL, 4, 21),
-(40, 'Stock 2023-09-08', '0000-00-00 00:00:00', 123, '231231234123', '2023-09-13', NULL, 5, 22);
-
 -- --------------------------------------------------------
 
 --
@@ -959,27 +698,6 @@ CREATE TABLE `subcategory` (
   `cat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `subcategory`
---
-
-INSERT INTO `subcategory` (`sbcat_id`, `sbcat_name`, `sbcat_desc`, `cat_id`) VALUES
-(1, 'Construccion', 'descripcion de descripcion', 1),
-(2, 'Reparaciones', 'descripcion de descripcion', 1),
-(4, 'ARTPINTERIA', NULL, 3),
-(5, 'AMOR', NULL, 3),
-(6, 'Prueba', 'Pequeña', 2),
-(7, 'dfsdf', 'fdf', 3),
-(8, 'Prueba3', 'sdafasd', 2),
-(9, 'Prueba4', '41234', 1),
-(10, 'Prueba4', '41234', 1),
-(11, 'Prueba3', 'KJSDFASD', 1),
-(12, 'Prueba3', 'KJSDFASD', 1),
-(13, 'Prueba3', 'FASDF', 2),
-(14, 'Prueba4', 'sdfasd', 1),
-(15, 'Prueba4', 'sdfasd', 1),
-(16, 'EO', 'EO', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -991,13 +709,6 @@ CREATE TABLE `subscription` (
   `subs_date_init` date NOT NULL,
   `subs_date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `subscription`
---
-
-INSERT INTO `subscription` (`id_subs`, `subs_date_init`, `subs_date_end`) VALUES
-(13, '2023-07-17', '2024-07-17');
 
 -- --------------------------------------------------------
 
@@ -2203,20 +1914,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `u_name`, `u_lastname`, `u_phone`, `u_email`, `u_document`, `u_type_document`, `u_country`, `u_city`, `u_pass`, `u_code`, `rol_id`, `c_id`, `status_id`) VALUES
-(9, 'Edwin Valencia', 'valencia', '2147483647', 'evalencia@businessandconnection.com', 12341234, 'Cedula de ciudadanía', 'Colombia', 'Cali', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '84ba7015640ee5f2', 1, 1, 1),
-(17, 'Diego', 'Alarcon', '2147483647', 'desarrollo@businessandconnection.com', 1020779501, 'cc', 'colombia', 'bogota', '12345678', '', 1, 1, 1),
-(86, 'Edwin Valencia', 'valencia', '2147483647', 'evaniche@hotmail.com', 1144108604, 'Cedula de ciudadanía', 'Colombia', 'RIOSUCIO', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '874e685096073311', 2, 54, 1),
-(87, 'Andres Felipe ', 'Muete Martinez', '1144108604', 'felipe-leiva@hotmail.cl', 1144108606, 'Cedula de ciudadanía', 'Colombia', 'PUERTO RONDÓN', '$2y$10$iAE/0burGF3ZckIwtOj6vu./aDf7QyhLmDjiWrzNhM8No96l6dxmu', '510ced522f3bb18f', 3, 55, 1),
-(91, 'RODRIGO', 'CASTRO', '2147483647', 'alexis-crokis@hotmail.coma', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$5THxfYcLpxnr1L8DWVFY0ujt4D3.FUarYy4v/KWDlybrsourMj882', NULL, 3, 59, 2),
-(93, 'JULIO CESAR', 'MAYORGA GOMEZ', '2147483647', 'alexis-crokis@hotmail.com', 1144108604, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$eJyKUQfU1tOx1W4fSbxNB.sYuzkaevfU6h6WlnjuyXiIsuWXE5Bbe', '2f42facfdfd443aa', 3, 61, 1),
-(94, 'ANYERSON', 'MOTTA MARTINEZ', '2147483647', 'contabilidad@savco.com.co', 1098631730, 'Cedula de ciudadanía', 'Colombia', 'CHOCONTÁ', '$2y$10$/XXeNeZ1m5zMf6bAgWcmWe/PjyneoyiI5a1uUO/PHADjF3p76QUPO', 'ed882a8df4900c53', 3, 62, 1),
-(95, 'hernando harker', 'harker', '2147483647', 'rafareyrey1@gmail.com', 805236987, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$odW4ZDtkfk9YHOJd9EfASeE5q7US6AajQP4jheUHJaoEQGkmVIjKO', 'b89cef0a01857777', 3, 63, 1),
-(96, 'ALBERTO', 'AGUILAR', '2147483647', 'tecnologia@imcolmedica.com.co', 1257442, 'Tarjeta de identidad', 'Colombia', 'BOGOTA D.C.', '$2y$10$pUa/qZRhBbiTWyf/I5hIb.fjYZA5rN/9Nb.VO8D.Vu311.dP.p6.2', '59d87ef0469ad2ce', 3, 64, 1),
-(97, 'LINA MARIA', 'VILLEGAS ACEVEDO', '2147483647', 'lina.villegas@solmaq.com', 52969581, 'Cedula de ciudadanía', 'Colombia', 'BOGOTA D.C.', '$2y$10$HPLuEqTcItPCuCnHpep5V.grX3Y0X.at1gyelZ8TWqlC6rXvSv9Xq', '9881673a8d044409', 3, 65, 1),
-(118, 'diego', 'alarcon', NULL, 'desarrollo@businessandconnection.com', NULL, NULL, NULL, NULL, 'A1B2C3D4E5', NULL, 3, 1, 1),
-(119, 'Sandor', 'Luque Farfán', '312534567', 'sluque@misena.edu.co', 79988969, 'Cedula de ciudadania', 'Colombia', 'BOGOTA D.C.', '$2y$10$RNWkVePHpJRICO/YlYoj5eW3PMJq2hQJ3PxaKpZS2UoLhsNKjoTxm', 'ccc80baca525dfa5', 3, 66, 1),
-(120, 'joseph', 'rivera', '3238113163', 'riverajoseph019@gmail.com', 1013097426, 'Cedula de ciudadania', NULL, NULL, '$2y$10$gIzDAYw95ErHF0MdoWF3cO1uELbryVx1IIkS3ns0ewvtyVEfam.sO', '17bf2d6e38b12467', 4, 55, 1),
-(121, 'joseph', 'rivera', '3238113163', 'riverajoseph019@gmail.com', 1013097426, 'Cedula de ciudadania', NULL, NULL, '$2y$10$vOla6h3.o86SXJHTdcgW/O7NF4PP7s3/IRig38HL4Qus.QEXf4SiK', NULL, 4, 55, 1);
+(1, 'Felipe', 'Leiva', '98765432', 'felipe-leiva@hotmail.cl', 987654321, 'Cedula de ciudadanía', 'Chile', 'Santiago', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '3ec05ab2f4191daa', 2, 2, 1),
+(2, 'Edwin', 'Valencia', '98765432', 'felipeleivacortes1995@gmail.com', 987654321, 'Cedula de ciudadanía', 'Colombia', 'Bogota', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '98da2e663df5575d', 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -2239,15 +1938,6 @@ CREATE TABLE `warehouse` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `warehouse`
---
-
-INSERT INTO `warehouse` (`wh_id`, `wh_name`, `wh_desc`, `wh_code`, `wh_address`, `wh_departament`, `wh_city`, `wh_date`, `wh_responsible`, `wh_phone`, `c_id`) VALUES
-(14, 'BODEGA PRUEBA', 'awsdfasdfasd', 'asdfasf', 'CALLE 1 C #76 A 25\r\nAPARTAMENTO E 202', 'AMAZONAS', 'EL', '2023-07-11 02:38:29', 'Ivan Alexis Urbina', '3007264043', 1),
-(21, 'Bodega prueba', 'Articulos', 'ASDFASD', 'CL 1C#76A-25', 'AMAZONAS', 'EL ENCANTO', '2023-07-17 20:03:57', 'Ivan Alexis', '3007264043', 54),
-(22, '760035', 'adasdasd', '760035', 'CALLE 1 C #76 A 25\r\nAPARTAMENTO E 202', 'CUNDINAMARCA', 'CHOCONTÁ', '2023-10-12 20:31:19', 'Andrea Sanchez', '3007264043', 54);
-
---
 -- Índices para tablas volcadas
 --
 
@@ -2264,10 +1954,7 @@ ALTER TABLE `action_permissions`
 --
 ALTER TABLE `articles`
   ADD PRIMARY KEY (`ar_id`),
-  ADD KEY `cat_id` (`cat_id`),
   ADD KEY `mt_id` (`mt_id`),
-  ADD KEY `color_id` (`color_id`),
-  ADD KEY `sbcat_id` (`sbcat_id`),
   ADD KEY `status_id` (`status_id`);
 
 --
@@ -2398,9 +2085,9 @@ ALTER TABLE `modules`
   ADD PRIMARY KEY (`m_id`);
 
 --
--- Indices de la tabla `order`
+-- Indices de la tabla `orders`
 --
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `u_id` (`u_id`),
   ADD KEY `order_state_id` (`order_state_id`);
@@ -2559,43 +2246,43 @@ ALTER TABLE `action_permissions`
 -- AUTO_INCREMENT de la tabla `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `ar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
 --
 ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `company`
 --
 ALTER TABLE `company`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `creditlimits`
 --
 ALTER TABLE `creditlimits`
-  MODIFY `limit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `limit_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `customer_discounts`
 --
 ALTER TABLE `customer_discounts`
-  MODIFY `cd_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cd_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `customer_payment_method`
 --
 ALTER TABLE `customer_payment_method`
-  MODIFY `customer_payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `customer_payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `detail_seller_order`
@@ -2613,7 +2300,7 @@ ALTER TABLE `extra_attributes_articles`
 -- AUTO_INCREMENT de la tabla `extra_attributes_company`
 --
 ALTER TABLE `extra_attributes_company`
-  MODIFY `c_attrs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `c_attrs_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `extra_attributes_order`
@@ -2631,7 +2318,7 @@ ALTER TABLE `extra_attributes_quotes`
 -- AUTO_INCREMENT de la tabla `group_discounts`
 --
 ALTER TABLE `group_discounts`
-  MODIFY `gp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `gp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `measurement_type`
@@ -2643,19 +2330,19 @@ ALTER TABLE `measurement_type`
 -- AUTO_INCREMENT de la tabla `meeting`
 --
 ALTER TABLE `meeting`
-  MODIFY `meeting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `meeting_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `meeting_attendees`
 --
 ALTER TABLE `meeting_attendees`
-  MODIFY `meet_att_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `meet_att_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `modules`
@@ -2664,16 +2351,16 @@ ALTER TABLE `modules`
   MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `order`
+-- AUTO_INCREMENT de la tabla `orders`
 --
-ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `order_articles`
 --
 ALTER TABLE `order_articles`
-  MODIFY `orderart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `orderart_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `order_states`
@@ -2703,13 +2390,13 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT de la tabla `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `quotes`
 --
 ALTER TABLE `quotes`
-  MODIFY `quo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `quo_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `quotes_states`
@@ -2721,7 +2408,7 @@ ALTER TABLE `quotes_states`
 -- AUTO_INCREMENT de la tabla `quote_articles`
 --
 ALTER TABLE `quote_articles`
-  MODIFY `quoart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `quoart_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -2739,7 +2426,7 @@ ALTER TABLE `sales_budget`
 -- AUTO_INCREMENT de la tabla `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `settings`
@@ -2757,19 +2444,19 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT de la tabla `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategory`
 --
 ALTER TABLE `subcategory`
-  MODIFY `sbcat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `sbcat_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `subscription`
 --
 ALTER TABLE `subscription`
-  MODIFY `id_subs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_subs` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `types_industry`
@@ -2781,13 +2468,13 @@ ALTER TABLE `types_industry`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `warehouse`
 --
 ALTER TABLE `warehouse`
-  MODIFY `wh_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `wh_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -2799,16 +2486,6 @@ ALTER TABLE `warehouse`
 ALTER TABLE `action_permissions`
   ADD CONSTRAINT `action_permissions_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`rol_id`),
   ADD CONSTRAINT `action_permissions_ibfk_2` FOREIGN KEY (`m_id`) REFERENCES `modules` (`m_id`);
-
---
--- Filtros para la tabla `articles`
---
-ALTER TABLE `articles`
-  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `category` (`cat_id`),
-  ADD CONSTRAINT `articles_ibfk_2` FOREIGN KEY (`mt_id`) REFERENCES `measurement_type` (`mt_id`),
-  ADD CONSTRAINT `articles_ibfk_3` FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`),
-  ADD CONSTRAINT `articles_ibfk_4` FOREIGN KEY (`sbcat_id`) REFERENCES `subcategory` (`sbcat_id`),
-  ADD CONSTRAINT `articles_ibfk_5` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`);
 
 --
 -- Filtros para la tabla `company`
@@ -2858,7 +2535,7 @@ ALTER TABLE `extra_attributes_company`
 -- Filtros para la tabla `extra_attributes_order`
 --
 ALTER TABLE `extra_attributes_order`
-  ADD CONSTRAINT `extra_attributes_order_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
+  ADD CONSTRAINT `extra_attributes_order_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Filtros para la tabla `extra_attributes_quotes`
@@ -2875,11 +2552,11 @@ ALTER TABLE `meeting_attendees`
   ADD CONSTRAINT `meeting_users_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`);
 
 --
--- Filtros para la tabla `order`
+-- Filtros para la tabla `orders`
 --
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
-  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`order_state_id`) REFERENCES `order_states` (`order_state_id`);
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`order_state_id`) REFERENCES `order_states` (`order_state_id`);
 
 --
 -- Filtros para la tabla `permissions`

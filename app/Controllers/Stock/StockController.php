@@ -22,17 +22,17 @@ class StockController
 
         $stock_Quantity         = $_POST['stock_Quantity'];
         $p_value                = $_POST['p_value'];
-        $wh_id                  = $_POST['warehouse'];
+        $wh_id                  = $_POST['warehouse'] ?? null;
         $stock_lote             = $_POST['stock_lote'];
         $stock_date_entry       = $_POST['stock_date_entry'];
         $stock_expiration_date  = $_POST['stock_expiration_date'] ?? null;
         $name                   = $_POST['ar_name'];
         $code                   = $_POST['ar_code'];
         $mt_id                  = $_POST['mt_id'];
-        $cat_id                 = $_POST['cat_id'];
-        $sbcat_id               = $_POST['subcategory'];
+        $cat_id                 = $_POST['cat_id'] ?? null;
+        $sbcat_id               = $_POST['subcategory'] ?? null;
         $ar_measurement_value   = $_POST['ar_measurement_value'];
-        $color_id               = $_POST['color_id'];
+        $color_id               = $_POST['color_id'] ?? null;
         $ar_desc                = $_POST['ar_desc'];
         $ar_characteristics     = $_POST['ar_characteristics'];
         

@@ -47,7 +47,7 @@ class AccessController
         $u_email = $_POST['u_email'];
         $u_pass = $_POST['u_pass'];
         $u_code = $_POST['u_code'];
-        $execute = $obj->ValidationUser($u_email, $u_pass, $u_code); 
+        $execute = $obj->ValidationUser($u_email, $u_pass, $u_code);
         
         
         if (!$execute) {

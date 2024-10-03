@@ -21,7 +21,7 @@ Class GraphicsModel extends MasterModel
               INNER JOIN users
               ON users.u_id=quotes.u_id
               INNER JOIN company
-              ON company.c_id=users.c_id              
+              ON company.c_id=users.c_id
          WHERE company.c_id=:c_id";
 
         $params = [':c_id' => $c_id];
@@ -30,12 +30,12 @@ Class GraphicsModel extends MasterModel
     }
 
     public function ConsultOrders(int $c_id){
-        $sql="SELECT `order`.*
-              FROM `order`
+        $sql="SELECT `orders`.*
+              FROM `orders`
               INNER JOIN users
-              ON users.u_id=`order`.u_id
+              ON users.u_id=`orders`.u_id
               INNER JOIN company
-              ON company.c_id=users.c_id              
+              ON company.c_id=users.c_id
          WHERE company.c_id=:c_id";
 
         $params = [':c_id' => $c_id];
@@ -44,33 +44,29 @@ Class GraphicsModel extends MasterModel
     }
 
 
-//ROL 2 COMPANY
-public function ConsultQuotesClients(){
-    $sql="SELECT quotes.*
-          FROM quotes
-          INNER JOIN users
-          ON users.u_id=quotes.u_id
-          INNER JOIN company
-          ON company.c_id=users.c_id";
-    $params = [];
-    $result = $this->select($sql, $params);
-    return $result;
-}
-public function ConsultOrdersClients(){
-    $sql="SELECT `order`.*
-    FROM `order`
-    INNER JOIN users 
-    ON users.u_id = `order`.u_id
-    INNER JOIN company 
-    ON company.c_id = users.c_id";
-    $params = [];
-    $result = $this->select($sql, $params);
-    return $result;
-}
+    //ROL 2 COMPANY
+    public function ConsultQuotesClients(){
+        $sql="SELECT quotes.*
+            FROM quotes
+            INNER JOIN users
+            ON users.u_id=quotes.u_id
+            INNER JOIN company
+            ON company.c_id=users.c_id";
+        $params = [];
+        $result = $this->select($sql, $params);
+        return $result;
+    }
 
-
-
-
+    public function ConsultOrdersClients(){
+        $sql="SELECT `orders`.*
+        FROM `orders`
+        INNER JOIN users
+        ON users.u_id = `orders`.u_id
+        INNER JOIN company
+        ON company.c_id = users.c_id";
+        $params = [];
+        $result = $this->select($sql, $params);
+        return $result;
+    }
 }
 
-?>

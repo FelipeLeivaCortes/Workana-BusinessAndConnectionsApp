@@ -65,7 +65,7 @@ class MasterModel extends Connection {
     try {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     } catch (PDOException $e) {
         throw new Exception('Error al ejecutar la consulta: ' . $e->getMessage());

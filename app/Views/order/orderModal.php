@@ -20,7 +20,6 @@
                 <th class="text-nowrap">Nombre</th>
                 <th class=" padding-left-right">Descripción</th>
                 <th class=" text-nowrap">Unidad de medida</th>
-                <th class="">Color</th>
                 <th class=" text-nowrap">Cantidad</th>
             </tr>
         </thead>
@@ -37,11 +36,6 @@
                         <td><?= $art['ar_name']?></td>
                         <td class="truncate"><?= $art['ar_desc']?></td>
                         <td><?= $art['ar_measurement_value']?> KG</td>
-                        <?php foreach ($art['color'] as $color): ?>
-                            <td>
-                                <?= $color['color_name']?>
-                            </td>
-                        <?php endforeach; ?>
                         <td class="table-cell" style="height: 100px;">
                             <input min="1" type="number" class="mt-2 mb-2 quantityinput form form-control" name="quantity" id="">
                             <button data-url="<?= Helpers\generateUrl("Order","Order","AddArticlesAjax",[],"ajax");?>"

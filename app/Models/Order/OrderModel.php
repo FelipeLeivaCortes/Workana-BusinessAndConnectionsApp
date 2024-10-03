@@ -10,10 +10,10 @@ class OrderModel extends MasterModel
 
     public function consultOrders()
     {
-        $sql = "SELECT `order`.*,order_states.*
+        $sql = "SELECT `orders`.*,order_states.*
         FROM `order`
         INNER JOIN order_states 
-        ON `order`.order_state_id=order_states.order_state_id";
+        ON `orders`.order_state_id=order_states.order_state_id";
         $params = [];
         $Orders = $this->select($sql, $params);
         return $Orders;
@@ -21,7 +21,7 @@ class OrderModel extends MasterModel
 
     public function consultOrderById($id)
     {
-        $result = $this->selectById('`order`', 'order_id', $id);
+        $result = $this->selectById('`orders`', 'order_id', $id);
         return $result;
     }
 
@@ -36,17 +36,17 @@ class OrderModel extends MasterModel
 
     public function consultOrdersClients()
     {
-        $sql = "SELECT `order`.*,order_states.*, company.c_id, company.c_name
-        FROM `order`
-        INNER JOIN users 
-        ON users.u_id = `order`.u_id
-        INNER JOIN order_states 
-        ON `order`.order_state_id=order_states.order_state_id
-        INNER JOIN company 
+        $sql = "SELECT `orders`.*,order_states.*, company.c_id, company.c_name
+        FROM `orders`
+        INNER JOIN users
+        ON users.u_id = `orders`.u_id
+        INNER JOIN order_states
+        ON `orders`.order_state_id=order_states.order_state_id
+        INNER JOIN company
         ON company.c_id=users.c_id";
         $params = [];
-        $orders = $this->select($sql, $params);
-        return $orders;
+        
+        return $this->select($sql, $params);
     }
 
     public function insertExtraAttributeOrder($order_attrs_name, $order_attrs_desc, $order_id)
@@ -63,7 +63,7 @@ class OrderModel extends MasterModel
 
     public function updateStatesOrder($order_id, $order_state_id)
     {
-        $sql = "UPDATE `order` SET order_state_id = :order_state_id 
+        $sql = "UPDATE `orders` SET order_state_id = :order_state_id 
         WHERE order_id = :order_id";
         $params = [
             ':order_state_id' => $order_state_id,
@@ -90,7 +90,7 @@ class OrderModel extends MasterModel
         // Verificar si $order_state_id es nulo, en cuyo caso asignarle el valor predeterminado de 1
         $order_state_id = $order_state_id ?? 1;
 
-        $sql    = "INSERT INTO `order` (
+        $sql    = "INSERT INTO `orders` (
                         order_name,
                         order_desc,
                         order_payment_method,

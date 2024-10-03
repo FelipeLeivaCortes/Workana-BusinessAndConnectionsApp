@@ -47,12 +47,10 @@
                     <th class="text-nowrap">Nombre</th>
                     <th class=" padding-left-right">Descripción</th>
                     <th class=" text-nowrap">Unidad de medida</th>
-                    <th class="">Color</th>
                     <th class=" text-nowrap">Cantidad en stock</th>
                     <th class=" text-nowrap">Ficha tecnica</th>
                 </tr>
                 <tr>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -77,9 +75,6 @@
                                 ?>
                                 <?php  } ?>
                             </td>
-                            <?php foreach ($art['color'] as $color): ?>
-                            <td><?= $color['color_name']?></td>
-                            <?php endforeach; ?>
                             <?php if (!empty($art['stock'])): ?>
                             <?php foreach ($art['stock'] as $stock): ?>
                             <td><?= $stock['stock_Quantity']?></td>
