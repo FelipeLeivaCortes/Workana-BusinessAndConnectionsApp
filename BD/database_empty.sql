@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3310
--- Tiempo de generación: 04-10-2024 a las 01:39:22
+-- Tiempo de generación: 04-10-2024 a las 02:46:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -198,8 +198,6 @@ INSERT INTO `customer_payment_method` (`customer_payment_id`, `c_id`, `payment_m
 (3, 1, 3),
 (4, 1, 4),
 (5, 1, 5),
-(6, 1, 28),
-(7, 1, 29),
 (8, 2, 1),
 (9, 2, 2),
 (10, 2, 3),
@@ -490,8 +488,9 @@ INSERT INTO `payment_methods` (`payment_method_id`, `name`) VALUES
 (3, 'PayPal'),
 (4, 'Transferencia bancaria'),
 (5, 'Criptomoneda'),
-(28, 'Crédito 30 días '),
-(29, 'Crédito 60 días ');
+(6, 'Crédito 30 días'),
+(7, 'Crédito 60 días'),
+(8, 'Crédito 90 días');
 
 -- --------------------------------------------------------
 
@@ -1914,8 +1913,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `u_name`, `u_lastname`, `u_phone`, `u_email`, `u_document`, `u_type_document`, `u_country`, `u_city`, `u_pass`, `u_code`, `rol_id`, `c_id`, `status_id`) VALUES
-(1, 'Felipe', 'Leiva', '98765432', 'felipe-leiva@hotmail.cl', 987654321, 'Cedula de ciudadanía', 'Chile', 'Santiago', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '3ec05ab2f4191daa', 2, 2, 1),
-(2, 'Edwin', 'Valencia', '98765432', 'felipeleivacortes1995@gmail.com', 987654321, 'Cedula de ciudadanía', 'Colombia', 'Bogota', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '98da2e663df5575d', 2, 2, 1);
+(1, 'Felipe', 'Leiva', '98765432', 'felipe-leiva@hotmail.cl', 987654321, 'Cedula de ciudadanía', 'Chile', 'Santiago', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', 'e07ad907a00565f3', 2, 2, 1),
+(2, 'Edwin', 'Valencia', '98765432', 'evaniche@hotmail.com', 987654321, 'Cedula de ciudadanía', 'Colombia', 'Bogota', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '98da2e663df5575d', 2, 2, 1),
+(3, 'Edwin', 'Valencia', '98765432', 'evaniche2021@gmail.com', 987654321, 'Cedula de ciudadanía', 'Colombia', 'Bogota', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '41f242886cadebc6', 3, 2, 1),
+(4, 'Felipe', 'Leiva', '98765432', 'felipeleivacortes1995@gmail.com', 987654321, 'Cedula de ciudadanía', 'Chile', 'Santiago', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '005655b16c06baa2', 3, 2, 1),
+(5, 'Edwin', 'Valencia', '98765432', 'evalencia@hotmail.com', 987654321, 'Cedula de ciudadanía', 'Colombia', 'Bogota', '$2y$10$G4tmbrRkttHjZko.eOe7S.1MsfHvPMPY/zApOPsR8UZPneqonARUG', '41f242886cadebc6', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2378,7 +2380,7 @@ ALTER TABLE `partners`
 -- AUTO_INCREMENT de la tabla `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `payment_method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `payment_method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
@@ -2468,7 +2470,7 @@ ALTER TABLE `types_industry`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `warehouse`
