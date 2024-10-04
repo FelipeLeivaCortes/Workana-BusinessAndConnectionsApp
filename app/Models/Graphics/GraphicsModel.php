@@ -9,10 +9,11 @@ Class GraphicsModel extends MasterModel
 
 //    ROL 3 CLIENTE
     public function ConsultLimitCredit(int $c_id){
-        $sql="SELECT * FROM creditlimits WHERE c_id=:c_id";
+        $sql    = "SELECT * FROM creditlimits WHERE c_id=:c_id";
         $params = [':c_id' => $c_id];
         $result = $this->select($sql, $params);
-        return $result[0];
+
+        return sizeof($result) > 0 ? $result[0] : 0;
     }
     
     public function ConsultQuotes(int $c_id){
