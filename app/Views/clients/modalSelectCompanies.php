@@ -22,15 +22,15 @@
                     <?php
                     foreach ($companies as $c) {
                         echo '<tr>
-                        <td>' . $c['c_id'] . '</td>
-                        <td>' . $c['c_name'] . '</td>
-                        <td>' . $c['c_desc'] . '</td>
-                        <td class="text-center">
-                        <button type="button" title="AddCompany" class="btn btn-outline-success btn-add-company"
-                            data-company-id="' . $c['c_id'] . '" data-company-name="' . $c['c_name'] . '">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                        </td>
+                            <td>' . $c['c_id'] . '</td>
+                            <td>' . $c['c_name'] . '</td>
+                            <td>' . $c['c_desc'] . '</td>
+                            <td class="text-center">
+                            <button type="button" title="AddCompany" class="btn btn-outline-success btn-add-company"
+                                data-company-id="' . $c['c_id'] . '" data-company-name="' . $c['c_name'] . '">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            </td>
                         </tr>';
                     }
                     ?>
@@ -98,12 +98,9 @@ $(document).ready(function() {
     });
 });
 
-
 document.getElementById("companyForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evitar envío predeterminado del formulario
+    event.preventDefault();
 
-    // Realizar la solicitud AJAX aquí
-    // Obtener los valores de los campos ocultos
     var selectedCompanyIds = $("#selectedCompanyIds").val();
     var s_id = $("#s_id").val();
 
@@ -120,12 +117,36 @@ document.getElementById("companyForm").addEventListener("submit", function(event
         data: data,
         success: function(response) {
             console.log(response);
-            // Manejar la respuesta de la solicitud AJAX
+
+            Swal.fire({
+                icon: "success",
+                title: "Se ha asociado el vendedor correctamente",
+                timer: 1000,
+                showConfirmButton: false,
+                position: "top",
+                width: "15rem",
+                padding: "0.5rem",
+                background: "#fff",
+                iconColor: "#1abc9c",
+                toast: true
+            });
+
             $("#theadClientsOfSeller").html(response);
-            // Realizar las actualizaciones necesarias en la tabla por AJAX
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            // Manejar errores de la solicitud AJAX
+            Swal.fire({
+                icon: "error",
+                title: "Se ha producido un error al asociar el vendedor",
+                timer: 1000,
+                showConfirmButton: false,
+                position: "top",
+                width: "15rem",
+                padding: "0.5rem",
+                background: "#fff",
+                iconColor: "#1abc9c",
+                toast: true
+            });
+
             console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
         }
     });

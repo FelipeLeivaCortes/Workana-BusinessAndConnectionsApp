@@ -26,20 +26,16 @@
             </thead>
             <tbody id="theadClientsOfSeller">
                 <?php
-
-                                                            use function Helpers\dd;
-
-                                                            foreach ($companies as $c) {
-                                                                echo '<tr>
-                                                                    <td>'.$c['c_name'].'</td>
-                                                                    <td>'.$c['u_email'].'</td>
-                                                                    <td>'.$c['u_phone'].'</td>
-                                                                    <td class="text-center">
-                                                                        <button id="deleteSellerOfCompany" data-url="'.Helpers\generateUrl("Clients","Clients","DeleteSellerOfCompany",["c_id"=>$c['c_id'],"s_id"=>$c['s_id']],"ajax").'" class="btn btn-outline-danger"><i class="fa-regular fa-circle-xmark"></i></button>
-                                                                    </td>
-                                                                </tr>';
-                                                            }
-                                                            
+                foreach ($companies as $c) {
+                    echo '<tr>
+                        <td>'.$c['c_name'].'</td>
+                        <td>'.$c['u_email'].'</td>
+                        <td>'.$c['u_phone'].'</td>
+                        <td class="text-center">
+                            <button id="deleteSellerOfCompany" data-url="'.Helpers\generateUrl("Clients","Clients","DeleteSellerOfCompany",["c_id"=>$c['c_id'],"s_id"=>$c['s_id']],"ajax").'" class="btn btn-outline-danger"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>';
+                }
 			?>
             </tbody>
         </table>

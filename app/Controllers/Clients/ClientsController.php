@@ -513,21 +513,19 @@ class ClientsController
     public function RegisterCompaniesOnSeller()
     {
         $selectedCompanyIds = $_POST['selectedCompanyIds'];
-        $s_id = $_POST['s_id'];
-        $objCompany = new CompanyModel();
-        $objS = new SellersModel();
+        $s_id               = $_POST['s_id'];
+        $objCompany         = new CompanyModel();
+        $objS               = new SellersModel();
 
-        // Convertir la cadena en un array
         $companies = explode(',', $selectedCompanyIds);
-        // Recorrer el array de empresas seleccionadas
+
         foreach ($companies as $c) {
             $objCompany->updateSellerCompany($s_id, $c);
         }
 
-        // Obtener las empresas actualizadas del vendedor
         $updatedCompanies = $objS->consultCompaniesOfSellerById($s_id);
         $rows = "";
-        // Imprimir las empresas actualizadas
+
         foreach ($updatedCompanies as $c) {
             $rows .=  '<tr>
             <td>' . $c['c_name'] . '</td>
@@ -538,7 +536,7 @@ class ClientsController
             </td>
             </tr>';
         }
-        // Devolver las filas HTML como respuesta
+        
         echo $rows;
     }
 }
