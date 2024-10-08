@@ -491,58 +491,58 @@ class QuoteController
         $idArticle  = $_POST['id_article'];
         $quantity   = $_POST['quantity_articles'];
 
-        // GET INFO ARTICLE
-        $objArticle = new ArticlesModel();
-        $article = $objArticle->consultArticleById($idArticle);
-        $idCategory = $article[0]['cat_id'];
-        //GET INFO CATEGORY
-        //CONSULT DISCOUNT CATEGORY
-        $objCategory = new CategoryModel();
-        $category = $objCategory->consultCategoryById($idCategory);
-        $nameCategory = $category[0]['cat_name'];
-        //GET INFO PRICE ARTICLE
-        $objPrice = new PricesModel();
-        $price = $objPrice->consultPriceById($idArticle);
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
 
-        $priceDiscount = null;
+        $objArticle = new ArticlesModel();
+        $article    = $objArticle->consultArticleById($idArticle);
+        $idCategory = $article[0]['cat_id'];
+
+
+        $objCategory    = new CategoryModel();
+        $category       = $objCategory->consultCategoryById($idCategory);
+        $nameCategory   = $category[0]['cat_name'] ?? 'Sin Categoría';
+        
+
+        $objPrice   = new PricesModel();
+        $price      = $objPrice->consultPriceById($idArticle);
+
+
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
+
+        $priceDiscount      = null;
         $discountPercentage = null;
-        $arryArticles = array();
-        $arrayCategories = array();
+        $arryArticles       = array();
+        $arrayCategories    = array();
         $arraySubcategories = array();
         $discountPercentajeOrPrice = 'No aplica';
+
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
-
-
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
 
             foreach ($discountCompany as $key) {
-                $arryArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arryArticles[]         = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
 
-            $priceDiscount = $discountCompany[0]['price_discount'];
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
-
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
 
         foreach ($article as $ar) {
-            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
-            $subtotal = $discountedPrice * $quantity;
+            $price  = $price[0]['p_value'] ?? 0;
+
+            $discountedPrice    = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $subtotal           = $discountedPrice * $quantity;
 
             echo '<tr>
                     <td class="ar_id_'.$ar['ar_id'].'">' . $ar['ar_id'] . '</td>
@@ -552,7 +552,7 @@ class QuoteController
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                         <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                     </td>
-                    <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                    <td class="price">$' . $price . '<input type="hidden" name="PriceNormal[]" value="' . $price . '"></td>
                     <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
                     <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                     <td class="subtotal">$' . $subtotal . '</td>

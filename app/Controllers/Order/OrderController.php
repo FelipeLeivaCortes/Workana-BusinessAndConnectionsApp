@@ -241,28 +241,29 @@ class OrderController
 
         if ($quote[0]['quote_state_id'] != 1) {
             redirect(generateUrl("Quote", "Quote", "ViewQuotes"));
+
         } else {
-            $obj = new CompanyModel();
-            $shipping_address = $obj->ConsultCompany($_SESSION['IdCompany']);
-            $objCustomerPaymentMethods = new Customer_payment_methodModel();
-            $payment_methods = $objCustomerPaymentMethods->getPaymentMethodsByCustomerId($_SESSION['IdCompany']);
+            $obj                = new CompanyModel();
+            $shipping_address   = $obj->ConsultCompany($_SESSION['IdCompany']);
+
+            $objCustomerPaymentMethods  = new Customer_payment_methodModel();
+            $payment_methods            = $objCustomerPaymentMethods->getPaymentMethodsByCustomerId($_SESSION['IdCompany']);
+            
             $objMethods = new MethodsPayModel();
+
             if (!empty($payment_methods)) {
                 $methods = array();
+
                 foreach ($payment_methods as $p) {
                     $methods[] = $objMethods->consultMethodsById($p['payment_method_id']);
                 }
-                // Aquí puedes realizar acciones adicionales con los métodos de pago
+
             } else {
                 $methods[] = "No tiene métodos de pago asignados todavía";
             }
 
             $orderAddress = '';
-            foreach ($shipping_address as $key) {
-                $orderAddress .= $key['c_shippingStreet'] . ', ' . $key['c_shippingApartament'] . ', ' . $key['c_shippingCountry'] . ', ' . $key['c_shippingCity'] . ', ' . $key['c_shippingState'] . ', ' . $key['c_shippingPostalcode'];
-            }
 
-            $orderAddress = '';
             foreach ($shipping_address as $key) {
                 $orderAddress .= $key['c_shippingStreet'] . ', ' . $key['c_shippingApartament'] . ', ' . $key['c_shippingCountry'] . ', ' . $key['c_shippingCity'] . ', ' . $key['c_shippingState'] . ', ' . $key['c_shippingPostalcode'];
             }
@@ -287,53 +288,49 @@ class OrderController
         }
     }
 
-    public function articlesOrderSinceQuote($idArticle, $quantity)
-    {
-
-        // GET INFO ARTICLE
+    public function articlesOrderSinceQuote($idArticle, $quantity) {
         $objArticle = new ArticlesModel();
-
-        $article = $objArticle->consultArticleById($idArticle);
-
+        $article    = $objArticle->consultArticleById($idArticle);
         $idCategory = $article[0]['cat_id'];
-        //GET INFO CATEGORY
-        //CONSULT DISCOUNT CATEGORY
-        $objCategory = new CategoryModel();
-        $category = $objCategory->consultCategoryById($idCategory);
-        $nameCategory = $category[0]['cat_name'];
-        //GET INFO PRICE ARTICLE
-        $objPrice = new PricesModel();
-        $price = $objPrice->consultPriceById($idArticle);
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
 
-        $priceDiscount = null;
-        $discountPercentage = null;
-        $arryArticles = array();
-        $arrayCategories = array();
-        $arraySubcategories = array();
-        $discountPercentajeOrPrice = 'No aplica';
+
+        $objCategory    = new CategoryModel();
+        $category       = $objCategory->consultCategoryById($idCategory);
+        $nameCategory   = $category[0]['cat_name'] ?? 'Sin Categoría';
+
+
+        $objPrice   = new PricesModel();
+        $price      = $objPrice->consultPriceById($idArticle);
+
+
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
+
+        $priceDiscount              = null;
+        $discountPercentage         = null;
+        $arryArticles               = array();
+        $arrayCategories            = array();
+        $arraySubcategories         = array();
+        $discountPercentajeOrPrice  = 'No aplica';
 
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            
             foreach ($discountCompany as $key) {
-                $arryArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arryArticles[]         = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
 
-            $priceDiscount = $discountCompany[0]['price_discount'];
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
 
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
@@ -343,17 +340,20 @@ class OrderController
         $html = '';
 
         foreach ($article as $ar) {
-            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
-            $subtotal = $discountedPrice * $quantity;
+            $price              = $price[0]['p_value'] ?? 0;
+
+            $discountedPrice    = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $subtotal           = $discountedPrice * $quantity;
 
             $html .= '<tr>
+                        <td>' . $ar['ar_id'] . '</td>
                         <td>' . $ar['ar_name'] . '</td>
                         <td>' . $nameCategory . '</td>
                         <td>
                             <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                             <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                         </td>
-                        <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                        <td class="price">$' . $price . '<input type="hidden" name="PriceNormal[]" value="' . $price . '"></td>
                         <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
                         <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                         <td class="subtotal">$' . $subtotal . '</td>
@@ -416,7 +416,6 @@ class OrderController
         $discountOrderInput         = $_POST['discountOrderInput'] ?? 0;
         $additionalCostsOrderInput  = $_POST['additionalCostsOrderInput'] ?? 0;
 
-        // Insert the basic data into the "orders" table
         $objOrder->insertOrder(
             $name,
             'a',
@@ -438,10 +437,8 @@ class OrderController
             $additionalCostsOrderInput
         );
 
-        //get last id
-        $order_id = $objOrder->getLastId('order', 'order_id');
+        $order_id = $objOrder->getLastId('orders', 'order_id');
 
-        //Insertar detail_seller_order
         $objSellerOrder->insertDetailSellerOrder(
             $order_id,
             $id_seller,
@@ -451,87 +448,87 @@ class OrderController
         );
 
         foreach ($art_id as $key => $article_id) {
-            $quantity = $quantity_article[$key];
-            $discountType = $PercentajeOrPrice[$key];
-            $discountedPrice = $discountPrice[$key];
-            // Insert the basic data into the "Order and articles" table
+            $quantity           = $quantity_article[$key];
+            $discountType       = $PercentajeOrPrice[$key];
+            $discountedPrice    = $discountPrice[$key];
+
             $objOrder->insertOrderArticle($order_id, $article_id, $quantity, $PriceNormal[$key], $discountType, $discountedPrice);
         }
 
-        $articles = $_POST['art_id']; //ARRAY DE ID ARTICLES
-        $quantity = $_POST['quantity_article']; //ARRAY QUANTITY OF ARTICLES
+        $articles = $_POST['art_id'];
+        $quantity = $_POST['quantity_article'];
+
         if (isset($_POST['fieldName']) && isset($_POST['fieldValue'])) {
-            $fieldName = $_POST['fieldName']; //ARRAY OF FIELDS NAME
-            $fieldValue = $_POST['fieldValue']; //ARRAY OF FIELDS VALUE
+            $fieldName  = $_POST['fieldName'];
+            $fieldValue = $_POST['fieldValue'];
+
         } else {
-            $fieldName = NULL; //ARRAY OF FIELDS NAME
-            $fieldValue = NULL; //ARRAY OF FIELDS VALUE
+            $fieldName  = null;
+            $fieldValue = null;
         }
-        //DATA OF  ARTICLE
-        $objArticle = new ArticlesModel();
-        //PRICE OF ARTICLE
-        $objPrice = new PricesModel();
-        $articleArray = array();
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
-        $priceDiscount = null;
-        $discountPercentage = null;
-        $arrayArticles = array();
-        $arrayCategories = array();
-        $arraySubcategories = array();
+
+        $objArticle     = new ArticlesModel();
+        $objPrice       = new PricesModel();
+        $objDiscount    = new Customer_discountsModel();
+
+        $discountCompany        = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
+        $priceDiscount          = null;
+        $discountPercentage     = null;
+        $arrayArticles          = array();
+        $arrayCategories        = array();
+        $arraySubcategories     = array();
         $discountPercentajeOrPrice = 'No aplica';
+
+        $articleArray   = array();
+
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
 
             foreach ($discountCompany as $key) {
-                $arrayArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arrayArticles[]        = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
-            // save discount o price discount
-            $priceDiscount = $discountCompany[0]['price_discount'];
+
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
-
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
-        foreach ($articles as $key => $ar_id) {
 
+        foreach ($articles as $key => $ar_id) {
             $article = $objArticle->consultArticleById($ar_id);
             $article['price'] = $price['p_value'] = $objPrice->consultPriceById($ar_id);
 
+            $price     = $article['price'][0]['p_value'] ?? 0;
 
-            $discountedPrice = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $article['price'][0]['p_value']);
-            $article['pricePre'] = $article['price'][0]['p_value'];
-            $article['price'] = $discountedPrice;
+            $discountedPrice        = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $article['pricePre']    = $price;
+            $article['price']       = $discountedPrice;
             $article['discountPercentajeOrPrice'] = $discountPercentajeOrPrice;
-            $article['quantity'] = $quantity[$key];
-            $articleArray[] = $article;
+            $article['quantity']    = $quantity[$key];
+
+            $articleArray[]         = $article;
         }
 
-        //consultar la ultima orden insertada
-        $objOrder = new OrderModel();
-
+        $objOrder           = new OrderModel();
         $objconsultOrderyId = $objOrder->consultOrderById($order_id);
         $orderDiscountTotal = $objconsultOrderyId[0]['order_discount_total'];
         $orderAdditionCost  = $objconsultOrderyId[0]['order_addition_cost'];
 
         $template   = PdfModel::templateOrderPdf($articleArray, $fieldName, $fieldValue, $orderDiscountTotal, $orderAdditionCost);
         $pdfModel   = new PdfModel();
-        $idOrder    = $objOrder->getLastId('order', 'order_id');
+        $idOrder    = $objOrder->getLastId('orders', 'order_id');
         $filePath   = $pdfModel->generatePdf($template, $idOrder, 'orders');
 
-        $objOrder->updateField('`order`', 'order_id', $idOrder, 'order_url_document', $filePath);
+        $objOrder->updateField('`orders`', 'order_id', $idOrder, 'order_url_document', $filePath);
 
         if (isset($_POST['fieldName'])) {
             $fieldNames = $_POST['fieldName'];
@@ -631,67 +628,68 @@ class OrderController
         redirect(generateUrl("Order", "Order", "ViewOrders"));
     }
 
-    // MODAL DINAMICA QUE TRAE LOS VALORES DEPENDIENDO LOS FILTROS 
-    public function AddArticlesAjax()
-    {
-        $idArticle = $_POST['id_article'];
-        $quantity = $_POST['quantity_articles'];
+    public function AddArticlesAjax() {
+        $idArticle  = $_POST['id_article'];
+        $quantity   = $_POST['quantity_articles'];
 
         if (intval($quantity) < 1 ) {
             return false;
         }
 
-
-        // GET INFO ARTICLE
         $objArticle = new ArticlesModel();
-        $article = $objArticle->consultArticleById($idArticle);
+        $article    = $objArticle->consultArticleById($idArticle);
         $idCategory = $article[0]['cat_id'];
-        //GET INFO CATEGORY
-        //CONSULT DISCOUNT CATEGORY
-        $objCategory = new CategoryModel();
-        $category = $objCategory->consultCategoryById($idCategory);
-        $nameCategory = $category[0]['cat_name'];
-        //GET INFO PRICE ARTICLE
-        $objPrice = new PricesModel();
-        $price = $objPrice->consultPriceById($idArticle);
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
 
-        $priceDiscount = null;
-        $discountPercentage = null;
-        $arryArticles = array();
-        $arrayCategories = array();
-        $arraySubcategories = array();
-        $discountPercentajeOrPrice = 'No aplica';
+
+        $objCategory    = new CategoryModel();
+        $category       = $objCategory->consultCategoryById($idCategory);
+        $nameCategory   = $category[0]['cat_name'] ?? 'Sin Categoría';
+
+
+        $objPrice   = new PricesModel();
+        $price      = $objPrice->consultPriceById($idArticle);
+
+
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $_SESSION['IdCompany']);
+
+
+        $priceDiscount              = null;
+        $discountPercentage         = null;
+        $arryArticles               = array();
+        $arrayCategories            = array();
+        $arraySubcategories         = array();
+        $discountPercentajeOrPrice  = 'No aplica';
+
 
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+
             foreach ($discountCompany as $key) {
-                $arryArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arryArticles[]         = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
 
-            $priceDiscount = $discountCompany[0]['price_discount'];
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
 
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
 
-        $PriceWithDiscount = 0;
+
         foreach ($article as $ar) {
-            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
+            $price  = $price[0]['p_value'] ?? 0;
+
+            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
             $subtotal = $discountedPrice * $quantity;
 
             echo '<tr>
@@ -702,7 +700,7 @@ class OrderController
                         <input type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                         <input type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                     </td>
-                    <td class="price">$' . $price[0]['p_value'] . '<input type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                    <td class="price">$' . $price . '<input type="hidden" name="PriceNormal[]" value="' . $price. '"></td>
                     <td>' . $discountPercentajeOrPrice . '<input type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
                     <td class="discount">$' . $discountedPrice . '<input type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                     <td class="subtotal">$' . $subtotal . '</td>

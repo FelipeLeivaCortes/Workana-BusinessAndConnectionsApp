@@ -304,10 +304,10 @@ Class PdfModel extends MasterModel
                 $TotalArticle = 0;
                 $total=0;
                 foreach ($articleArray as $articles) {
-                    $article = $articles[0];//accedo al primera posicion info articulo
-                    $quantity =$articles['quantity']; // acceder a la cantidad
-                    $price =$articles['price']; // acceder a al precio 
-                    $subtotalArticle = $quantity * $price;  
+                    $article    = $articles[0];
+                    $quantity   = $articles['quantity'];
+                    $price      = $articles['price'];
+                    $subtotalArticle = $quantity * $price;
                     $TotalArticle+=$subtotalArticle; 
                     $TotalArticle_formatted = number_format($TotalArticle, 2, '.', ',');
                     $orderPdf .= 
