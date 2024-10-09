@@ -18,22 +18,16 @@ class CategoryModel extends MasterModel
         return $categories;
     }
 
-    public function InsertCategory($cat_name,$cat_desc=null){
-        $sql="INSERT INTO category (cat_name,cat_desc)
-        VALUES(:name,:desc)";
-        $params=[':name'=>$cat_name,
-                ':desc'=>$cat_desc];
-        $this->insert($sql, $params);
+    public function InsertCategory($cat_name, $cat_desc = null){
+        $sql    = "INSERT INTO category (cat_name, cat_desc) VALUES(:name, :desc)";
+        $this->insert($sql, [':name' => $cat_name, ':desc' => $cat_desc]);
     }
 
     public function consultCategoryForName($cat_name){
-        $sql = "SELECT cat_id 
-                FROM category
-                WHERE cat_name=:cat_name";
-        $params = [':cat_name'=>$cat_name];
-        $Idcategory = $this->select($sql, $params);
-        return $Idcategory;
+        $sql    = "SELECT cat_id FROM category WHERE cat_name = :cat_name";
+        return $this->select($sql, [':cat_name' => $cat_name]);
     }
+
 
     public function UpdateCategory($cat_id, $cat_name, $cat_desc = null)
     {

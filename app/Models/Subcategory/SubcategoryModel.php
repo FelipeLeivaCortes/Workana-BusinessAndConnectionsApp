@@ -20,14 +20,14 @@ Class SubcategoryModel extends MasterModel
         return $result;
     }
 
-    public function insertSubcategroy($sbcat_name,$sbcat_desc,$cat_id){
-        $sql = "INSERT INTO subcategory (sbcat_name	, sbcat_desc, cat_id)
-        VALUES (:name, :description, :category)";
+    public function insertSubcategroy($sbcat_name, $sbcat_desc, $cat_id){
+        $sql    = "INSERT INTO subcategory (sbcat_name	, sbcat_desc, cat_id) VALUES (:name, :description, :category)";
         $params = [
-            ':name' => $sbcat_name,
-            ':description' => $sbcat_desc,
-            ':category' =>  $cat_id
+            ':name'         => $sbcat_name,
+            ':description'  => $sbcat_desc,
+            ':category'     => $cat_id
         ];
+
         $this->insert($sql, $params);
     }
 
@@ -40,14 +40,9 @@ Class SubcategoryModel extends MasterModel
     }
 
     public function ConsultSubcategoryForName($sbcat_name){
-        $sql = "SELECT sbcat_id
-                FROM subcategory
-                WHERE sbcat_name=:sbcat_name";
-        $params = [':sbcat_name'=>$sbcat_name];
-        $Idsubcategory = $this->select($sql, $params);
-        return $Idsubcategory;
+        $sql    = "SELECT sbcat_id FROM subcategory WHERE sbcat_name = :sbcat_name";
+        return $this->select($sql, [':sbcat_name' => $sbcat_name]);
     }
 
 }
 
-?>

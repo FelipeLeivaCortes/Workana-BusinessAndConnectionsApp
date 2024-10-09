@@ -151,6 +151,7 @@ Class UserModel extends MasterModel
         $params = [':id' => $id];
         $this->delete($sql, $params);
     }
+    
     public function consultUsersWithRolAndStatus(int $rol_id, int $status_id){
         $sql = "SELECT u_id,u_name,u_lastname,c_id,u_email FROM users
         WHERE rol_id = :rol_id

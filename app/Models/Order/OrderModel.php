@@ -25,13 +25,9 @@ class OrderModel extends MasterModel
         return $result;
     }
 
-    public function consultArticlesOfTheOrder($order_id)
-    {
-        $sql = "SELECT * FROM order_articles
-                WHERE order_id = :id";
-        $params = [':id' => $order_id];
-        $articles = $this->select($sql, $params);
-        return $articles;
+    public function consultArticlesOfTheOrder($order_id) {
+        $sql    = "SELECT * FROM order_articles WHERE order_id = :id";
+        return $this->select($sql, [':id' => $order_id]);
     }
 
     public function consultOrdersClients()

@@ -14,7 +14,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Empresa</th>
-                <th scope="col">Cotizante</th>
+                <th scope="col">Usuario</th>
                 <th scope="col">Fecha del documento</th>
                 <th scope="col">Fecha vigencia cotización</th>
                 <th scope="col">Valor</th>

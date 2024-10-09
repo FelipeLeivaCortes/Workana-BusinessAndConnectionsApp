@@ -234,20 +234,30 @@ Class CompanyModel extends MasterModel
         $result=$this->select($sql, $params);
         return $result;
     }
+
+
     //status
     //1 active
     //2 inactive
     public function consultAllClients(){
-        $sql="SELECT c.c_id, c.c_name, c.c_desc, c.c_num_nit, c.c_num_ver_nit, CONCAT(c.c_street, ' - ', c.c_apartament, ' - ', c.c_country, 
-                     ' - ',c.c_city, ' - ', c.c_state, ' - ', c.c_postal_code) AS adress, CONCAT(c.c_shippingStreet, ' - ', c.c_shippingApartament, ' - ', c.c_shippingCountry,
-                     ' - ',c.c_shippingCity, ' - ', c.c_shippingState, '-', c.c_shippingPostalcode) AS adress_shipping, tpi.industry_name, s.s_name, st.status_name
-              FROM company c
-              INNER JOIN status st ON c.status_id = st.status_id
-              INNER JOIN types_industry tpi ON c.tpi_id = tpi.tpi_id
-              INNER JOIN sellers s ON c.s_id = s.s_id;";
-        $params = [];
-        $companies=$this->select($sql, $params);
-        return $companies;
+        $sql    = "SELECT
+                        c.c_id,
+                        c.c_name,
+                        c.c_desc,
+                        c.c_num_nit,
+                        c.c_num_ver_nit,
+                        CONCAT(c.c_street, ' - ', c.c_apartament, ' - ', c.c_country, ' - ',c.c_city, ' - ', c.c_state, ' - ', c.c_postal_code) AS adress,
+                        CONCAT(c.c_shippingStreet, ' - ', c.c_shippingApartament, ' - ', c.c_shippingCountry, ' - ',c.c_shippingCity, ' - ', c.c_shippingState, '-', c.c_shippingPostalcode) AS adress_shipping,
+                        tpi.industry_name,
+                        s.s_name,
+                        st.status_name
+              FROM
+                company c
+                LEFT JOIN status st ON c.status_id = st.status_id
+                LEFT JOIN types_industry tpi ON c.tpi_id = tpi.tpi_id
+                LEFT JOIN sellers s ON c.s_id = s.s_id;";
+                
+        return $this->select($sql, []);
     }
 
     public function consultCompaniesStatus($status_id){

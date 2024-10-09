@@ -24,135 +24,132 @@ class QuoteController
 {
     public function viewDetaillsQuote()
     {
-        $objQuote = new QuoteModel();
-        $id = $_GET['quo_id'];
-        $quote = $objQuote->consultQuoteById($id);
+        $objQuote   = new QuoteModel();
+        $id         = $_GET['quo_id'];
+        $quote      = $objQuote->consultQuoteById($id);
 
-        // get info user and company
-        $ObjUser = new UserModel();
-        $user = $ObjUser->getUserInfoById($quote[0]['u_id']);
+
+        $ObjUser    = new UserModel();
+        $user       = $ObjUser->getUserInfoById($quote[0]['u_id']);
         $objCompany = new CompanyModel();
-        $company = $objCompany->ConsultCompany($user['c_id']);
+        $company    = $objCompany->ConsultCompany($user['c_id']);
 
         if ($quote[0]['quote_state_id'] != 1) {
             redirect(generateUrl("Quote", "Quote", "quotesCompanies"));
+
         } else {
-            $obj = new CompanyModel();
-            $shipping_address = $obj->ConsultCompany($user['c_id']);
-            $objCustomerPaymentMethods = new Customer_payment_methodModel();
-            $payment_methods = $objCustomerPaymentMethods->getPaymentMethodsByCustomerId($user['c_id']);
+            $obj                        = new CompanyModel();
+            $shipping_address           = $obj->ConsultCompany($user['c_id']);
+
+
+            $objCustomerPaymentMethods  = new Customer_payment_methodModel();
+            $payment_methods            = $objCustomerPaymentMethods->getPaymentMethodsByCustomerId($user['c_id']);
+
+
             $objMethods = new MethodsPayModel();
+
             if (!empty($payment_methods)) {
-                $methods = array();
+                $methods    = array();
+
                 foreach ($payment_methods as $p) {
-                    $methods[] = $objMethods->consultMethodsById($p['payment_method_id']);
+                    $methods[]  = $objMethods->consultMethodsById($p['payment_method_id']);
                 }
-                // Aquí puedes realizar acciones adicionales con los métodos de pago
+
             } else {
-                $methods[] = "No tiene métodos de pago asignados todavía";
+                $methods[]  = "No tiene métodos de pago asignados todavía";
             }
 
-            $orderAddress = '';
-            foreach ($shipping_address as $key) {
-                $orderAddress .= $key['c_shippingStreet'] . ', ' . $key['c_shippingApartament'] . ', ' . $key['c_shippingCountry'] . ', ' . $key['c_shippingCity'] . ', ' . $key['c_shippingState'] . ', ' . $key['c_shippingPostalcode'];
-            }
-
-            // dd($quote);
-            $orderAddress = '';
+            $orderAddress   = '';
             foreach ($shipping_address as $key) {
                 $orderAddress .= $key['c_shippingStreet'] . ', ' . $key['c_shippingApartament'] . ', ' . $key['c_shippingCountry'] . ', ' . $key['c_shippingCity'] . ', ' . $key['c_shippingState'] . ', ' . $key['c_shippingPostalcode'];
             }
 
             foreach ($quote as &$q) {
-                $q['quote_articles'] = $objQuote->consultArticlesOfTheQuote($q['quo_id']);
+                $q['quote_articles']    = $objQuote->consultArticlesOfTheQuote($q['quo_id']);
             }
-            $obj = new SellersModel();
+
+            $obj    = new SellersModel();
             $seller = $obj->ConsultSellerByIdOfCompany($user['c_id']);
 
-            $articlesHmtl = '';
-            foreach ($quote as $quo) {
-                // dd($quo);
+            $articlesHmtl   = '';
 
+            foreach ($quote as $quo) {
                 foreach ($quo['quote_articles'] as $art) {
-                    // dd($art['ar_id'],$art['quoart_quantity']);
-                    $article = $this->articlesOrderSinceQuoteview($art['ar_id'], $art['quoart_quantity'], $user['c_id']);
+                    $article        = $this->articlesOrderSinceQuoteview($art['ar_id'], $art['quoart_quantity'], $user['c_id']);
                     $articlesHmtl .= $article;
                 }
             }
+
             include_once '../app/Views/quote/viewDetaillsQuote.php';
         }
     }
 
     public function articlesOrderSinceQuoteview($idArticle, $quantity, $c_id)
     {
-        // GET INFO ARTICLE
         $objArticle = new ArticlesModel();
-
-        $article = $objArticle->consultArticleById($idArticle);
-
+        $article    = $objArticle->consultArticleById($idArticle);
         $idCategory = $article[0]['cat_id'];
-        //GET INFO CATEGORY
-        //CONSULT DISCOUNT CATEGORY
-        $objCategory = new CategoryModel();
-        $category = $objCategory->consultCategoryById($idCategory);
-        $nameCategory = $category[0]['cat_name'];
-        //GET INFO PRICE ARTICLE
-        $objPrice = new PricesModel();
-        $price = $objPrice->consultPriceById($idArticle);
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $c_id);
 
-        $priceDiscount = null;
-        $discountPercentage = null;
-        $arryArticles = array();
-        $arrayCategories = array();
-        $arraySubcategories = array();
-        $discountPercentajeOrPrice = 'No aplica';
+        $objCategory    = new CategoryModel();
+        $category       = $objCategory->consultCategoryById($idCategory);
+        $nameCategory   = $category[0]['cat_name'] ?? 'Sin Categoria';
+
+
+        $objPrice   = new PricesModel();
+        $price      = $objPrice->consultPriceById($idArticle);
+
+
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $c_id);
+
+        $priceDiscount              = null;
+        $discountPercentage         = null;
+        $arryArticles               = array();
+        $arrayCategories            = array();
+        $arraySubcategories         = array();
+        $discountPercentajeOrPrice  = 'No aplica';
 
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            
             foreach ($discountCompany as $key) {
-                $arryArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arryArticles[]         = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
 
-            $priceDiscount = $discountCompany[0]['price_discount'];
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
-
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
 
-        $PriceWithDiscount = 0;
         $html = '';
 
         foreach ($article as $ar) {
-            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
-            $subtotal = $discountedPrice * $quantity;
+            $price              = $price[0]['p_value'] ?? 0;
+            $discountedPrice    = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $subtotal           = $discountedPrice * $quantity;
 
-            $html .= '<tr>                        
-                        <td class="ar_id_'.$ar['ar_id'].' id_product">' . $ar['ar_id'] . '</td>                        
-                        <td> <i class="fa-solid fa-file"></i>' . $ar['ar_name'] . '</td>
+            $html .= '<tr>
+                        <td class="ar_id_'.$ar['ar_id'].' id_product">' . $ar['ar_id'] . '</td>
+                        <td></i>' . $ar['ar_name'] . '</td>
                         <td>' . $nameCategory . '</td>
-                        <td> 
+                        <td>
                             <input readonly type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                             <input  readonly type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                         </td>
-                        <td class="price">' . $price[0]['p_value'] . '<input readonly type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                        <td class="price">$' . $price . '<input readonly type="hidden" name="PriceNormal[]" value="' . $price . '"></td>
                         <td>' . $discountPercentajeOrPrice . '<input readonly type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
-                        <td class="discount">' . $discountedPrice . '<input readonly type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
-                        <td class="subtotal">$' . $subtotal . '</td>                        
+                        <td class="discount">$' . $discountedPrice . '<input readonly type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
+                        <td class="subtotal">$' . $subtotal . '</td>
                     </tr>';
         }
 

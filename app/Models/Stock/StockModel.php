@@ -38,9 +38,9 @@ Class StockModel extends MasterModel
                         warehouse.wh_id
                     FROM
                         articles
-                        INNER JOIN stock ON articles.ar_id = stock.ar_id
-                        INNER JOIN prices ON prices.ar_id = articles.ar_id
-                        INNER JOIN warehouse ON stock.wh_id = warehouse.wh_id";
+                        LEFT JOIN stock ON articles.ar_id = stock.ar_id
+                        LEFT JOIN prices ON prices.ar_id = articles.ar_id
+                        LEFT JOIN warehouse ON stock.wh_id = warehouse.wh_id";
               
         return  $this->select($sql, []);
     }

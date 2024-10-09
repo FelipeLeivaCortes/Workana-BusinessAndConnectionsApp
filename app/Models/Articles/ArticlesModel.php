@@ -15,17 +15,26 @@ Class ArticlesModel extends MasterModel
 
     public function consultAllArticles()
     {
-        $sql = "SELECT ar.ar_id,ar.ar_name,ar.ar_code,ar.ar_desc,ar.ar_measurement_value,ar.ar_characteristics,cat.cat_name,subcat.sbcat_name, co.color_name, mt.mt_name, st.status_name
-                FROM articles ar
-                INNER JOIN category cat ON ar.cat_id = cat.cat_id
-                INNER JOIN subcategory subcat ON ar.sbcat_id = subcat.sbcat_id
-                INNER JOIN colors co ON ar.color_id = co.color_id
-                INNER JOIN measurement_type mt ON ar.mt_id = mt.mt_id
-                INNER JOIN status st ON ar.status_id = st.status_id;";
+        $sql = "SELECT
+                    ar.ar_id,
+                    ar.ar_name,
+                    ar.ar_code,
+                    ar.ar_desc,
+                    ar.ar_measurement_value,
+                    ar.ar_characteristics,
+                    cat.cat_name,
+                    subcat.sbcat_name,
+                    co.color_name,
+                    mt.mt_name,
+                    st.status_name
+                FROM
+                    articles ar LEFT JOIN category cat ON ar.cat_id = cat.cat_id
+                    LEFT JOIN subcategory subcat ON ar.sbcat_id = subcat.sbcat_id
+                    LEFT JOIN colors co ON ar.color_id = co.color_id
+                    LEFT JOIN measurement_type mt ON ar.mt_id = mt.mt_id
+                    LEFT JOIN status st ON ar.status_id = st.status_id;";
         
-        $params = [];
-        $articles = $this->select($sql, $params);
-        return $articles;
+        return $this->select($sql, []);
     }
 
     public function consultArticleById($id)
@@ -132,7 +141,5 @@ Class ArticlesModel extends MasterModel
         return null;
     }
 
-} 
+}
 
-
-?>

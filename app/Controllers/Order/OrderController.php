@@ -43,31 +43,80 @@ class OrderController
 
     public function updateStatesOrder()
     {
-        // dd($_POST);
-        $order_id = $_POST['order_id'];
-        $state_order = $_POST['state_order'];
-        $c_id = $_POST['c_id'];
-        // update state of the order
+        $order_id       = $_POST['order_id'];
+        $state_order    = $_POST['state_order'];
+        $c_id           = $_POST['c_id'];
+
         $obj = new OrderModel();
         $obj->updateStatesOrder($order_id, $state_order);
 
-        // update state_order_id detail_seller_order
+
         $obj = new OrderModel();
         $obj->updateStateOrderDetail_seller($order_id, $state_order);
-        // inf company
+        
         $objCompany = new CompanyModel();
-        $company = $objCompany->ConsultCompany($c_id);
-        // emails of company
-        $objUser = new UserModel();
-        $emails = $objUser->consultEmailsOfTheCompany($c_id);
-        // states of order
-        $states = ($state_order == '6') ? true : false;
-        // send emails
+        $company    = $objCompany->ConsultCompany($c_id);
+        
+        $objUser    = new UserModel();
+        $emails     = $objUser->consultEmailsOfTheCompany($c_id);
+        
+        $states = ($state_order == '3') ? true : false;
+        
         $mail = new MailModel();
+
         foreach ($emails as $e) {
             $template = TemplateModel::TemplateNotificationOrderStatus($company[0]['c_name'], $order_id, $states);
             $mail->DataEmail($template, $e, 'Notificacion de pedido');
         }
+
+        /**
+        * INTEGRACIÓN COMUNICACIÓN API REFLEX
+        */
+        if ($state_order == '3') {
+            $fechaActual    = new DateTime();
+            $fechaActual->modify('+3 days');
+            $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
+
+            $documentLines  = array();
+
+            $order      = new OrderModel();
+            $articles   = $order->consultArticlesOfTheOrder($order_id);
+
+            for ($i=0; $i<sizeof($articles); $i++) {
+                array_push($documentLines, [
+                    "ItemCode"          => $articles[$i]['ar_id'],
+                    "Quantity"          => $articles[$i]['orderart_quantity'],
+                    "LineTotal"         => $articles[$i]['orderart_pricenormal'],
+                    "TaxCode"           => "IVA",
+                    "WarehouseCode"     => "10",
+                    "DiscountPercent"   => "0",
+                    "BaseType"          => "-1",
+                    "BaseEntry"         => "",
+                    "BaseLine"          => ""
+                ]);
+            }
+            
+            $nitCompany = str_replace('.', '', $company[0]['c_num_nit']);
+            $cardCode   = str_replace('-', '', $nitCompany);
+
+            $data = [
+                'CardCode'      => 'C'.$cardCode,
+                'CardName'      => $company[0]['c_name'],
+                'DocDate'       => date('Ymd'),
+                'TaxDate'       => date('Ymd'),
+                'DocDueDate'    => $docDueDate,
+                'NumAtCard'     => $order_id,
+                'Comments'      => $_POST['comments'],
+                'U_ACS_PCID'    => $order_id,
+                'DocumentLines' => $documentLines
+            ];
+
+            $encodedData = json_encode($data);
+
+            $reflex = new ReflexController();
+            $reflex->createOrder($encodedData);
+        }
+
         redirect(generateUrl("Order", "Order", "ordersCompanies"));
     }
 
@@ -160,72 +209,73 @@ class OrderController
         include_once '../app/Views/order/viewDetaillsOrder.php';
     }
 
-    public function articlesOrderview($idArticle, $quantity, $c_id)
-    {
-        // GET INFO ARTICLE
+    public function articlesOrderview($idArticle, $quantity, $c_id) {
         $objArticle = new ArticlesModel();
-        $article = $objArticle->consultArticleById($idArticle);
+        $article    = $objArticle->consultArticleById($idArticle);
         $idCategory = $article[0]['cat_id'];
-        //GET INFO CATEGORY
-        //CONSULT DISCOUNT CATEGORY
-        $objCategory = new CategoryModel();
-        $category = $objCategory->consultCategoryById($idCategory);
-        $nameCategory = $category[0]['cat_name'];
-        //GET INFO PRICE ARTICLE
-        $objPrice = new PricesModel();
-        $price = $objPrice->consultPriceById($idArticle);
-        //CONSULT DISCOUNT ARTICLE
-        //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
-        $objDiscount = new Customer_discountsModel();
-        $discountCompany = $objDiscount->consultDiscountsByColumn('c_id', $c_id);
 
-        $priceDiscount = null;
-        $discountPercentage = null;
-        $arryArticles = array();
-        $arrayCategories = array();
-        $arraySubcategories = array();
-        $discountPercentajeOrPrice = 'No aplica';
+
+        $objCategory    = new CategoryModel();
+        $category       = $objCategory->consultCategoryById($idCategory);
+        $nameCategory   = $category[0]['cat_name'] ?? 'Sin Categoría';
+
+
+        $objPrice   = new PricesModel();
+        $price      = $objPrice->consultPriceById($idArticle);
+
+
+        $objDiscount        = new Customer_discountsModel();
+        $discountCompany    = $objDiscount->consultDiscountsByColumn('c_id', $c_id);
+
+
+        $priceDiscount              = null;
+        $discountPercentage         = null;
+        $arryArticles               = array();
+        $arrayCategories            = array();
+        $arraySubcategories         = array();
+        $discountPercentajeOrPrice  = 'No aplica';
+
 
         if (!empty($discountCompany)) {
-            //CONSULT CATEGORIES,SUBCATEGORIES,ARTICLES AND DISCOUNT GROUP OF DISCOUNT
-            $objGroups = new GroupsModel();
-            $group = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+            $objGroups  = new GroupsModel();
+            $group      = $objGroups->consultGroupById($discountCompany[0]['gp_id']);
+
             foreach ($discountCompany as $key) {
-                $arryArticles[] = $key['ar_id'];
-                $arrayCategories[] = $key['cat_id'];
-                $arraySubcategories[] = $key['sbcat_id'];
+                $arryArticles[]         = $key['ar_id'];
+                $arrayCategories[]      = $key['cat_id'];
+                $arraySubcategories[]   = $key['sbcat_id'];
             }
 
-            $priceDiscount = $discountCompany[0]['price_discount'];
+            $priceDiscount      = $discountCompany[0]['price_discount'];
             $discountPercentage = $group[0]['gp_discount_percentage'];
 
-
-            // Here it checks if the discount is based on price or percentage, and assigns it to the variable $discountPercentajeOrPrice.
             if (!empty($discountPercentage)) {
                 $discountPercentajeOrPrice = $discountPercentage . '%';
             }
+
             if (!empty($priceDiscount)) {
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
 
-        $PriceWithDiscount = 0;
         $html = '';
 
         foreach ($article as $ar) {
-            $discountedPrice = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price[0]['p_value']);
-            $subtotal = $discountedPrice * $quantity;
+            $price              =  $price[0]['p_value'] ?? 0;
+
+            $discountedPrice    = $this->verifyDiscount($ar['ar_id'], $ar['cat_id'], $ar['sbcat_id'], $arryArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $subtotal           = $discountedPrice * $quantity;
 
             $html .= '<tr>
-                        <td> <i class="fa-solid fa-file"></i>' . $ar['ar_name'] . '</td>
+                        <td>' . $ar['ar_name'] . '</td>
                         <td>' . $nameCategory . '</td>
                         <td>
                             <input readonly type="number" class="form-control quantityArt" name="quantity_article[]" min="1" value="' . $quantity . '">
                             <input  readonly type="hidden"  name="art_id[]" value="' . $ar['ar_id'] . '">
                         </td>
-                        <td class="price">' . $price[0]['p_value'] . '<input readonly type="hidden" name="PriceNormal[]" value="' . $price[0]['p_value'] . '"></td>
+                        <td class="price">$' . $price . '<input readonly type="hidden" name="PriceNormal[]" value="' . $price . '"></td>
                         <td>' . $discountPercentajeOrPrice . '<input readonly type="hidden" name="discountPercentajeOrPrice[]" value=' . $discountPercentajeOrPrice . '></td>
-                        <td class="discount">' . $discountedPrice . '<input readonly type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
+                        <td class="discount">$' . $discountedPrice . '<input readonly type="hidden" name="discountPrice[]" value="' . $discountedPrice . '" ></td>
                         <td class="subtotal">$' . $subtotal . '</td>
                     </tr>';
         }
@@ -575,55 +625,6 @@ class OrderController
         // UPDATE GRAPHICS COMPANY ORDERS
         $objGraphic = new GraphicsModel();
         $_SESSION['LimitCredit'] = $objGraphic->ConsultLimitCredit($_SESSION['IdCompany']);
-
-
-
-        /**
-         * INTEGRACIÓN COMUNICACIÓN API REFLEX
-         */
-
-        $objCompany     = new CompanyModel();
-        $companyData    = $objCompany->consultCompanyByName($company);
-
-        $fechaActual    = new DateTime();
-        $fechaActual->modify('+3 days');
-        $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
-
-        $documentLines  = array();
-
-        for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
-            array_push($documentLines, [
-                "ItemCode"          => $_POST['art_id'][$i],
-                "Quantity"          => $_POST['quantity_article'][$i],
-                "LineTotal"         => $_POST['PriceNormal'][$i],
-                "TaxCode"           => "IVA",
-                "WarehouseCode"     => "10",
-                "DiscountPercent"   => "0",
-                "BaseType"          => "-1",
-                "BaseEntry"         => "",
-                "BaseLine"          => ""
-            ]);
-        }
-        
-        $nitCompany = str_replace('.', '', $companyData[0]['c_num_nit']);
-        $cardCode   = str_replace('-', '', $nitCompany);
-
-        $data = [
-            'CardCode'      => 'C'.$cardCode,
-            'CardName'      => $companyData[0]['c_name'],
-            'DocDate'       => date('Ymd'),
-            'TaxDate'       => date('Ymd'),
-            'DocDueDate'    => $docDueDate,
-            'NumAtCard'     => $order_id,
-            'Comments'      => $_POST['comments'],
-            'U_ACS_PCID'    => $order_id,
-            'DocumentLines' => $documentLines
-        ];
-
-        $encodedData = json_encode($data);
-
-        $reflex = new ReflexController();
-        $reflex->createOrder($encodedData);
 
         redirect(generateUrl("Order", "Order", "ViewOrders"));
     }

@@ -7,8 +7,8 @@
                 <th scope="col">ID</th>
                 <th scope="col">Empresa</th>
                 <th scope="col">NIT</th>
-                <th class="text-nowrap" scope="col">Nombre representante</th>
-                <th class="text-nowrap" scope="col">Limite de credito</th>
+                <th class="text-nowrap" scope="col">Contacto</th>
+                <th class="text-nowrap" scope="col">Limite Crédito</th>
                 <th class="text-nowrap" scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
