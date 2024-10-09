@@ -1,0 +1,73 @@
+----------------------------------------------------------------------------------------------------------
+
+** V6
+
+----------------------------------------------------------------------------------------------------------
+
+** V5
+    La órden sólo se debe enviar a SAP al momento en que el administrador acepta la órden.
+    Cambiar la palabra "Cancelada" por "Rechazada" en la confirmación del pedido.
+    Cambiar la palabra "Clientes Registrados" por "Lista Clientes" desde el módulo de Clientes con el administrador.
+    Ocultar la columna "Nombre Representante" desde el módulo de Clientes con el administrador.
+    Cambiar la palabra "cotizante" a "usuario" en la vista de cotizaciones.
+    Cambiar la palabra "cotizante" a "usuario" en la vista de Pedidos.
+    Al ingresar a la cotización desde el ícono "hoja" se produce un error con las variables.
+    Al ingresar a la pedidos desde el ícono "hoja" se produce un error con las variables.
+    Corregir el exportar de clientes
+    Corregir el exportar de artículos
+    Corregir el importar de clientes
+    Corregir el importar de artículos
+
+    ESPECIAL
+
+    En la sección de clientes desde el administrador, se deben mostrar todos los registros de la tabla Company -> COMPANy corresponde a las empresas registradas, por lo tanto
+    cada administrador, solo tiene acceso a la empresa propia y a los contactos de los clientes.
+
+----------------------------------------------------------------------------------------------------------
+
+** V4
+    Refactorizar la API portal para que no se relacione un articulo con un color.
+    Reconfigurar relación de base de datos para las tablas de artículos con color, categoría y subcategoria no sean obligatoria.
+    Ocultar la columna color de los artículos
+    La Api debe apuntar a la base de datos de prueba (Test DemosByC).                   OK
+    Purgar la base de datos de producción y dejar solo los usuarios autorizados.
+
+----------------------------------------------------------------------------------------------------------
+
+** V3
+    La fecha de cotización debe ser tres días a partir de la fecha de creación.
+    Si la fecha de cotización de vigencia es menor a la fecha del documento, debe aparecer en rojo.
+    Si la fecha de cotización de vigencia está vigente, debe aparecer en color verde.
+    En la tabla para generar una cotización, retirar la imagen del resumen de artículos.
+    En la tabla para generar una orden, retirar la imagen del resumen de artículos.
+    En el formulario para actualizar la información del cliente, se debe alinear el campo "nombre cliente" con los campos "NIT" y "verificación NIT"
+    El Número de verificacion del nit debe ser obligatorio (required)
+    La tabla de cotización de productos, se está mostrando en inglés.
+
+----------------------------------------------------------------------------------------------------------
+
+** V2
+    La leyenda del botón verde, diga "actualizar vigencia del plan"
+    El tercer botón de control de usuarios (clientes) que cambie de "editar datos de empresa" a otro como "activar/desactivar cuenta"
+    Al generar un pedido, se genera un error con variables no declaradas.
+    Al momento entrar y salir de la ventana de edición, se achica o agranda la fila
+    Limpiar directorios en el hosting
+    Limpiar las base de datos en el hosting
+    Configurar nombres de base de datos más representativas.
+    Al crear un pedido directamente, se genera un error por variables indefinidas.
+    Al agregar un producto en la cotización, se debe mostrar como tabla
+    Agregar restricción para agregar la fecha de vigencia de las cotizaciones, que no sea menor a la fecha de creación del documento.
+    El logo de la cotización no aparece.
+    Al momento de actualizar, actualiza todas las cotizaciones de una misma empresa, poniendole la misma fecha -> columna de la fecha de cotización desde el administrador es incorrecta
+    Proponer mejoras UX/UI del sistema -> Requiere una reestructuración de toda la aplicación porque no se desarrollo bajo ningún framework.
+
+----------------------------------------------------------------------------------------------------------
+
+** V1
+    Cargar app a cloud
+
+    Sincronizar cambios con conector
+    API reflef esta 100% operativa
+
+    Consumir API reflef desde la APP
+    redigirir la ruta portalclientessolmaq. -> al domimino principal que es businessandconnection.com
