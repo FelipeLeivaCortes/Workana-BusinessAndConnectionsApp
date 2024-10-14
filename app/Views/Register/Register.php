@@ -22,9 +22,9 @@
     </div>
     <div id="backImg"></div>
 
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
+    <div class="container" style="background: none; border: none;">
+        <div class="card pt-5">
+            <div class="card-body mt-5">
                 <div id="titlteRegisterTop">
                     <div id="circle-title">
                     <i class="fa-solid fa-building" ></i>

@@ -182,9 +182,9 @@ class AccessController
             echo "<script>alert('Ya se envió el registro para ser validado.')</script>";
         }else {
             echo "<script>alert('Este correo ya esta registrado en la base de datos, porfavor utiliza otro.')</script>";
-        }   
+        }
             
-            redirect(generateUrl("Access","Access","UserDestroy"));
+        redirect(generateUrl("Access","Access","UserDestroy"));
     }
 
     //views
