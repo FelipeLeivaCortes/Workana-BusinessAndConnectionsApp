@@ -196,14 +196,14 @@ class AccessController
 
         date_default_timezone_set('America/Bogota');
 
-        header("Cache-Control: private, no-cache, no-store, must-revalidate");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Vary: *");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("ETag: " . md5(rand()));
+        // header("Cache-Control: private, no-cache, no-store, must-revalidate");
+        // header("Pragma: no-cache");
+        // header("Expires: 0");
+        // header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
+        // header("Cache-Control: post-check=0, pre-check=0", false);
+        // header("Vary: *");
+        // header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        // header("ETag: " . md5(rand()));
         
         session_unset();
         session_destroy();
