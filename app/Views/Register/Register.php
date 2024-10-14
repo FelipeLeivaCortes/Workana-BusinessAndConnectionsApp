@@ -1,29 +1,6 @@
 <?php
-date_default_timezone_set('America/Bogota');
-
-use function Helpers\generateUrl;
-// Evitar caché en el navegador
-header("Cache-Control: private, no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
-
-// Evitar caché en proxies compartidos
-header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
-
-// Evitar caché en versiones antiguas de Internet Explorer
-header("Cache-Control: post-check=0, pre-check=0", false);
-
-// Cabecera de Vary
-header("Vary: *");
-
-// Cabecera de Last-Modified
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-// Cabecera de ETag
-header("ETag: " . md5(rand()));
-include_once '../config/helpers.php';
-session_unset();
-session_destroy();
+    use function Helpers\generateUrl;
+    include_once '../config/helpers.php';
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +14,6 @@ session_destroy();
     <link href="css/register.css" rel="stylesheet">
     <link href="css/mobile/register.mobile.css" rel="stylesheet">
     <link rel="stylesheet" href="../vendor/fortawesome/font-awesome/css/all.min.css">
-
 </head>
 
 <body>
@@ -59,7 +35,7 @@ session_destroy();
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="company_name">Nombre de la compañía</label>
-                        <input name="company_name" id="company_name" type="text" class="form-control" required>
+                        <input name="company_name" id="company_name" type="text" class="form-control mt-4" required>
                         <p class="error"><small>El nombre solo puede contener letras.</small></p>
                     </div>
                 </div>
@@ -67,7 +43,7 @@ session_destroy();
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="document">Número de identificación tributaria (NIT)</label>
-                        <input  name="NIT" id="NIT" type="text" class="form-control" required>
+                        <input  name="NIT" id="NIT" type="text" class="form-control mt-4" required>
                         <p class="error"><small>El nombre solo puede contener letras.</small></p>
 
                     </div>
