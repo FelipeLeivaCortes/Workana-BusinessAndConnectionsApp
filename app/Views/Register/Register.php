@@ -14,12 +14,24 @@
     <link href="css/register.css" rel="stylesheet">
     <link href="css/mobile/register.mobile.css" rel="stylesheet">
     <link rel="stylesheet" href="../vendor/fortawesome/font-awesome/css/all.min.css">
+
+    <style>
+        .container {
+            position: unset;
+            border: none;
+            /* width: 70%; */
+            /* height: 80%; */
+            background: none;
+            margin: auto;
+            z-index: 0;
+            padding: auto;
+            border-radius: 5%;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="margintop">
-
-    </div>
+    <div class="margintop"></div>
     <div id="backImg"></div>
 
     <div class="container" style="background: none; border: none;">
