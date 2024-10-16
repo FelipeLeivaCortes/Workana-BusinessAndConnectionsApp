@@ -386,7 +386,7 @@ class CompanyController
             'CardType'      => 'C',
             'EmailAddress'  => $representative_email,
             'FederalTaxID'  => $c_num_nit.'-'.$numVerNIT,
-            'U_ACS_PCID'    => $c_id
+            'U_ACS_PCID'    => null
         ];
 
         $encodedData = json_encode($data);
