@@ -4,7 +4,6 @@ require '../vendor/autoload.php';
 use Models\Order\OrderModel;
 use Models\Articles\ArticlesModel;
 use Models\Pdf\PdfModel;
-use Models\Stock\StockModel;
 use Models\Prices\PricesModel;
 use Models\Category\CategoryModel;
 use Models\Company\CompanyModel;
@@ -84,11 +83,11 @@ class OrderController
 
             for ($i=0; $i<sizeof($articles); $i++) {
                 array_push($documentLines, [
-                    "ItemCode"          => $articles[$i]['ar_id'],
+                    "ItemCode"          => '100AA02142000965',
                     "Quantity"          => $articles[$i]['orderart_quantity'],
-                    "LineTotal"         => $articles[$i]['orderart_pricenormal'],
-                    "TaxCode"           => "IVA",
-                    "WarehouseCode"     => "10",
+                    "LineTotal"         => '1',
+                    "TaxCode"           => "IVAG19",
+                    "WarehouseCode"     => "V106",
                     "DiscountPercent"   => "0",
                     "BaseType"          => "-1",
                     "BaseEntry"         => "",
@@ -100,7 +99,7 @@ class OrderController
             $cardCode   = str_replace('-', '', $nitCompany);
 
             $data = [
-                'CardCode'      => 'C'.$cardCode,
+                'CardCode'      => '1032362382',
                 'CardName'      => $company[0]['c_name'],
                 'DocDate'       => date('Ymd'),
                 'TaxDate'       => date('Ymd'),
@@ -445,14 +444,6 @@ class OrderController
      */
     public function pdfOrder()
     {
-        
-
-
-
-
-
-
-
         $objOrder                   = new OrderModel();
         $objSellerOrder             = new OrderModel();
         $name                       = $_POST['name'];
