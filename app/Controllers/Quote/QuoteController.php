@@ -448,11 +448,11 @@ class QuoteController
 
         for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
             array_push($documentLines, [
-                "ItemCode"          => $_POST['art_id'][$i],
+                "ItemCode"          => '100AA02142000965',
                 "Quantity"          => $_POST['quantity_article'][$i],
-                "LineTotal"         => $_POST['PriceNormal'][$i],
-                "TaxCode"           => "IVA",
-                "WarehouseCode"     => "10",
+                "LineTotal"         => '1',
+                "TaxCode"           => "IVAG19",
+                "WarehouseCode"     => "V106",
                 "DiscountPercent"   => "0",
                 "BaseType"          => "-1",
                 "BaseEntry"         => "",
@@ -464,7 +464,7 @@ class QuoteController
         $cardCode   = str_replace('-', '', $nitCompany);
 
         $data = [
-            'CardCode'      => 'C'.$cardCode,
+            'CardCode'      => '1032362382',
             'CardName'      => $companyData[0]['c_name'],
             'DocDate'       => date('Ymd'),
             'TaxDate'       => date('Ymd'),

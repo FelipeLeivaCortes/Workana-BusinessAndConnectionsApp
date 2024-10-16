@@ -7,3 +7,4 @@ vendor/
 .env
 public/uploads/
 public/.env
+Tareas.yml

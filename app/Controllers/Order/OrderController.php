@@ -445,6 +445,14 @@ class OrderController
      */
     public function pdfOrder()
     {
+        
+
+
+
+
+
+
+
         $objOrder                   = new OrderModel();
         $objSellerOrder             = new OrderModel();
         $name                       = $_POST['name'];
@@ -506,6 +514,10 @@ class OrderController
         }
 
         $articles = $_POST['art_id'];
+
+        dd($articles);
+        exit;
+
         $quantity = $_POST['quantity_article'];
 
         if (isset($_POST['fieldName']) && isset($_POST['fieldValue'])) {
@@ -553,9 +565,20 @@ class OrderController
             }
         }
 
+        dd('OK');
+        exit;
+
         foreach ($articles as $key => $ar_id) {
             $article = $objArticle->consultArticleById($ar_id);
+            
+            dd($article);
+            exit;
+
+            dd($objPrice->consultPriceById($ar_id));
+            exit;
+            
             $article['price'] = $price['p_value'] = $objPrice->consultPriceById($ar_id);
+
 
             $price     = $article['price'][0]['p_value'] ?? 0;
 

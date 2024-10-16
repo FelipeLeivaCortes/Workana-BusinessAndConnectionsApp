@@ -298,6 +298,21 @@
             </ul>
         </li>
 
+        <!-- module -->
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-paste"></i>
+                <div data-i18n="Authentications">Facturas</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="<?= Helpers\generateUrl("Bill","Bill","ViewBills");?>" class="menu-link">
+                        <div data-i18n="Basic">Ver</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
             <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
         </div>
