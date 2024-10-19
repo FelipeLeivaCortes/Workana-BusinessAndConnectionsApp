@@ -7,10 +7,8 @@ use Models\MasterModel;
 Class PricesModel extends MasterModel
 {
 
-    public function consultPriceById($id)
-    {   
-        $result = $this->selectById('prices', 'ar_id', $id);
-        return $result;
+    public function consultPriceById($id) {
+        return $this->selectById('prices', 'ar_id', $id);
     }
 
     public function insertPrice($ar_id,$wh_id,$p_value){

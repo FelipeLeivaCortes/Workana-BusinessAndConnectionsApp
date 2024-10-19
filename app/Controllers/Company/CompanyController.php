@@ -306,7 +306,6 @@ class CompanyController
         include_once "../app/Views/clients/updateClients.php";
     }
 
-
     public function UpdateDataCompany() {
         $c_id                   = $_POST['c_id'];
         $c_name                 = $_POST['c_name'];
@@ -378,7 +377,7 @@ class CompanyController
         
 
         /**
-         * ENVIANDO DATOS A LA API REFLEX
+         * ENVIANDO DATOS A LA API REFLEX - ACTUALIZACIÓN DE CLIENTE DESDE ADMINISTRADOR
          */
         $data = [
             'CardCode'      => $cardCode,
@@ -386,7 +385,6 @@ class CompanyController
             'CardType'      => 'C',
             'EmailAddress'  => $representative_email,
             'FederalTaxID'  => $c_num_nit.'-'.$numVerNIT
-            // 'U_ACS_PCID'    => null
         ];
 
         $encodedData = json_encode($data);
@@ -396,7 +394,6 @@ class CompanyController
         
         redirect(generateUrl("Company", "Company", "consultCompanies"));
     }
-
 
     public function updateAddressShippingToAddressBilling() {
         $obj = new CompanyModel();
@@ -437,7 +434,6 @@ class CompanyController
         }
     }
     
-
     public function viewchangePassword(){
         $u_id=$_POST['id'];
         include_once '../app/Views/infoCompany/changePasswordUserCompany.php';
@@ -465,14 +461,42 @@ class CompanyController
     }
 
     public function updateAddressBilling(){
-        $obj= new CompanyModel();
-        $street= $_POST['street'];
-        $apartament= $_POST['apartament'];
-        $country= $_POST['country'];
-        $city= $_POST['city'];
-        $state= $_POST['state'];
-        $postalcode= $_POST['postalcode'];
-        $obj->updateAddressBilling( $street,$apartament,$country,$city,$state,$postalcode,$_SESSION['IdCompany']);
+        $obj        = new CompanyModel();
+       
+        $street     = $_POST['street'];
+        $apartament = $_POST['apartament'];
+        $country    = $_POST['country'];
+        $city       = $_POST['city'];
+        $state      = $_POST['state'];
+        $postalcode = $_POST['postalcode'];
+
+        $obj->updateAddressBilling(
+            $street,
+            $apartament,
+            $country,
+            $city,
+            $state,
+            $postalcode,
+            $_SESSION['IdCompany']
+        );
+
+        /**
+         * ENVIANDO DATOS A LA API REFLEX - ACTUALIZACIÓN DE CLIENTE DESDE CLIENTE
+         */
+        $company    = $obj->ConsultCompany($_SESSION['IdCompany']);
+
+        $data = [
+            'CardCode'      => 'C'.$company[0]['c_num_nit'],
+            'CardName'      => $company[0]['c_name'],
+            'CardType'      => 'C',
+            'EmailAddress'  => $_SESSION['EmailUser'],
+            'FederalTaxID'  => $company[0]['c_num_nit'].'-'.$company[0]['c_num_ver_nit']
+        ];
+
+        $encodedData = json_encode($data);
+
+        $reflex = new ReflexController();
+        $reflex->updateClient($encodedData);
     }
 
     public function updateAddressShipping(){
@@ -500,4 +524,3 @@ class CompanyController
     }
 }
 
-?>

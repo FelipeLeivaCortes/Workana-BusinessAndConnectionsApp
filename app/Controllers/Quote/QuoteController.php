@@ -14,6 +14,8 @@ use Models\Customer_payment_method\Customer_payment_methodModel;
 use Models\MethodsPay\MethodsPayModel;
 use Models\Sellers\SellersModel;
 use Models\User\UserModel;
+use Mpdf\Tag\Article;
+
 use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
@@ -434,7 +436,7 @@ class QuoteController
 
 
         /**
-         * INTEGRACIÓN COMUNICACIÓN API REFLEX
+         * INTEGRACIÓN COMUNICACIÓN API REFLEX - CREACIÓN COTIZACIÓN
          */
 
         $objCompany     = new CompanyModel();
@@ -447,10 +449,18 @@ class QuoteController
         $documentLines  = array();
 
         for ($i=0; $i<sizeof($_POST['quantity_article']); $i++) {
+            $quantity   = $_POST['quantity_article'][$i];
+
+            $articleObj = new ArticlesModel();
+            $article    = $articleObj->consultArticleById($_POST['art_id'][$i]);
+            $ar_code    = $article[0]['ar_code'];
+
+            $price      = $_POST['PriceNormal'][$i] <= 0 ? 1 : $_POST['PriceNormal'][$i];
+
             array_push($documentLines, [
-                "ItemCode"          => '100AA02142000965',
-                "Quantity"          => $_POST['quantity_article'][$i],
-                "LineTotal"         => '1',
+                "ItemCode"          => $ar_code,
+                "Quantity"          => $quantity,
+                "LineTotal"         => $price,
                 "TaxCode"           => "IVAG19",
                 "WarehouseCode"     => "V106",
                 "DiscountPercent"   => "0",
@@ -464,7 +474,7 @@ class QuoteController
         $cardCode   = str_replace('-', '', $nitCompany);
 
         $data = [
-            'CardCode'      => '1032362382',
+            'CardCode'      => 'C'.$cardCode,
             'CardName'      => $companyData[0]['c_name'],
             'DocDate'       => date('Ymd'),
             'TaxDate'       => date('Ymd'),

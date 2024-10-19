@@ -82,13 +82,31 @@ class OrderController
             $articles   = $order->consultArticlesOfTheOrder($order_id);
 
             for ($i=0; $i<sizeof($articles); $i++) {
+                $articleObj = new ArticlesModel();
+                $article    = $articleObj->consultArticleById($articles[$i]['orderart_id']);
+                $ar_code    = $article[0]['ar_code'];
+
+                $price      = $articles[$i]['orderart_pricenormal'];
+                
+                if ($price > 0 && $articles[$i]['orderart_discountPrice'] > 0) {
+
+                    if ($articles[$i]['orderart_discountPrice'] >= $price) {
+                        $discountPercentage = 100;
+                    } else {
+                        $discountPercentage = ($articles[$i]['orderart_discountPrice'] / $price ) * 100;
+                    }
+
+                } else {
+                    $discountPercentage = 0;
+                }
+
                 array_push($documentLines, [
-                    "ItemCode"          => '100AA02142000965',
+                    "ItemCode"          => $ar_code,
                     "Quantity"          => $articles[$i]['orderart_quantity'],
-                    "LineTotal"         => '1',
+                    "LineTotal"         => $price,
                     "TaxCode"           => "IVAG19",
                     "WarehouseCode"     => "V106",
-                    "DiscountPercent"   => "0",
+                    "DiscountPercent"   => $discountPercentage,
                     "BaseType"          => "-1",
                     "BaseEntry"         => "",
                     "BaseLine"          => ""
@@ -99,7 +117,7 @@ class OrderController
             $cardCode   = str_replace('-', '', $nitCompany);
 
             $data = [
-                'CardCode'      => '1032362382',
+                'CardCode'      => 'C'.$cardCode,
                 'CardName'      => $company[0]['c_name'],
                 'DocDate'       => date('Ymd'),
                 'TaxDate'       => date('Ymd'),
@@ -504,13 +522,6 @@ class OrderController
             $objOrder->insertOrderArticle($order_id, $article_id, $quantity, $PriceNormal[$key], $discountType, $discountedPrice);
         }
 
-        $articles = $_POST['art_id'];
-
-        dd($articles);
-        exit;
-
-        $quantity = $_POST['quantity_article'];
-
         if (isset($_POST['fieldName']) && isset($_POST['fieldValue'])) {
             $fieldName  = $_POST['fieldName'];
             $fieldValue = $_POST['fieldValue'];
@@ -555,32 +566,21 @@ class OrderController
                 $discountPercentajeOrPrice = $priceDiscount . '$';
             }
         }
+        
+        for ($i=0; $i<sizeof($_POST['art_id']); $i++) {
+            $article                = $objArticle->consultArticleById($_POST['art_id'][$i]);
+            $article[0]['price']    = sizeof($objPrice->consultPriceById($_POST['art_id'][$i])) == 0 ? 0 : $objPrice->consultPriceById($_POST['art_id'][$i]);
+            $price                  = $article[0]['price'];
 
-        dd('OK');
-        exit;
+            $discountedPrice            = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $article[0]['pricePre']     = $price;
+            $article[0]['price']        = $discountedPrice;
+            $article[0]['discountPercentajeOrPrice']    = $discountPercentajeOrPrice;
+            $article[0]['quantity']     = $_POST['quantity_article'][$i];
 
-        foreach ($articles as $key => $ar_id) {
-            $article = $objArticle->consultArticleById($ar_id);
-            
-            dd($article);
-            exit;
-
-            dd($objPrice->consultPriceById($ar_id));
-            exit;
-            
-            $article['price'] = $price['p_value'] = $objPrice->consultPriceById($ar_id);
-
-
-            $price     = $article['price'][0]['p_value'] ?? 0;
-
-            $discountedPrice        = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
-            $article['pricePre']    = $price;
-            $article['price']       = $discountedPrice;
-            $article['discountPercentajeOrPrice'] = $discountPercentajeOrPrice;
-            $article['quantity']    = $quantity[$key];
-
-            $articleArray[]         = $article;
+            $articleArray[]             = $article[0];
         }
+
 
         $objOrder           = new OrderModel();
         $objconsultOrderyId = $objOrder->consultOrderById($order_id);
