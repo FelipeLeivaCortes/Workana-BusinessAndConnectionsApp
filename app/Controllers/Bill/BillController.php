@@ -20,27 +20,22 @@ use function Helpers\redirect;
 class BillController
 {
 
-    public function ViewBills(){
+    public function ViewBills() {
 
-        return 'OK';
-        // $obj        = new CompanyModel();
-        // $objUser    = new UserModel();
-        // $objCredit  = new CreditLimitModel();
+        $bills  = [
+            [
+                'id'        => 101,
+                'date'      => date('Y-m-d H:i:s'),
+                'client'    => 'Cliente',
+                'amount'    => 1000,
+                'url_doc'   => 'document_url'
+            ]
+        ];
         
-        // /**
-        //  * Los status son:
-        //  *  1 = Active
-        //  *  2 = Inactive
-        //  */
-        // $users      = $objUser->consultUsersWithRol('3');
+        include_once "../app/Views/bill/index.php";
+    }
 
-        // foreach ($users as $u => $value) {
-        //     $companies              = $obj->consultCompany($value['c_id']);
-        //     $credit                 = $objCredit->ConsultCreditLimitByIdCompany($value['c_id']);
-        //     $users[$u]['user']      = $companies;
-        //     $users[$u]['credit']    = $credit;
-        // }
-        
-        // include_once "../app/Views/clients/consultClients.php";
+    public function viewDetaillBill() {
+        return 'EN DESARROLLO';
     }
 }

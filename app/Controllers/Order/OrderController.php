@@ -433,8 +433,17 @@ class OrderController
 
     public function ordersCompanies()
     {
-        $obj = new OrderModel();
-        $orders = $obj->consultOrdersClients();
+        $obj        = new OrderModel();
+        
+        $ordersDB   = $obj->consultOrdersClients();
+        $reflex     = new ReflexController();
+        $ordersSAP  = $reflex->getOrders();
+        $orders     = array_merge($ordersDB, $ordersSAP);
+
+        usort($orders, function($a, $b) {
+            return $b['order_id'] <=> $a['order_id'];
+        });
+
         include_once '../app/Views/order/ordersConsultCompanies.php';
     }
 

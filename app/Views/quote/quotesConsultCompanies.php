@@ -14,6 +14,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Empresa</th>
+                <th scope="col">Origen</th>
                 <th scope="col">Usuario</th>
                 <th scope="col">Fecha del documento</th>
                 <th scope="col">Fecha vigencia cotización</th>
@@ -21,6 +22,7 @@
                 <th scope="col">Acciones</th>
             </tr>
             <tr class="text-center">
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -56,6 +58,7 @@
 					echo '<tr>
 					<td>'.$q['quo_id'].'</td>
 					<td>'.$q['c_name'].'</td>
+                    <td>'.$q['origin'].'</td>
 					<td>'.$q['quo_name'].'</td>
 					<td>'.$q['quo_date'].'</td>
                     <td class="'.$classValidityQuote.'">'.$emptyDateQuoteValidity.'</td>

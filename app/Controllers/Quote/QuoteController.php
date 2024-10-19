@@ -191,8 +191,16 @@ class QuoteController
     public function quotesCompanies()
     {
         $obj    = new QuoteModel();
-        $quotes = $obj->consultQuotesClients();
         
+        $quotesDB   = $obj->consultQuotesClients();
+        $reflex     = new ReflexController();
+        $quotesSAP  = $reflex->getQuotes();
+        $quotes     = array_merge($quotesDB, $quotesSAP);
+
+        usort($quotes, function($a, $b) {
+            return $b['quo_id'] <=> $a['quo_id'];
+        });
+
         include_once '../app/Views/quote/quotesConsultCompanies.php';
     }
 

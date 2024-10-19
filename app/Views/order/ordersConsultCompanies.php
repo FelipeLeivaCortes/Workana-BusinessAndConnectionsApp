@@ -8,8 +8,9 @@
         <table class="table DataTable table-hover slide-in-top table-stripe">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Empresa</th>
+                    <th scope="col">Origen</th>
                     <th scope="col">Usuario</th>
                     <th scope="col">Fecha del documento</th>
                     <th scope="col">Estado del documento</th>
@@ -17,6 +18,7 @@
                     <th scope="col">Acciones</th>
                 </tr>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -32,6 +34,7 @@
                         echo '<tr>
                         <td>'.$q['order_id'].'</td>
                         <td>'.$q['c_name'].'</td>
+                        <td>'.$q['origin'].'</td>
                         <td>'.$q['order_name'].'</td>
                         <td>'.$q['order_date'].'</td>
                         <td>'.$q['state_name_es'].'</td>

@@ -32,17 +32,19 @@ class OrderModel extends MasterModel
 
     public function consultOrdersClients()
     {
-        $sql = "SELECT `orders`.*,order_states.*, company.c_id, company.c_name
-        FROM `orders`
-        INNER JOIN users
-        ON users.u_id = `orders`.u_id
-        INNER JOIN order_states
-        ON `orders`.order_state_id=order_states.order_state_id
-        INNER JOIN company
-        ON company.c_id=users.c_id";
-        $params = [];
-        
-        return $this->select($sql, $params);
+        $sql = "SELECT
+                    `orders`.*,
+                    'portal' AS origin,
+                    order_states.*,
+                    company.c_id,
+                    company.c_name
+                FROM
+                    `orders`
+                    INNER JOIN users ON users.u_id = `orders`.u_id
+                    INNER JOIN order_states ON `orders`.order_state_id = order_states.order_state_id
+                    INNER JOIN company ON company.c_id=users.c_id";
+
+        return $this->select($sql, []);
     }
 
     public function insertExtraAttributeOrder($order_attrs_name, $order_attrs_desc, $order_id)

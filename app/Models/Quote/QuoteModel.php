@@ -52,6 +52,7 @@ class QuoteModel extends MasterModel
     {
         $sql = "SELECT
                     quotes.*,
+                    'Portal' AS origin,
                     company.c_id,
                     company.c_name,
                     company.c_dateQuoteValidity

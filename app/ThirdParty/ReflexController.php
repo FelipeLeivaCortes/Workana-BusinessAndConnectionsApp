@@ -68,6 +68,43 @@
             $this->sendData();
         }
 
+        public function getQuotes($data=[]) {
+            // $this->escenario    = 'OFVE_Obtener';
+            // $this->data         = base64_encode($data);
+            // $response   = $this->getData($data);
+
+            return [
+                [
+                    'quo_id'            => 100,
+                    'c_name'            => 'Empresa',
+                    'origin'            => 'SAP',
+                    'quo_name'          => 'Cotizante',
+                    'quo_date'          => date('Y-m-d H:i:s'),
+                    'quo_total'         => 1000,
+                    'quo_url_document'  => 'myURL'
+                ]
+            ];
+        }
+
+        public function getOrders($data=[]) {
+            // $this->escenario    = 'OFVE_Obtener';
+            // $this->data         = base64_encode($data);
+            // $response   = $this->getData($data);
+
+            return [
+                [
+                    'c_id'                  => 2,
+                    'order_id'              => 100,
+                    'c_name'                => 'Empresa',
+                    'origin'                => 'SAP',
+                    'order_name'            => 'Cotizante',
+                    'order_date'            => date('Y-m-d H:i:s'),
+                    'state_name_es'         => 'Estado',
+                    'order_total'           => 1000,
+                    'order_url_document'    => 'myURL'
+                ]
+            ];
+        }
 
 
         public function createOrder($data) {
@@ -124,6 +161,52 @@
                 }
 
                 curl_close($ch);
+            }
+        }
+
+        /**
+         * ESTABLECIENDO COMUNICACIÓN CON LA API
+         * SÓLO SI ESTÁ HABILITADA LA CONEXIÓN.
+         */
+        private function getData() {
+            if ($this->enableConnection) {
+                // $url    = $this->urlApi."/api/ProcesarData/Procesar";
+                // $data   = [
+                //     "nit"       => $this->nit,
+                //     "interface" => $this->interface,
+                //     "escenario" => $this->escenario,
+                //     "dockey"    => $this->donkey,
+                //     "data"      => $this->data
+                // ];
+                
+                // $jsonData   = json_encode($data);
+                // $ch         = curl_init($url);
+
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                //     'Content-Type: application/json',
+                //     'Content-Length: ' . strlen($jsonData),
+                //     'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
+                // ]);
+                // curl_setopt($ch, CURLOPT_POST, true);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                
+                // $jsonResponse = curl_exec($ch);
+
+                // if (curl_errno($ch)) {
+                //     dd(curl_error($ch));
+
+                // } else {
+                //     $response = json_decode($jsonResponse, true);
+
+                //     if($response['recibido'] != 'OK') {
+                //         dd($jsonResponse);
+                //     }
+                // }
+
+                // curl_close($ch);
+
+                return [];
             }
         }
     }
