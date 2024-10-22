@@ -34,7 +34,7 @@ class OrderModel extends MasterModel
     {
         $sql = "SELECT
                     `orders`.*,
-                    'portal' AS origin,
+                    'Portal' AS origin,
                     order_states.*,
                     company.c_id,
                     company.c_name

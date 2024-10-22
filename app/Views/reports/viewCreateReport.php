@@ -2,7 +2,7 @@
     <div class="<?php echo ($_SESSION['RolUser'] == '2') ? 'col-md-4' : 'col-md-6'; ?>">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Reporte de Cotización</h5>
+                <h5 class="card-title">Reporte Cotizaciones</h5>
             </div>
             <div class="card-body">
                 <form action="<?php echo Helpers\generateUrl("Reports","Reports","reportsQuotes",[],"ajax")?>" method="POST">
@@ -27,7 +27,7 @@
     <div class="<?php echo ($_SESSION['RolUser'] == '2') ? 'col-md-4' : 'col-md-6'; ?>">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Reporte de Pedidos</h5>
+                <h5 class="card-title">Reporte Pedidos</h5>
             </div>
             <div class="card-body">
                 <form  action="<?= Helpers\generateUrl("Reports","Reports","reportsOrders",[],"ajax")?>" method="POST">

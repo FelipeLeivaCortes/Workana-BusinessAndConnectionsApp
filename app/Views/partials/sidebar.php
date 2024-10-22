@@ -302,11 +302,11 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-paste"></i>
-                <div data-i18n="Authentications">Facturas</div>
+                <div data-i18n="Authentications">Facturas Pendientes</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="<?= Helpers\generateUrl("Bill","Bill","ViewBills");?>" class="menu-link">
+                    <a href="<?= Helpers\generateUrl("Bill","Bill","viewBills");?>" class="menu-link">
                         <div data-i18n="Basic">Ver</div>
                     </a>
                 </li>

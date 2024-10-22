@@ -20,7 +20,7 @@ use function Helpers\redirect;
 class BillController
 {
 
-    public function ViewBills() {
+    public function viewBills() {
 
         $bills  = [
             [
@@ -31,7 +31,7 @@ class BillController
                 'url_doc'   => 'document_url'
             ]
         ];
-        
+
         include_once "../app/Views/bill/index.php";
     }
 
