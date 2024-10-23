@@ -67,26 +67,29 @@ class ReportsController
 
     public function reportsOrders()
     {
-        $report = new ReportsModel();   
-        $date_init = $_POST['order-date-init'];
-        $date_end = $_POST['order-date-end'];  
+        ob_start();
+
+        $report     = new ReportsModel();
+        $date_init  = $_POST['order-date-init'];
+        $date_end   = $_POST['order-date-end'];
         $dataReport = $report->generateReportOrdersWithCompanyAndRol($_SESSION['IdCompany'], $_SESSION['RolUser'], $date_init, $date_end);
-        $totaldocs = count($dataReport);
-        $excel = new ExcelModel();
-        // Datos para el archivo Excel
+        $totaldocs  = count($dataReport);
+        $excel      = new ExcelModel();
+        
         $data = array(
             array('No. Pedido', 'Fecha de pedido', 'Cliente', 'Empresa', 'Subtotal', 'Impuestos', 'Total')
         );
-        // vars excel    
-        $subtotal = 0;
-        $iva = 0;
-        $total = 0;
+
+        $subtotal   = 0;
+        $iva        = 0;
+        $total      = 0;
 
         foreach ($dataReport as $d) {
-            $subtotal = number_format($d['total_subtotal'], 2, ',', '.');
-            $iva = number_format($d['total_iva'], 2, ',', '.');
-            $total = number_format($d['total_total'], 2, ',', '.');
-            $row = array(
+            $subtotal   = number_format($d['total_subtotal'], 2, ',', '.');
+            $iva        = number_format($d['total_iva'], 2, ',', '.');
+            $total      = number_format($d['total_total'], 2, ',', '.');
+
+            $row    = array(
                 $d['order_id'],
                 $d['order_date'],
                 $d['order_name'],
@@ -96,24 +99,21 @@ class ReportsController
                 $d['order_total']
                 );
         
-                array_push($data, $row);
-        }  
-        // Generar el archivo Excel
-        $filename = 'Reporte_Pedido';
-        $filePath=$excel->generateExcel($data, $filename, 9, 8, $totaldocs, $subtotal, $iva, $total, 'uploads/templatesExcel/TemplateReportsOrders.xlsx');
-        // Limpiar el búfer de salida
+            array_push($data, $row);
+        }
+
+        $filename   = 'Reporte_Pedido';
+        $filePath   = $excel->generateExcel($data, $filename, 9, 8, $totaldocs, $subtotal, $iva, $total, 'uploads/templatesExcel/TemplateReportsOrders.xlsx');
+        
         ob_clean();
-        // Establecer las cabeceras HTTP para la descarga del archivo
+        
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
         header('Content-Length: ' . filesize($filePath));
        
-        // Leer y mostrar el archivo
         readfile($filePath);
         
-        // Salir para evitar cualquier salida adicional
         exit;
-        
     }
     
     public function reportsStock(){
