@@ -16,27 +16,29 @@ class ReportsController
     }
 
     public function reportsQuotes(){
-        $report= new ReportsModel();
-        $date_init=$_POST['cotizacion-fecha-inicio'];
-        $date_end=$_POST['cotizacion-fecha-fin'];
-        $dataReport=$report->generateReportQuotesWithCompanyAndRol($_SESSION['IdCompany'],$_SESSION['RolUser'],$date_init,$date_end);
-        $totaldocs=count($dataReport);      
-        $excel= new ExcelModel();
-    //    dd($dataReport);
-        // Datos para el archivo Excel
+        ob_start();
+
+        $report     = new ReportsModel();
+        $date_init  = $_POST['cotizacion-fecha-inicio'];
+        $date_end   = $_POST['cotizacion-fecha-fin'];
+        $dataReport = $report->generateReportQuotesWithCompanyAndRol($_SESSION['IdCompany'],$_SESSION['RolUser'],$date_init,$date_end);
+        $totaldocs  = count($dataReport);
+        $excel      = new ExcelModel();
+
         $data = array(
             array('No. Cotizacion', 'Fecha de cotizacion', 'Cliente','Empresa', 'Subtotal','Impuestos','Total')
         );
-        // vars excel
-        $subtotal = 0;
-        $iva = 0;
-        $total = 0;
+        
+        $subtotal   = 0;
+        $iva        = 0;
+        $total      = 0;
 
         foreach ($dataReport as $d) {
-            $subtotal = number_format($d['total_subtotal'], 2, ',', '.');
-            $iva = number_format($d['total_iva'], 2, ',', '.');
-            $total = number_format($d['total_total'], 2, ',', '.');            
-            $row = array(
+            $subtotal   = number_format($d['total_subtotal'], 2, ',', '.');
+            $iva        = number_format($d['total_iva'], 2, ',', '.');
+            $total      = number_format($d['total_total'], 2, ',', '.');
+
+            $row    = array(
                 $d['quo_id'],
                 $d['quo_date'],
                 $d['quo_name'],
@@ -48,26 +50,20 @@ class ReportsController
         
             array_push($data, $row);
         }
-        // dd($data);
-       
-        // Generar el archivo Excel
-        $filename = 'Reporte_Cotizacion';
-        $filePath=$excel->generateExcel($data, $filename,9,8,$totaldocs,$subtotal,$iva,$total,'uploads/templatesExcel/TemplateReportsQuotes.xlsx');
-        // Limpiar el búfer de salida
+
+        $filename   = 'Reporte_Cotizacion';
+        $filePath   = $excel->generateExcel($data, $filename,9,8,$totaldocs,$subtotal,$iva,$total,'uploads/templatesExcel/TemplateReportsQuotes.xlsx');
+        
         ob_clean();
-        // Establecer las cabeceras HTTP para la descarga del archivo
+        
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
         header('Content-Length: ' . filesize($filePath));
 
-        // Leer y mostrar el archivo
         readfile($filePath);
         
-        // Salir para evitar cualquier salida adicional
         exit;
-        
     }
-
 
     public function reportsOrders()
     {
