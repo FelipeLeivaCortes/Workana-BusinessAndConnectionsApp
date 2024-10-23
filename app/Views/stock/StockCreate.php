@@ -46,41 +46,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-    foreach ($articles as $arti) { 
-        ?>
-                    <tr>
-                        <td><?= $arti['ar_id']?></td>
-                        <td><img class="viewArticle"
-                                data-url="<?= Helpers\generateUrl("Stock","Stock","viewArticleDesc",[],"ajax")?>"
-                                data-value="<?= $arti['ar_id']?>" src="<?= $arti['ar_img_url']?>" alt="..."
-                                height="100">
-                        </td>
-                        <td><?= $arti['ar_name']?></td>
-                        <td><?= $arti['ar_code']?></td>
-                        <td class="truncate"><?= $arti['ar_desc']?></td>
-                        <td><?= $arti['stock_lote']?></td>
-                        <td><?= $arti['stock_quantity']?></td>
-                        <td><?= $arti['quantityImplicated']?></td>
-                        <td style="color: <?= ($arti['quantityImplicated'] >= 0) ? 'green' : 'red' ?>">
-                            <?= ($arti['quantityImplicated'] >= 0) ? ($arti['stock_quantity'] - $arti['quantityImplicated']) : $arti['stock_quantity'] ?>
-                        </td>
-                        <td><?= $arti['p_value']?></td>
-                        <td><?= $arti['stock_date_entry']?></td>
-                        <td>
-                            <?= !empty($arti['stock_expiration_date']) ? $arti['stock_expiration_date'] : "<em>No tiene fecha de expiración</em>" ?>
-                        </td>
-                        <td><?= $arti['wh_name']?></td>
-                        <td><button id="editArticleOfStock" data-id="<?=$arti['ar_id']?>"
-                                data-url="<?=Helpers\generateUrl("Stock","Stock","UpdateArticleOfStockModal",[],"ajax")?>"
-                                title="Editar inventario" class="btn btn-outline-warning"><img src="img/editar.png"
-                                    alt="" srcset=""></button></td>
-                    </tr>
-                    <?php
-    }
-    ?>
+                    <?php foreach ($articles as $arti) { ?>
+                        <tr>
+                            <td><?= $arti['ar_id']?></td>
+                            <td><img class="viewArticle"
+                                    data-url="<?= Helpers\generateUrl("Stock","Stock","viewArticleDesc",[],"ajax")?>"
+                                    data-value="<?= $arti['ar_id']?>" src="<?= $arti['ar_img_url']?>" alt="..."
+                                    height="100">
+                            </td>
+                            <td><?= $arti['ar_name']?></td>
+                            <td><?= $arti['ar_code']?></td>
+                            <td class="truncate"><?= $arti['ar_desc']?></td>
+                            <td><?= $arti['stock_lote']?></td>
+                            <td><?= $arti['stock_quantity']?></td>
+                            <td><?= $arti['quantityImplicated']?></td>
+                            <td style="color: <?= ($arti['quantityImplicated'] >= 0) ? 'green' : 'red' ?>">
+                                <?= ($arti['quantityImplicated'] >= 0) ? ($arti['stock_quantity'] - $arti['quantityImplicated']) : $arti['stock_quantity'] ?>
+                            </td>
+                            <td><?= $arti['p_value']?></td>
+                            <td><?= $arti['stock_date_entry']?></td>
+                            <td>
+                                <?= !empty($arti['stock_expiration_date']) ? $arti['stock_expiration_date'] : "<em>No tiene fecha de expiración</em>" ?>
+                            </td>
+                            <td><?= $arti['wh_name']?></td>
+                            <td><button id="editArticleOfStock" data-id="<?=$arti['ar_id']?>"
+                                    data-url="<?=Helpers\generateUrl("Stock","Stock","UpdateArticleOfStockModal",[],"ajax")?>"
+                                    title="Editar inventario" class="btn btn-outline-warning"><img src="img/editar.png"
+                                        alt="" srcset=""></button></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
-
             </table>
         </div>
     </div>

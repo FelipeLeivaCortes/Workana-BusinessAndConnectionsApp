@@ -83,7 +83,7 @@ class OrderController
 
             for ($i=0; $i<sizeof($articles); $i++) {
                 $articleObj = new ArticlesModel();
-                $article    = $articleObj->consultArticleById($articles[$i]['orderart_id']);
+                $article    = $articleObj->consultArticleById($articles[$i]['ar_id']);
                 $ar_code    = $article[0]['ar_code'];
 
                 $price      = $articles[$i]['orderart_pricenormal'];
@@ -123,7 +123,7 @@ class OrderController
                 'TaxDate'       => date('Ymd'),
                 'DocDueDate'    => $docDueDate,
                 'NumAtCard'     => $order_id,
-                'Comments'      => $_POST['comments'],
+                'Comments'      => $_POST['comments'] ?? null,
                 'U_ACS_PCID'    => $order_id,
                 'DocumentLines' => $documentLines
             ];

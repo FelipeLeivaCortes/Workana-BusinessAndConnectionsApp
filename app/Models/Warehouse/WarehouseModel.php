@@ -7,13 +7,10 @@ use Models\MasterModel;
 Class WarehouseModel extends MasterModel
 {
     public function consultWarehouses(){
-        $sql="SELECT * FROM warehouse WHERE c_id=:c_id";
-        $params = [
-            ':c_id' => $_SESSION['IdCompany']
-        ];
-        $warehouse = $this->select($sql, $params);
-        return $warehouse;
-    } 
+        $sql    = "SELECT * FROM warehouse WHERE c_id = :c_id";
+
+        return $this->select($sql, [':c_id' => $_SESSION['IdCompany']]);
+    }
 
     public function consultArticles(int $wh_id)
     {
