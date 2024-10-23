@@ -9,7 +9,7 @@
             <?php foreach ($states as $state) {
               if (strcasecmp($state['state_name_en'], 'Approved') == 0 || strcasecmp($state['state_name_en'], 'Cancelled') == 0) {
 
-                $text = strcasecmp($state['state_name_en'], 'Approved') ? 'Aprobar' : 'Rechazar';
+                $text = strcasecmp($state['state_name_en'], 'Approved') ? 'Rechazar' : 'Aprobar';
 
                 echo '<option value="' . $state['order_state_id'] . '">' . $text . '</option>';
               }
