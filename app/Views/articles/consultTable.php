@@ -84,9 +84,14 @@
                             <?php endif; ?>
                             <td>
                                 <div class="btn-group">
-                                    <button id="pdf-btn" data-pdf-url="<?= $art['ar_data_url']?>" class="btn btn-outline-light"
-                                        style="border:1px solid #ff0000;"><i class="fa-regular fa-file-pdf fa-beat"
-                                            style="color: #ff0000;"></i></button>
+                                    <?php if (!isset($art['ar_data_url'])) {
+                                        echo "Sin Ficha Técnica";
+                                    } else { ?>
+                                        <button id="pdf-btn" data-pdf-url="<?= $art['ar_data_url'] ?>" class="btn btn-outline-light"
+                                            style="border:1px solid #ff0000;"><i class="fa-regular fa-file-pdf fa-beat"
+                                                style="color: #ff0000;"></i></button>
+
+                                    <?php } ?>
                                 </div>
                             </td>
                         </tr>

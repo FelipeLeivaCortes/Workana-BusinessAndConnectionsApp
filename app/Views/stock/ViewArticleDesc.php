@@ -6,17 +6,20 @@
       <div class="col-md-6">
         <img src="<?= $ar['ar_img_url'] ?>" alt="<?= $ar['ar_name'] ?>" class="card-img">
       </div>
+
       <div class="col-md-6">
         <div class="card-body">
           <h1 class="card-title"><?= $ar['ar_name'] ?></h1>
-          <p class="card-text"><?= substr($ar['ar_desc'], 0, 100) . 'Ver más...' ?></p> <!-- Trunca a 100 caracteres -->
+          <p class="card-text"><?= substr($ar['ar_desc'], 0, 100) . ' Ver más...' ?></p>
           <hr>
-          <h3 class="card-subtitle">Precio: $<?= $priceArticle[0]['p_value'] ?></h3>
-          <p class="card-text">Cantidad disponible: <?= $stockArticle[0]['stock_Quantity'] ?></p>
+          <h3 class="card-subtitle">Precio: $<?= $priceArticle ?></h3>
+          <p class="card-text">Cantidad disponible: <?= $stockArticle ?></p>
+
           <a href="<?php echo $ar['ar_data_url'] ?>" target="_blank" class="btn btn-primary btn-lg">Ficha técnica</a>
         </div>
       </div>
     </div>
+
     <div class="card-footer">
       <div class="row">
         <div class="col-md-6">
@@ -33,7 +36,6 @@
         <div class="col-md-6">
           <h4>Opiniones:</h4>
           <p>No hay opiniones aún.</p>
-          <!-- <a href="#" class="btn btn-outline-primary">Escribe una opinión</a> -->
         </div>
       </div>
     </div>

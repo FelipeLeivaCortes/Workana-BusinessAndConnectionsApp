@@ -64,12 +64,19 @@
                     <td class="'.$classValidityQuote.'">'.$emptyDateQuoteValidity.'</td>
 					<td>$'.number_format($q['quo_total'], 0, ',', '.').'</td>
 					<td class="text-center">
-                    <div class="btn-group">
-					<button data-url="'.$q['quo_url_document'].'" title="Visualizar cotizacion" class="pdfModalLink btn btn-outline-warning"><i class="fa-solid fa-eye"></i></button>
-					<a href="'.Helpers\generateUrl("Quote", "Quote", "viewDetaillsQuote", ['quo_id' => $q['quo_id']]) .'" title="Visualizar detalles cotización" class="btn btn-outline-info"><i class="bx bx-file"></i></a>
-                    </div>
-					</td>
-					</tr>';
+                    <div class="btn-group">';
+
+                    if (!isset($q['quo_url_document'])) {
+                        echo '<p>Sin Documento</p>';
+                    } else {
+                        echo '
+                        <button data-url="'.$q['quo_url_document'].'" title="Visualizar cotizacion" class="pdfModalLink btn btn-outline-warning"><i class="fa-solid fa-eye"></i></button>
+                        <a href="'.Helpers\generateUrl("Quote", "Quote", "viewDetaillsQuote", ['quo_id' => $q['quo_id']]) .'" title="Visualizar detalles cotización" class="btn btn-outline-info"><i class="bx bx-file"></i></a>';
+                    }
+                    
+                    echo '</div>
+                        </td>
+                    </tr>';
 				}
 			?>
         </tbody>

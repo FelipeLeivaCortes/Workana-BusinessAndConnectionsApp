@@ -139,8 +139,8 @@ class StockController
         $articles   = $objStock->consultStockArticle();
         
         foreach ($articles as &$art) {
-            $quantityImplicated = $objStock->consultQuantityArticlesImplicated($art['ar_id']);
-            $art['quantityImplicated'] = $quantityImplicated !== '' ? $quantityImplicated : 0;
+            $quantityImplicated         = $objStock->consultQuantityArticlesImplicated($art['ar_id']);
+            $art['quantityImplicated']  = $quantityImplicated !== '' ? $quantityImplicated : 0;
         }
 
         include_once "../app/Views/stock/StockCreate.php";
@@ -245,18 +245,19 @@ class StockController
     }
 
     public function viewArticleDesc(){
-        $id_article=$_POST['id'];
-        $objArticle=new ArticlesModel();
-        $objprice=new PricesModel();
-        $objStock= new StockModel();
+        $id_article = $_POST['id'];
+        $objArticle = new ArticlesModel();
+        $objprice   = new PricesModel();
+        $objStock   = new StockModel();
 
-        $discount= new Customer_discountsModel();
+        $discount   = new Customer_discountsModel();
         $discount->consultDiscountsByColumn('c_id',$_SESSION['IdCompany']);
 
-        $article=$objArticle->consultArticleById($id_article);
-        $priceArticle=$objprice->consultPriceById($id_article);
-        $stockArticle=$objStock->consultStockArticleById($id_article);
-        // dd($priceArticle);
+        $article        = $objArticle->consultArticleById($id_article);
+        $priceArticle   = sizeof($objprice->consultPriceById($id_article)) == 0 ? 0 : $objprice->consultPriceById($id_article)[0]['p_value'];
+        $stockArticle   = sizeof($objStock->consultStockArticleById($id_article)) == 0 ? 0 : $objStock->consultStockArticleById($id_article)[0]['stock_Quantity'];
+
+
         include_once "../app/Views/stock/ViewArticleDesc.php";
     }
 
