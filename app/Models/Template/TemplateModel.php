@@ -853,10 +853,8 @@ static function TemplateNotificationOrderStatus(string $companyName, int $orderI
                   <p>Lamentamos informarle que su solicitud de registro ha sido rechazada por el siguiente motivo:</p>
                   <p>" . $reason . "</p>
                   <div class='footer'>
-                  <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                       <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
                   </div>
-
               </div>
           </body>
           </html>";
