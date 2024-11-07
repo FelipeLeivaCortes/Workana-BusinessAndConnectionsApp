@@ -347,7 +347,7 @@ class ClientsController
 
                 //Variables de la consulta
                 $b_budget = $dato['b_budget'];
-                $id_budget_seller = $dato['b_id'];                
+                $id_budget_seller = $dato['b_id'];
             }
 
             // Formatear el porcentaje como una cadena en el formato "0.71"
@@ -540,10 +540,3 @@ class ClientsController
         echo $rows;
     }
 }
-
-
-
-
-
-
-?>

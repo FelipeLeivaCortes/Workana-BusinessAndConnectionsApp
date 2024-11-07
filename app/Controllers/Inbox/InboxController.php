@@ -23,22 +23,20 @@ class InboxController
 
     public function viewInbox()
     {
-        $objUser = new UserModel();
+        $objUser    = new UserModel();
         $objCompany = new CompanyModel();
-        // status inactive  
-        $companies = $objCompany->selectById('company', 'status_id', 2);
-        // status inactive  
+        $companies  = $objCompany->selectById('company', 'status_id', 2);
+        
         foreach ($companies as $c => $value) {
             $users = $objUser->getUsersByRoleCompanyAndStatus('3', $value['c_id'], '2');
-            $companies[$c]['representant'] = $users; // Almacenar los usuarios en la posición correspondiente de la compañía
+            $companies[$c]['representant']  = $users;
         }
 
-        //status pending
-        $companiesPendig = $objCompany->selectById('company', 'status_id', 3);
-        //status pending
+        $companiesPendig    = $objCompany->selectById('company', 'status_id', 3);
+
         foreach ($companiesPendig as $key => $value) {
-            $users = $objUser->getUsersByRoleCompanyAndStatus('3', $value['c_id'], '3');
-            $companiesPendig[$key]['representant'] = $users; // Almacenar los usuarios en la posición correspondiente de la compañía
+            $users  = $objUser->getUsersByRoleCompanyAndStatus('3', $value['c_id'], '3');
+            $companiesPendig[$key]['representant']  = $users;
         }
 
         include_once '../app/Views/inbox/viewInboxClients.php';
@@ -77,7 +75,7 @@ class InboxController
            
             //Validar si el cliente tiene vendedor asignado
             $objCompanySellerAsign = new CompanyModel();
-            $companySellerAsign = $objCompanySellerAsign->getCompanySellerAsignId($c_id) ;            
+            $companySellerAsign = $objCompanySellerAsign->getCompanySellerAsignId($c_id);
 
             // Validar si el cliente tiene ya tipo de pago
             $objCustomerPaymentMethod = new Customer_payment_methodModel;
@@ -88,6 +86,7 @@ class InboxController
                 echo '<script>alert("La compañia no tiene ningún cupo asignado o vendedor o método de pago, Llenarlos por favor!!");</script>';
                 redirect(generateUrl("Inbox", "Inbox", "viewInbox"));
                 return false;
+
             }else {
                 $objCompany = new CompanyModel();
                 $objCompany->updateStatusCompany('1', $c_id);
