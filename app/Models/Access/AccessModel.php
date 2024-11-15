@@ -49,45 +49,46 @@ class AccessModel extends MasterModel
             return $code;
         }
         
-        //init session
-        public function ValidationUser(string $u_email,string $u_pass, string $code){
+        public function ValidationUser(string $u_email,string $u_pass, string $code) {
+            $sql    = "SELECT u_pass,u_id FROM users WHERE u_email = :email AND u_code=:code";
+            $result = $this->select($sql, [':email' => $u_email,':code'=>$code]);
 
-            $sql = "SELECT u_pass,u_id FROM users WHERE u_email = :email AND u_code=:code";
-            $params = [':email' => $u_email,':code'=>$code];
+            if ($result && count($result) > 0) {
+                $passHash   = $result[0]['u_pass'];
+                $u_id       = $result[0]['u_id'];
+                $result     = password_verify($u_pass, $passHash);
+                
+                if (!$result) {
+                    return false;
 
-            $result = $this->select($sql, $params);
-        if ($result && count($result) > 0) {
-            $passHash = $result[0]['u_pass'];
-            $u_id = $result[0]['u_id'];
-            $result=password_verify($u_pass, $passHash); 
-            if (!$result) {
-               return false;
-            }else{
- 
-                $data =$this->dataUser($u_email,$u_id);
+                } else {
+                    $data   = $this->dataUser($u_email, $u_id);
 
-                foreach ($data as $d) {
-                    $sessionData = array(
-                        'nameUser' =>$d['u_name'],
-                        'LastNameUser' =>$d['u_lastname'],
-                        'EmailUser' =>$d['u_email'],
-                        'PhoneUser' =>$d['u_phone'],
-                        'UserNumDocument' =>$d['u_document'],
-                        'CountryUser' =>$d['u_country'],
-                        'CityUser' =>$d['u_city'],
-                        'RolUser' => $d['rol_id'],
-                        'RolName' => $d['rol_name'],
-                        'idUser' =>  $d['u_id'],
-                        'CompanyName'=>$d['c_name'],
-                        'StatusUser'=>$d['status_id'],
-                        'IdCompany'=>$d['c_id']
-                    );
+                    foreach ($data as $d) {
+                        $sessionData = array(
+                            'nameUser'          => $d['u_name'],
+                            'LastNameUser'      => $d['u_lastname'],
+                            'EmailUser'         => $d['u_email'],
+                            'PhoneUser'         => $d['u_phone'],
+                            'UserNumDocument'   => $d['u_document'],
+                            'CountryUser'       => $d['u_country'],
+                            'CityUser'          => $d['u_city'],
+                            'RolUser'           => $d['rol_id'],
+                            'RolName'           => $d['rol_name'],
+                            'idUser'            => $d['u_id'],
+                            'CompanyName'       => $d['c_name'],
+                            'StatusUser'        => $d['status_id'],
+                            'IdCompany'         => $d['c_id'],
+                            'StatusCompany'     => $d['status_company']
+                        );
+                    }
+
+                    return $sessionData;
                 }
-                return $sessionData;
-            } 
-        } else {
-            return false;
-        }
+            } else {
+                return false;
+                
+            }
         }
 
         private function dataUser($u_email,$u_id){
