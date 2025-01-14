@@ -517,7 +517,8 @@ class ClientsController
         $objCompany         = new CompanyModel();
         $objS               = new SellersModel();
 
-        $companies = explode(',', $selectedCompanyIds);
+        // $companies = explode(',', $selectedCompanyIds);
+        $companies = $objCompany->ConsultAllCompany();
 
         foreach ($companies as $c) {
             $objCompany->updateSellerCompany($s_id, $c);
