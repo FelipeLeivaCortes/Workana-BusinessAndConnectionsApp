@@ -562,7 +562,7 @@ class CompanyController
                         null,
                         $company_id,
                         3,
-                        2,
+                        1,
                         $name,
                         $lastname,
                         $phone
