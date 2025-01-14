@@ -522,7 +522,7 @@ class ClientsController
         $companies = $objCompany->ConsultAllCompany();
 
         foreach ($companies as $c) {
-            $objCompany->updateSellerCompany($s_id, $c);
+            $objCompany->updateSellerCompany($s_id, $c['c_id']);
         }
 
         $updatedCompanies = $objS->consultCompaniesOfSellerById($s_id);
