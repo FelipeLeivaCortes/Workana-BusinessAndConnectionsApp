@@ -21,6 +21,18 @@ Class CreditLimitModel extends MasterModel
         $result=$this->select($sql,$params);
         return $result;
     }
+
+    public function ConsultCreditLimitByIdCompanyNew(int $c_id){
+        $sql    = "SELECT
+                        A.*
+                    FROM
+                        creditlimits AS A
+                        INNER JOIN company AS B ON A.c_id = B.c_id
+                    WHERE
+                        B.c_id = :c_id";
+
+        return $this->select($sql, [':c_id' => $c_id]);
+    }
     
    
     public function InsertCreditLimitByIdCompany(int $c_id,$credit_limit){

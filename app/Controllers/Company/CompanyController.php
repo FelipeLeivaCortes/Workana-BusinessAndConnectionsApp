@@ -146,7 +146,6 @@ class CompanyController
 
     public function consultCompanies(){
         $obj        = new CompanyModel();
-        $objUser    = new UserModel();
         $objCredit  = new CreditLimitModel();
         
         /**
@@ -154,13 +153,20 @@ class CompanyController
          *  1 = Active
          *  2 = Inactive
          */
-        $users      = $objUser->consultUsersWithRol('3');
+        // $users      = $objUser->consultUsersWithRol('3');
 
-        foreach ($users as $u => $value) {
-            $companies              = $obj->consultCompany($value['c_id']);
-            $credit                 = $objCredit->ConsultCreditLimitByIdCompany($value['c_id']);
-            $users[$u]['user']      = $companies;
-            $users[$u]['credit']    = $credit;
+        // foreach ($users as $u => $value) {
+        //     $companies              = $obj->consultCompany($value['c_id']);
+        //     $credit                 = $objCredit->ConsultCreditLimitByIdCompany($value['c_id']);
+        //     $users[$u]['user']      = $companies;
+        //     $users[$u]['credit']    = $credit;
+        // }
+        $companies  = $obj->consultAllCompany();
+
+        foreach ($companies as $index => $value) {
+            $users[$index]['user']      = $value;
+            $users[$index]['credit']    = $objCredit->ConsultCreditLimitByIdCompanyNew($value['c_id']);
+            $users[$index]['admin']     = $obj->ConsultAdmins($value['c_id']);
         }
         
         include_once "../app/Views/clients/consultClients.php";

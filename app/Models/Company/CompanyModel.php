@@ -280,6 +280,30 @@ Class CompanyModel extends MasterModel
         return $this->select($sql, [':company_id' => $company_id]);
     }
 
+    public function ConsultAdmins($company_id){
+        $sql    = "SELECT
+                        B.*
+                    FROM
+                        company AS A
+                        INNER JOIN users AS B ON A.c_id = B.c_id
+                    WHERE
+                        B.rol_id = '3'
+                        AND A.c_id = :c_id";
+
+        return $this->select($sql, [':c_id' => $company_id]);
+    }
+
+    public function ConsultAllCompany(){
+        $sql    = "SELECT
+                        A.*,
+                        B.status_name
+                    FROM
+                        company AS A
+                        INNER JOIN status AS B ON A.status_id = B.status_id";
+
+        return $this->select($sql, []);
+    }
+
     public function updatePasswordUser($u_id,$password){
         $sql="UPDATE users SET u_pass=:pass
               WHERE u_id=:u_id";
