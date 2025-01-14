@@ -109,7 +109,7 @@ class OrderController
                     "DiscountPercent"   => $discountPercentage,
                     "BaseType"          => "-1",
                     "BaseEntry"         => "",
-                    "BaseLine"          => ""
+                    "BaseLine"          => 1
                 ]);
             }
             

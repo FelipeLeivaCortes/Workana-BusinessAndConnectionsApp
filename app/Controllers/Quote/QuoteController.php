@@ -474,7 +474,7 @@ class QuoteController
                 "DiscountPercent"   => "0",
                 "BaseType"          => "-1",
                 "BaseEntry"         => "",
-                "BaseLine"          => ""
+                "BaseLine"          => 1
             ]);
         }
         
