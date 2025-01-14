@@ -62,6 +62,7 @@ Class UserModel extends MasterModel
         $user = $this->select($sql, $params);
         return $user[0];
     }
+    
     public function insertUser($email, $password, $code,$c_id,$rol_id=3,$status_id=2,$name=null, $lastname=null, $phone=null,  $document=null, $type_document=null, $country=null, $city=null) {
         $sql = "INSERT INTO users (u_id, u_name, u_lastname, u_phone, u_email, u_document, u_type_document, u_country, u_city, u_pass, u_code, rol_id, c_id, status_id)
                 VALUES (:u_id, :u_name, :u_lastname, :u_phone, :u_email, :u_document, :u_type_document, :u_country, :u_city, :u_pass, :u_code, :rol_id, :c_id, :status_id)";
@@ -84,6 +85,7 @@ Class UserModel extends MasterModel
     
         $this->insert($sql, $params);
     }
+
     public function updateUser($userId,$name = null, $lastname = null, $phone = null, $document = null, $type_document = null, $country = null, $city = null) {
         $sql = "UPDATE users SET
             u_name = :u_name,
@@ -108,7 +110,6 @@ Class UserModel extends MasterModel
         
         $this->update($sql, $params);
     }
-    
 
     public function getUsersByRoleCompanyAndStatus($rol_id, $c_id, $status_id) {
         $sql = "SELECT u_id,u_name,u_lastname,u_email,u_document,u_type_document
@@ -126,16 +127,16 @@ Class UserModel extends MasterModel
         return $user;
     }
     
-    public function getUserWithRol(int $c_id,int $rol_id){
-        $sql = "SELECT u_name,u_lastname,u_email FROM users
-        WHERE rol_id = :rol_id 
-        AND c_id = :c_id";
-        $params = [
-            'c_id' => $c_id,
-            'rol_id'=>$rol_id
-        ];
-        $user=$this->select($sql, $params);
-        return $user;
+    public function getUserWithRol(int $c_id, int $rol_id){
+        $sql    = "SELECT
+                        *
+                    FROM
+                        users
+                    WHERE
+                        rol_id = :rol_id
+                        AND c_id = :c_id";
+
+        return $this->select($sql, ['c_id' => $c_id, 'rol_id'=>$rol_id]);
     }
         
     public function updateStatusUser(int $status,int $u_id){
@@ -146,6 +147,7 @@ Class UserModel extends MasterModel
                  ':id' => $u_id];
         $this->update($sql, $params);
     }
+    
     public function deleteUser(int $id){
         $sql = "DELETE FROM users WHERE u_id=:id";
         $params = [':id' => $id];

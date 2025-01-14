@@ -1,9 +1,18 @@
-<!-- Nav tabs -->
+
+
 <ul class="nav nav-tabs custom-tabs" id="myTabs" role="tablist">
     <li class="nav-item" role="presentation">
         <a class="nav-link active custom-tab" id="companyInfo-tab" data-bs-toggle="tab" href="#companyInfo" role="tab"
             aria-controls="companyInfo" aria-selected="true">Información de la Compañía</a>
     </li>
+
+    <?php if (!$has_contacts) { ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link custom-tab" id="additionalInfo-tab" data-bs-toggle="tab" href="#formContact" role="tab"
+                aria-controls="formContact" aria-selected="false">Crear Cuenta Administrador</a>
+        </li>
+    <?php } ?>
+
     <li class="nav-item" role="presentation">
         <a class="nav-link custom-tab" id="additionalInfo-tab" data-bs-toggle="tab" href="#additionalInfo" role="tab"
             aria-controls="additionalInfo" aria-selected="false">Información Adicional</a>
@@ -343,4 +352,53 @@
             </table>
         </div>
     </div>
+
+    <!-- Tab 3: Contacto -->
+    <?php if (!$has_contacts) { ?>
+        <div class="tab-pane fade custom-tab-pane" id="formContact" role="tabpanel" aria-labelledby="createInfo-tab">
+            <div class="container">
+                <h1>Crear Cuenta Administrador</h1>
+
+                <form action="<?php echo Helpers\generateUrl("Company","Company","UpdateContactClient",[],"ajax")?>" method="POST">
+                    <input type="hidden" name="c_id" value="<?php echo $comp['c_id']; ?>">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input type="text" name="name" id="name" class="form-control mt-4" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lastname">Apellido</label>
+                                <input type="text" name="lastname" id="lastname" class="form-control mt-4" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Teléfono</label>
+                                <input type="text" name="phone" id="phone" class="form-control mt-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Correo</label>
+                                <input type="text" name="email" id="email" class="form-control mt-4" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-5">
+                        <button type="submit" class="btn btn-outline-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <?php } ?>
 </div>

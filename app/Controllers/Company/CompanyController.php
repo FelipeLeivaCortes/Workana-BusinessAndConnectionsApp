@@ -294,20 +294,22 @@ class CompanyController
     
     // USERS OF CLIENTS
     public function UpdateInfoCompanyClients(){
-        $c_id=$_POST['id'];
-        $objUser = new UserModel();
-        $objCompany= new CompanyModel();
-        $objIndustry= new Types_industryModel();
-        $industries=$objIndustry->consultTypes_industry();
-        // dd($industries);
-        $company=$objCompany->ConsultCompany($c_id);
+        $c_id           = $_POST['id'];
+        $objUser        = new UserModel();
+        $objCompany     = new CompanyModel();
+        $objIndustry    = new Types_industryModel();
+        $industries     = $objIndustry->consultTypes_industry();
+        $company        = $objCompany->ConsultCompany($c_id);
+
         // Clients ADMIN
         foreach ($company as $c => $value) {
             $user = $objUser->getUsersByRoleCompanyAndStatus('3', $value['c_id'], '1');
             $company[$c]['representant'] = $user; // Almacenar los usuarios en la posición correspondiente de la compañía
         }
-        // dd($company);
-        $extraAttrsCompany=$objCompany->getAttributesByCompanyId($c_id);
+        
+        $extraAttrsCompany  = $objCompany->getAttributesByCompanyId($c_id);
+        $contacts           = $objUser->getUserWithRol($c_id, 3);
+        $has_contacts       = sizeof($contacts) > 0;
         
         include_once "../app/Views/clients/updateClients.php";
     }
@@ -528,5 +530,63 @@ class CompanyController
         $num_document=$_POST['num_document'];
         $obj->updateUserInfoById($user_id,$name,$lastname,$phone,$email,$type_document,$num_document,$_SESSION['IdCompany']);
     }
-}
 
+    /**
+     * Esta función permite crear/actualizar un registro en la tabla User.
+     */
+    public function UpdateContactClient() {
+        $userModel      = new UserModel();
+        $companyModel   = new CompanyModel();
+
+        $company_id     = $_POST['c_id'];
+        $name           = $_POST['name'];
+        $lastname       = $_POST['lastname'];
+        $phone          = $_POST['phone'];
+        $email          = $_POST['email'];
+
+        $admins = $companyModel->ConsultAdmins($company_id);
+
+        /**
+         * Si no hay administradores, se debe crear uno, en caso contrario, actualizarlo.
+         */
+        if (sizeof($admins) == 0) {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if (!$userModel->checkEmailExists($email)) {
+                    $characters         = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                    $passwordGenerate   = substr(str_shuffle($characters), 0, 12);
+                    $password           = password_hash($passwordGenerate, PASSWORD_BCRYPT);
+                    
+                    $userModel->insertUser(
+                        $email,
+                        $password,
+                        null,
+                        $company_id,
+                        3,
+                        2,
+                        $name,
+                        $lastname,
+                        $phone
+                    );
+
+                    $template_notification  = TemplateModel::TemplateRegisterCompany($name.' '.$lastname);
+                    $template_register      = TemplateModel::TemplateRegister('Señor/a Cliente', $email, $passwordGenerate);
+
+                    $mail   = new MailModel();
+                    $mail->DataEmail($template_notification, $email, 'Notificación petición registro');
+                    $mail->DataEmail($template_register, $email, '¡Bienvenido!');
+
+                    echo "<script>alert('Se ha creado la cuenta exitosamente. En los próximos minutos le llegará una notificación al correo '.$email.')</script>";
+
+                } else {
+                    echo "<script>alert('Este correo electrónico ya está en uso.')</script>";
+                }
+            } else {
+                echo "<script>alert('El correo electrónico no es válido.')</script>";
+            }
+        } else {
+            echo "<script>alert('Esta empresa ya tiene una cuenta de contacto creada')</script>";
+        }
+
+        redirect(generateUrl("Company", "Company", "consultCompanies"));
+    }
+}

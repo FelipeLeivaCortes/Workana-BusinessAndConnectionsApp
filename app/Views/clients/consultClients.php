@@ -57,12 +57,10 @@
                                 <button data-id="' . $empresa['c_id'] . '" data-url="' . Helpers\generateUrl("Clients", "Clients", "CreateMethodsPayCompanies", [], "ajax") . '" title="Asignar métodos de pago" class="createMethodsPay btn btn-outline-success"><i class="fa-solid fa-money-bill"></i></button>
                                 <button data-id="' . $empresa['c_id'] . '" data-url="' . Helpers\generateUrl("Clients", "Clients", "updateCreditLimitModal", [], "ajax") . '" title="Editar límite" class="updateCreditLimit btn btn-outline-danger"><i class="fa-solid fa-credit-card"></i></button>
                                 <button data-id="' . $empresa['c_id'] . '" data-url="'.Helpers\generateUrl("Clients","Clients","updateStatusCompanyAndUser",[],"ajax").'" title="Actualizar estado" class="updateStatusClient btn btn-outline-info"><i class="fa-solid fa-pencil"></i></button>
-
                             </div>
                         </td>
                     </tr>';
                 }
-
 			?>
         </tbody>
     </table>
