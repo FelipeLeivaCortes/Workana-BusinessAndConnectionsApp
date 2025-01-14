@@ -466,7 +466,8 @@ class ClientsController
     {
         $objCompany = new CompanyModel();
         $s_id = $_POST['id'];
-        $companies = $objCompany->ConsultCompaniesUnselected();
+        // $companies  = $objCompany->ConsultCompaniesUnselected();
+        $companies  = $objCompany->ConsultAllCompany();
         include_once '../app/Views/clients/modalSelectCompanies.php';
     }
     public function MethodsPayClients()
