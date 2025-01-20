@@ -15,6 +15,7 @@ use Models\MethodsPay\MethodsPayModel;
 use Models\Sellers\SellersModel;
 use Models\User\UserModel;
 use Mpdf\Tag\Article;
+use Models\Warehouse\WarehouseModel;
 
 use function Helpers\dd;
 use function Helpers\generateUrl;
@@ -450,6 +451,9 @@ class QuoteController
         $objCompany     = new CompanyModel();
         $companyData    = $objCompany->consultCompanyByName($company);
 
+        $warehouseModel = new WarehouseModel();
+        $warehouseData  = $warehouseModel->consultWarehouseByCompanyId($companyData[0]['c_id']);
+
         $fechaActual    = new DateTime();
         $fechaActual->modify('+3 days');
         $docDueDate     = $fechaActual->format('Ymd');  // Por defecto el documento expira en 3 dias
@@ -468,9 +472,9 @@ class QuoteController
             array_push($documentLines, [
                 "ItemCode"          => $ar_code,
                 "Quantity"          => $quantity,
-                "LineTotal"         => $price,
+                "LineTotal"         => ($price * $quantity),
                 "TaxCode"           => "IVAG19",
-                "WarehouseCode"     => "V106",
+                "WarehouseCode"     => $warehouseData[0]['wh_code'],
                 "DiscountPercent"   => "0",
                 "BaseType"          => "-1",
                 "BaseEntry"         => "",

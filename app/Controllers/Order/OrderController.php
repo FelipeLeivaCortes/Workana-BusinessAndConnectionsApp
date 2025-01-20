@@ -22,6 +22,7 @@ use Models\Quote\QuoteModel;
 use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
+use Models\Warehouse\WarehouseModel;
 
 use ThirdParty\ReflexController;
 
@@ -81,6 +82,9 @@ class OrderController
             $order      = new OrderModel();
             $articles   = $order->consultArticlesOfTheOrder($order_id);
 
+            $warehouseModel = new WarehouseModel();
+            $warehouseData  = $warehouseModel->consultWarehouseByCompanyId($c_id);
+
             for ($i=0; $i<sizeof($articles); $i++) {
                 $articleObj = new ArticlesModel();
                 $article    = $articleObj->consultArticleById($articles[$i]['ar_id']);
@@ -103,9 +107,9 @@ class OrderController
                 array_push($documentLines, [
                     "ItemCode"          => $ar_code,
                     "Quantity"          => $articles[$i]['orderart_quantity'],
-                    "LineTotal"         => $price,
+                    "LineTotal"         => $price * $articles[$i]['orderart_quantity'],
                     "TaxCode"           => "IVAG19",
-                    "WarehouseCode"     => "V106",
+                    "WarehouseCode"     => $warehouseData[0]['wh_code'],
                     "DiscountPercent"   => $discountPercentage,
                     "BaseType"          => "-1",
                     "BaseEntry"         => "",

@@ -12,6 +12,12 @@ Class WarehouseModel extends MasterModel
         return $this->select($sql, [':c_id' => $_SESSION['IdCompany']]);
     }
 
+    public function consultWarehouseByCompanyId($company_id){
+        $sql    = "SELECT * FROM warehouse WHERE c_id = :c_id";
+
+        return $this->select($sql, [':c_id' => $company_id]);
+    }
+
     public function consultArticles(int $wh_id)
     {
         $sql = "SELECT articles.*,stock.*
@@ -25,6 +31,7 @@ Class WarehouseModel extends MasterModel
             $articles = $this->select($sql, $params);
         return $articles;
     }
+
     public function consultWarehouseWithCode($wh_code)
     {
         $sql = "SELECT warehouse.wh_id
