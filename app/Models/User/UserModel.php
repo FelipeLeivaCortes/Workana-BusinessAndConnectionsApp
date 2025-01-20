@@ -64,23 +64,23 @@ Class UserModel extends MasterModel
     }
     
     public function insertUser($email, $password, $code,$c_id,$rol_id=3,$status_id=2,$name=null, $lastname=null, $phone=null,  $document=null, $type_document=null, $country=null, $city=null) {
-        $sql = "INSERT INTO users (u_id, u_name, u_lastname, u_phone, u_email, u_document, u_type_document, u_country, u_city, u_pass, u_code, rol_id, c_id, status_id)
+        $sql    = "INSERT INTO users (u_id, u_name, u_lastname, u_phone, u_email, u_document, u_type_document, u_country, u_city, u_pass, u_code, rol_id, c_id, status_id)
                 VALUES (:u_id, :u_name, :u_lastname, :u_phone, :u_email, :u_document, :u_type_document, :u_country, :u_city, :u_pass, :u_code, :rol_id, :c_id, :status_id)";
         $params = [
-            'u_id' => null,
-            'u_name' => $name,
-            'u_lastname' => $lastname,
-            'u_phone' => $phone,
-            'u_email' => $email,
-            'u_document' => $document,
-            'u_type_document' => $type_document,
-            'u_country' => $country,
-            'u_city' => $city,
-            'u_pass' => $password,
-            'u_code' => $code,
-            'rol_id' => $rol_id,
-            'c_id' => $c_id,
-            'status_id' => $status_id
+            'u_id'              => null,
+            'u_name'            => $name,
+            'u_lastname'        => $lastname,
+            'u_phone'           => $phone,
+            'u_email'           => $email,
+            'u_document'        => $document,
+            'u_type_document'   => $type_document,
+            'u_country'         => $country,
+            'u_city'            => $city,
+            'u_pass'            => $password,
+            'u_code'            => $code,
+            'rol_id'            => $rol_id,
+            'c_id'              => $c_id,
+            'status_id'         => $status_id
         ];
     
         $this->insert($sql, $params);
