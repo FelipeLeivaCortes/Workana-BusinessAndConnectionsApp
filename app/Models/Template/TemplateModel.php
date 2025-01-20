@@ -4,8 +4,11 @@ namespace Models\Template;
 
 use Models\MasterModel;
 
-define('SUBDOMAIN', '/businessandconnection');
-
+if ($enviroment == 'development') {
+  define('SUBDOMAIN', '/businessandconnection');
+} else {
+  define('SUBDOMAIN', '');
+}
 
 Class TemplateModel extends MasterModel
 {
@@ -74,6 +77,7 @@ Class TemplateModel extends MasterModel
     </html>";
     return $html;
   }
+  
   static function TemplateNotificationDocumentRequest(string $userName, string $userEmail, string $password) {
     $host = $_SERVER['HTTP_HOST'] . SUBDOMAIN;
 
