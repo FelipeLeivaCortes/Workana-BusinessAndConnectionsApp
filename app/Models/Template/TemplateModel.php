@@ -2,7 +2,7 @@
 
 namespace Models\Template;
 
-require_once __DIR__ . '/../../../../config/conf.php';
+include __DIR__ . "/../../../config/conf.php";
 
 use Models\MasterModel;
 
