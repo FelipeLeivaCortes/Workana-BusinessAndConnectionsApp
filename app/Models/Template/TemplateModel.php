@@ -72,7 +72,7 @@ Class TemplateModel extends MasterModel
           <p>A partir de ahora, puedes acceder a todos los servicios y funcionalidades disponibles en nuestra aplicación.</p>
           <p>¡Gracias por unirte a nosotros!</p>
           <div class='footer'>
-            <p><a href='http://$host_connection/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+            <p><a href='http://$host/PortalUsuarios/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
             <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
           </div>
         </div>
@@ -583,7 +583,7 @@ Class TemplateModel extends MasterModel
   static function SubscriptionUpdatedTemplate(string $endDate, string $name){
     global $url_image;
 
-    $html="<!DOCTYPE html>
+    return "<!DOCTYPE html>
           <html lang='en'>
             <head>
               <meta charset='UTF-8' />
@@ -636,7 +636,7 @@ Class TemplateModel extends MasterModel
                   height: 150px;
                   border-radius: 50%;
                   margin-bottom: 20px;
-                  background-image: url('$url_image');
+                  background-image: url('{$url_image}');
                   background-size: cover;
                   background-position: center;
                   border:1px solid black;
@@ -671,7 +671,6 @@ Class TemplateModel extends MasterModel
               </div>
             </body>
           </html>";
-          return $html;
   }
   
   static function TemplateRegisterCompany(string $name) {
@@ -679,7 +678,7 @@ Class TemplateModel extends MasterModel
 
     global $url_image;
 
-    $html = "<!DOCTYPE html>
+    return "<!DOCTYPE html>
         <html lang='en'>
           <head>
             <meta charset='UTF-8' />
@@ -732,7 +731,7 @@ Class TemplateModel extends MasterModel
                 height: 150px;
                 border-radius: 50%;
                 margin-bottom: 20px;
-                background-image: url('$url_image');
+                background-image: url('{$url_image}');
                 background-size: cover;
                 background-position: center;
                 border:1px solid black;
@@ -754,17 +753,15 @@ Class TemplateModel extends MasterModel
           <body>
             <div class='container'>
               <div class='logo'></div>
-              <p>Hola " . $name . ",</p>
+              <p>Hola $name,</p>
               <p>Gracias por registrar su empresa. Pronto recibirá un correo con su usuario y contraseña una vez que sus datos hayan sido validados.</p>
               <div class='footer'>
-              <p ><a href='http://" . $host . "/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
+              <p ><a href='http://$host/public/index.php'>Ingresa aquí</a> para iniciar sesión</p>
                 <p>© 2023 Business And Connection. Todos los derechos reservados.</p>
               </div>
-
             </div>
           </body>
         </html>";
-    return $html;
   }
 
   static function TemplateRejectRegistration(string $name, string $reason) {
@@ -823,7 +820,7 @@ Class TemplateModel extends MasterModel
                     height: 150px;
                     border-radius: 50%;
                     margin-bottom: 20px;
-                    background-image: url('$url_image');
+                    background-image: url('{$url_image}');
                     background-size: cover;
                     background-position: center;
                     border:1px solid black;
@@ -901,7 +898,7 @@ Class TemplateModel extends MasterModel
                 height: 150px;
                 border-radius: 50%;
                 margin-bottom: 20px;
-                background-image: url('$url_image');
+                background-image: url('{$url_image}');
                 background-size: cover;
                 background-position: center;
                 border:1px solid black;
@@ -981,7 +978,7 @@ Class TemplateModel extends MasterModel
                 height: 150px;
                 border-radius: 50%;
                 margin-bottom: 20px;
-                background-image: url('$url_image');
+                background-image: url('{$url_image}');
                 background-size: cover;
                 background-position: center;
                 border:1px solid black;
@@ -1044,7 +1041,7 @@ Class TemplateModel extends MasterModel
                   height: 150px;
                   border-radius: 50%;
                   margin-bottom: 20px;
-                  background-image: url('$url_image');
+                  background-image: url('{$url_image}');
                   background-size: cover;
                   background-position: center;
                   border:1px solid black;
@@ -1109,7 +1106,7 @@ Class TemplateModel extends MasterModel
                           height: 150px;
                           border-radius: 50%;
                           margin-bottom: 20px;
-                          background-image: url('$url_image');
+                          background-image: url('{$url_image}');
                           background-size: cover;
                           background-position: center;
                           border:1px solid black;
