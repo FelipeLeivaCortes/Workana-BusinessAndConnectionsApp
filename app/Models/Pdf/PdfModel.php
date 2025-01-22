@@ -301,46 +301,58 @@ Class PdfModel extends MasterModel
                     </tr>
                 </thead>
                 <tbody>';
-                $TotalArticle = 0;
-                $total=0;
+                $TotalArticle   = 0;
+                $total          = 0;
+
                 foreach ($articleArray as $articles) {
                     $article    = $articles[0];
                     $quantity   = $articles['quantity'];
-                    $price      = $articles['price'];
-                    $subtotalArticle = $quantity * $price;
-                    $TotalArticle+=$subtotalArticle; 
-                    $TotalArticle_formatted = number_format($TotalArticle, 2, '.', ',');
-                    $orderPdf .= 
+                    $price      = 0;
+                    $pricePre   = 0;
+
+                    if (isset($article['price'][0]['p_value'])) {
+                        $price  = $article['price'][0]['p_value'];
+                    }
+
+                    if (isset($article['pricePre'][0]['p_value'])) {
+                        $pricePre  = $article['pricePre'][0]['p_value'];
+                    }
+
+                    $subtotalArticle        = $quantity * $price;
+                    $TotalArticle           += $subtotalArticle;
+                    $TotalArticleFormatted  = number_format($TotalArticle, 2, '.', ',');
+
+                    $orderPdf .=
                         "<tr>
                             <td>".$article['ar_id']."</td>
                             <td>".$article['ar_name']."</td>
-                            <td>".$article['ar_desc']."</td>           
-                            <td>".$quantity."</td>       
-                            <td>$ ".$articles['pricePre']."</td>                            
-                            <td> ".$articles['discountPercentajeOrPrice']."</td>                            
-                            <td>$ ".$price."</td>                            
-                            <td>$".$subtotalArticle."</td>                            
-                        </tr>"; 
-                        
+                            <td>".$article['ar_desc']."</td>
+                            <td>".$quantity."</td>
+                            <td>$ ".$pricePre."</td>
+                            <td> ".$articles['discountPercentajeOrPrice']."</td>
+                            <td>$ ".$price."</td>
+                            <td>$".$subtotalArticle."</td>
+                        </tr>";
                 }
-                $iva=$TotalArticle* 0.19;
-                $total += $TotalArticle+$iva+$orderAdditionCost;    
-                $total_formatted = number_format($total, 2, '.', ',');
-                $iva_formatted = number_format($iva, 2, '.', ',');               
-                $total_discount_formatted = number_format($orderDiscountTotal, 2, '.', ',');
-                $addition_cost_formatted = number_format($orderAdditionCost, 2, '.', ',');
+
+                $iva                = $TotalArticle * 0.19;
+                $total              += $TotalArticle + $iva + $orderAdditionCost;
+                $total_formatted    = number_format($total, 2, '.', ',');
+                $iva_formatted      = number_format($iva, 2, '.', ',');
+                $total_discount_formatted   = number_format($orderDiscountTotal, 2, '.', ',');
+                $addition_cost_formatted    = number_format($orderAdditionCost, 2, '.', ',');
 
                 // TOTAL,SUBTOTAL,TAXES
                 $orderPdf.='</tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" style="text-align: right;">Subtotal:</td>
-                        <td>$'.  $TotalArticle_formatted .'</td>
-                    </tr> 
+                        <td>$'.  $TotalArticleFormatted .'</td>
+                    </tr>
                     <tr>
                         <td colspan="3" style="text-align: right;">Descuento Total:</td>
                         <td>$'.  $total_discount_formatted .'</td>
-                    </tr>                   
+                    </tr>
                     <tr>
                         <td colspan="3" style="text-align: right;">Impuestos:</td>
                         <td>$'. $iva_formatted.'</td>
@@ -354,15 +366,13 @@ Class PdfModel extends MasterModel
                         <td>$'.  $total_formatted . '</td>
                     </tr>
                 </tfoot>
-            </table>    
+            </table>
             <div class="footer">
                 <p>Gracias por su pedido.</p>
             </div>
         </body>
         </html>';
+
         return $orderPdf;
     }
-} 
-
-
-?>
+}
