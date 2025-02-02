@@ -331,12 +331,38 @@ class QuoteController
             $fieldValue = null; //ARRAY OF FIELDS VALUE
         }
 
-        //DATA OF  ARTICLE
-        $objArticle     = new ArticlesModel();
+        $objPrice               = new PricesModel();
+        $objArticle             = new ArticlesModel();
+        $company_model          = new CompanyModel();
+        $model_payment_method   = new MethodsPayModel();
+        $model_seller           = new SellersModel();
 
-        //PRICE OF ARTICLE
-        $objPrice       = new PricesModel();
-        $articleArray   = array();
+        $payment_method_object  = $model_payment_method->consultMethodsById($payment_method);
+        $company_object         = $company_model->ConsultCompany($_SESSION['IdCompany']);
+        $seller_object          = $model_seller->ConsultSellerByIdOfCompany($_SESSION['IdCompany']);
+
+        $articleArray   = [
+            'contact'   => [
+                'name'      => $_SESSION['nameUser'],
+                'phone'     => $_SESSION['PhoneUser'],
+                'reference' => $_SESSION['reference']
+            ],
+            'customer'   => [
+                'address'   => $address_shipping,
+                'city'      => $company_object[0]['c_city'],
+                'name'      => $company_object[0]['c_name'],
+                'nit'       => $company_object[0]['c_num_nit'].'-'.$company_object[0]['c_num_ver_nit']
+            ],
+            'quote'     => [
+                'id'                => $quo_id,
+                'comments'          => $comments,
+                'seller'            => $seller_object[0]['s_name'],
+                'payment_method'    => $payment_method_object[0]['name'],
+                'date_expired'      => $company_object[0]['c_dateQuoteValidity'],
+                'name_employee'     => $_SESSION['nameUser']
+            ],
+            'articles'          => []
+        ];
 
         //CONSULT DISCOUNT ARTICLE
         //CHECK IF THE COMPANY EXISTS IN THE DISCOUNT GROUPS
@@ -377,13 +403,20 @@ class QuoteController
         foreach ($articles as $key => $ar_id) {
             $article = $objArticle->consultArticleById($ar_id);
 
-            $article['price']       = $price['p_value'] = $objPrice->consultPriceById($ar_id);
-            $discountedPrice        = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $article['price'][0]['p_value']);
-            $article['pricePre']    = $article['price'][0]['p_value'];
+            $article['price']   = $price['p_value'] = $objPrice->consultPriceById($ar_id);
+            $priceArticle       = 0;
+
+            if (sizeof($article['price']) > 0) {
+                $priceArticle   = $article['price'][0]['p_value'];
+            }
+
+            $discountedPrice        = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $articleArray['articles'], $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $priceArticle);
+            $article['pricePre']    = $priceArticle;
             $article['price']       = $discountedPrice;
             $article['discountPercentajeOrPrice'] = $discountPercentajeOrPrice;
             $article['quantity']    = $quantity[$key];
-            $articleArray[]         = $article;
+
+            $articleArray['articles'][] = $article;
         }
         
         //consultar la ultima cotización insertada
@@ -394,7 +427,7 @@ class QuoteController
         $quoAdditionCost        = $objconsultQuoteById[0]['quo_addition_cost'];
 
         $pdfModel   = new PdfModel();
-        $template   = $pdfModel->templateQuotePdf($articleArray, $fieldName, $fieldValue, $quoDiscountTotal, $quoAdditionCost);
+        $template   = $pdfModel->templateQuotePdf($articleArray);
         $idQuote    = $objQuote->getLastId('quotes', 'quo_id');
         $filePath   = $pdfModel->generatePdf($template, $idQuote, 'quotes');
         $objQuote->updateField('quotes', 'quo_id', $idQuote, 'quo_url_document', $filePath);

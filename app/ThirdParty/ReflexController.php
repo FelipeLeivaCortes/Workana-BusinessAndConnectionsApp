@@ -119,6 +119,41 @@
             $this->sendData();
         }
 
+        public function getBills($data) {
+            $this->escenario    = 'Solmaq_Portal_Qry_Factura';
+            $this->data         = base64_encode($data);
+            $process            = $this->initProcess();
+
+            if (!$process || !isset($process['procesoId'])) {
+                throw new \Exception('No se ha logrado iniciar el proceso de consulta.');
+
+            } else {
+                $maxAttempts    = 60;
+                $attempts       = 0;
+
+                while ($attempts < $maxAttempts) {
+                    $response = $this->getData($process);
+
+                    if (is_null($response['estado'])) {
+                        throw new \Exception('Error en el proceso: No se ha logrado consultar las facturas');
+                    }
+        
+                    if ($response['estado'] === 'ERROR') {
+                        throw new \Exception('Error en el proceso: ' . $response['mensaje']);
+                    }
+        
+                    if ($response['estado'] == 'OK') {
+                        return $response;
+                    }
+        
+                    sleep(1);
+                    $attempts++;
+                }
+            }
+
+            throw new \Exception('El estado sigue siendo PENDIENTE después de varios intentos.');
+        }
+
 
         /**
          * ESTABLECIENDO COMUNICACIÓN CON LA API
@@ -168,45 +203,82 @@
          * ESTABLECIENDO COMUNICACIÓN CON LA API
          * SÓLO SI ESTÁ HABILITADA LA CONEXIÓN.
          */
-        private function getData() {
+        private function getData($params) {
             if ($this->enableConnection) {
-                // $url    = $this->urlApi."/api/ProcesarData/Procesar";
-                // $data   = [
-                //     "nit"       => $this->nit,
-                //     "interface" => $this->interface,
-                //     "escenario" => $this->escenario,
-                //     "dockey"    => $this->donkey,
-                //     "data"      => $this->data
-                // ];
+                $url    = $this->urlApi."/api/ProcesarData/Consultar";
+                $data   = [
+                    "nit"               => $this->nit,
+                    "interface"         => $this->interface,
+                    "escenario"         => $this->escenario,
+                    "opcionConsulta"    => "dockey",
+                    "ProcesoId"         => $params['procesoId'],
+                    "Dockey"            => $params['dockey']
+                ];
                 
-                // $jsonData   = json_encode($data);
-                // $ch         = curl_init($url);
+                $jsonData   = json_encode($data);
+                $ch         = curl_init($url);
 
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                // curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                //     'Content-Type: application/json',
-                //     'Content-Length: ' . strlen($jsonData),
-                //     'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
-                // ]);
-                // curl_setopt($ch, CURLOPT_POST, true);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($jsonData),
+                    'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
+                ]);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
                 
-                // $jsonResponse = curl_exec($ch);
+                $jsonResponse   = curl_exec($ch);
+                $response       = [];
 
-                // if (curl_errno($ch)) {
-                //     dd(curl_error($ch));
+                if (curl_errno($ch)) {
+                    dd(curl_error($ch));
 
-                // } else {
-                //     $response = json_decode($jsonResponse, true);
+                } else {
+                    $response = json_decode($jsonResponse, true);
+                }
 
-                //     if($response['recibido'] != 'OK') {
-                //         dd($jsonResponse);
-                //     }
-                // }
+                curl_close($ch);
 
-                // curl_close($ch);
+                return $response;
+            }
+        }
 
-                return [];
+        private function initProcess() {
+            if ($this->enableConnection) {
+                $url    = $this->urlApi."/api/ProcesarData/Procesar";
+                $data   = [
+                    "nit"       => $this->nit,
+                    "interface" => $this->interface,
+                    "escenario" => $this->escenario,
+                    "dockey"    => $this->donkey,
+                    "data"      => $this->data
+                ];
+                
+                $jsonData   = json_encode($data);
+                $ch         = curl_init($url);
+
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($jsonData),
+                    'Authorization: Basic ' . base64_encode($this->emailAccount . ':' . $this->passAccount)
+                ]);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                
+                $jsonResponse   = curl_exec($ch);
+                $response       = [];
+
+                if (curl_errno($ch)) {
+                    dd(curl_error($ch));
+
+                } else {
+                    $response = json_decode($jsonResponse, true);
+                }
+
+                curl_close($ch);
+
+                return $response;
             }
         }
     }

@@ -17,22 +17,45 @@ use function Helpers\dd;
 use function Helpers\generateUrl;
 use function Helpers\redirect;
 
+use ThirdParty\ReflexController;
+
 class BillController
 {
-
     public function viewBills() {
+        try {
+            if (is_null($_SESSION['IdCompany']) || $_SESSION['IdCompany'] == '') {
+                throw new \Exception('No se ha encontrado el Company ID');
+            
+            } else {
+                $company_model  = new CompanyModel();
+                $company        = $company_model->ConsultCompany($_SESSION['IdCompany']);
+                $nitCompany     = str_replace('.', '', $company[0]['c_num_nit']);
+                $cardCode       = str_replace('-', '', $nitCompany);
+                
+                $data   = [
+                    'CardCode'      => 'C'.$cardCode,
+                    'FechaInicial'  => '20250101',
+                    'FechaFinal'    => '20250130',
+                ];
+                // $data   = [
+                //     'CardCode'      => 'C890903471',
+                //     'FechaInicial'  => '20250101',
+                //     'FechaFinal'    => '20250130',
+                // ];
+                $encodedData    = json_encode($data);
+    
+                $reflex         = new ReflexController();
+                $encoded_bills  = $reflex->getBills($encodedData);
+                $string_decoded = base64_decode($encoded_bills['resultadoData']);
+                $bills          = json_decode($string_decoded);
 
-        $bills  = [
-            [
-                'id'        => 101,
-                'date'      => date('Y-m-d H:i:s'),
-                'client'    => 'Cliente',
-                'amount'    => 1000,
-                'url_doc'   => 'document_url'
-            ]
-        ];
+                include_once "../app/Views/bill/index.php";
 
-        include_once "../app/Views/bill/index.php";
+            }
+        
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function viewDetaillBill() {

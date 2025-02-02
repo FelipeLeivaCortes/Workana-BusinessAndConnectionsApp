@@ -556,7 +556,38 @@ class OrderController
         $arraySubcategories     = array();
         $discountPercentajeOrPrice = 'No aplica';
 
-        $articleArray   = array();
+        $objPrice               = new PricesModel();
+        $objArticle             = new ArticlesModel();
+        $company_model          = new CompanyModel();
+        $model_payment_method   = new MethodsPayModel();
+        $model_seller           = new SellersModel();
+
+        $payment_method_object  = $model_payment_method->consultMethodsById($payment_method);
+        $company_object         = $company_model->ConsultCompany($_SESSION['IdCompany']);
+        $seller_object          = $model_seller->ConsultSellerByIdOfCompany($_SESSION['IdCompany']);
+
+        $articleArray   = [
+            'contact'   => [
+                'name'      => $_SESSION['nameUser'],
+                'phone'     => $_SESSION['PhoneUser'],
+                'reference' => $_SESSION['reference'] ?? '',
+            ],
+            'customer'   => [
+                'address'   => $address_shipping,
+                'city'      => $company_object[0]['c_city'],
+                'name'      => $company_object[0]['c_name'],
+                'nit'       => $company_object[0]['c_num_nit'].'-'.$company_object[0]['c_num_ver_nit']
+            ],
+            'order'     => [
+                'id'                => $order_id,
+                'comments'          => $comments,
+                'seller'            => $seller_object[0]['s_name'],
+                'payment_method'    => $payment_method_object[0]['name'],
+                'date_expired'      => $company_object[0]['c_dateQuoteValidity'],
+                'name_employee'     => $_SESSION['nameUser']
+            ],
+            'articles'          => []
+        ];
 
         if (!empty($discountCompany)) {
             $objGroups  = new GroupsModel();
@@ -585,13 +616,14 @@ class OrderController
             $article[0]['price']    = sizeof($objPrice->consultPriceById($_POST['art_id'][$i])) == 0 ? 0 : $objPrice->consultPriceById($_POST['art_id'][$i]);
             $price                  = $article[0]['price'];
 
-            $discountedPrice            = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $arrayArticles, $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
+            $discountedPrice            = $this->verifyDiscount($article[0]['ar_id'], $article[0]['cat_id'], $article[0]['sbcat_id'], $articleArray['articles'], $arrayCategories, $arraySubcategories, $priceDiscount, $discountPercentage, $price);
             $article[0]['pricePre']     = $price;
             $article[0]['price']        = $discountedPrice;
             $article[0]['discountPercentajeOrPrice']    = $discountPercentajeOrPrice;
             $article[0]['quantity']     = $_POST['quantity_article'][$i];
 
-            $articleArray[]             = $article[0];
+            // $articleArray[]             = $article[0];
+            $articleArray['articles'][] = $article;
         }
 
 
