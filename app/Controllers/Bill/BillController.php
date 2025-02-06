@@ -27,30 +27,50 @@ class BillController
                 throw new \Exception('No se ha encontrado el Company ID');
             
             } else {
-                $company_model  = new CompanyModel();
-                $company        = $company_model->ConsultCompany($_SESSION['IdCompany']);
-                $nitCompany     = str_replace('.', '', $company[0]['c_num_nit']);
-                $cardCode       = str_replace('-', '', $nitCompany);
-                
-                $data   = [
-                    'CardCode'      => 'C'.$cardCode,
-                    'FechaInicial'  => '20250101',
-                    'FechaFinal'    => '20250130',
-                ];
-                // $data   = [
-                //     'CardCode'      => 'C890903471',
-                //     'FechaInicial'  => '20250101',
-                //     'FechaFinal'    => '20250130',
-                // ];
-                $encodedData    = json_encode($data);
+                $company_model      = new CompanyModel();
+                $company_initial    = $company_model->ConsultCompany($_SESSION['IdCompany']);
+
+                /**
+                 * Entra si es SuperAdmin o Admin.
+                 */
+                if ($_SESSION['RolUser'] == 1 || $_SESSION['RolUser'] == 2) {
+                    $companies  = $company_model->ConsultAllCompany();
+                } else {
+                    $companies  = $company_initial;
+                }
+
+                $reflex = new ReflexController();
+                $bills  = [];
+
+                foreach ($companies as $company) {
+                    $nitCompany = isset($company['c_num_nit']) ? str_replace('.', '', $company['c_num_nit']) : '';
+
+                    if (strpos($nitCompany, '-') !== false) {
+                        $cardCode   = explode('-', $nitCompany)[0];
+                    } else {
+                        $cardCode   = $nitCompany;
+                    }
+                    
+                    $data   = [
+                        'CardCode'      => 'C'.$cardCode,
+                        'FechaInicial'  => '20150101',
+                        'FechaFinal'    => '20251231',
+                    ];
+
+                    $payload        = json_encode($data);
+                    $encoded_bills  = $reflex->getBills($payload);
+
+                    if (isset($encoded_bills['resultadoData'])) {
+                        $string_decoded = base64_decode($encoded_bills['resultadoData']);
+                        $decoded_bills  = json_decode($string_decoded);
     
-                $reflex         = new ReflexController();
-                $encoded_bills  = $reflex->getBills($encodedData);
-                $string_decoded = base64_decode($encoded_bills['resultadoData']);
-                $bills          = json_decode($string_decoded);
+                        if (is_array($decoded_bills)) {
+                            $bills = array_merge($bills, $decoded_bills);
+                        }
+                    }
+                }
 
                 include_once "../app/Views/bill/index.php";
-
             }
         
         } catch (\Exception $e) {

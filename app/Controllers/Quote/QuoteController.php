@@ -514,9 +514,14 @@ class QuoteController
                 "BaseLine"          => $i
             ]);
         }
-        
-        $nitCompany = str_replace('.', '', $companyData[0]['c_num_nit']);
-        $cardCode   = str_replace('-', '', $nitCompany);
+
+        $nitCompany = isset($companyData[0]['c_num_nit']) ? str_replace('.', '', $companyData[0]['c_num_nit']) : '';
+
+        if (strpos($nitCompany, '-') !== false) {
+            $cardCode   = explode('-', $nitCompany)[0];
+        } else {
+            $cardCode   = $nitCompany;
+        }
 
         $data = [
             'CardCode'      => 'C'.$cardCode,

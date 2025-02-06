@@ -117,8 +117,13 @@ class OrderController
                 ]);
             }
             
-            $nitCompany = str_replace('.', '', $company[0]['c_num_nit']);
-            $cardCode   = str_replace('-', '', $nitCompany);
+            $nitCompany = isset($company[0]['c_num_nit']) ? str_replace('.', '', $company[0]['c_num_nit']) : '';
+
+            if (strpos($nitCompany, '-') !== false) {
+                $cardCode   = explode('-', $nitCompany)[0];
+            } else {
+                $cardCode   = $nitCompany;
+            }
 
             $data = [
                 'CardCode'      => 'C'.$cardCode,
