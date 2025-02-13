@@ -250,7 +250,7 @@
                     "nit"       => $this->nit,
                     "interface" => $this->interface,
                     "escenario" => $this->escenario,
-                    "dockey"    => $this->donkey,
+                    "dockey"    => 'fixed_dockey_value',//$this->donkey,
                     "data"      => $this->data
                 ];
                 
