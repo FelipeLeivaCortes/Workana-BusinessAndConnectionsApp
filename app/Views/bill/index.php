@@ -11,7 +11,9 @@
                             <tr>
                                 <th>N° Documento</th>
                                 <th>Fecha Documento</th>
-                                <th>Cliente</th>
+                                <?php if ($_SESSION['RolUser'] == 1 || $_SESSION['RolUser'] == 2) {
+                                    echo '<th>Cliente</th>';
+                                } ?>
                                 <th>Valor</th>
                                 <!-- <th>Acciones</th> -->
                             </tr>
@@ -21,9 +23,11 @@
                             foreach ($bills as $bill) {
                                 echo '<tr>
                                     <td>'.$bill->NumeroDocumento.'</td>
-                                    <td>'.$bill->FechaDocumento.'</td>
-                                    <td>'.$bill->Empresa.'</td>
-                                    <td>$'.$bill->TotalDocumento.'</td>';
+                                    <td>'.$bill->FechaDocumento.'</td>';
+                                    if ($_SESSION['RolUser'] == 1 || $_SESSION['RolUser'] == 2) {
+                                        echo '<td>'.$bill->Empresa.'</td>';
+                                    }
+                                    echo '<td>$'.$bill->TotalDocumento.'</td>';
                                 
                                 // echo '<td class="text-center">
                                 //         <div class="btn-group">
